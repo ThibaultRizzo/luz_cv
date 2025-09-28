@@ -9,4 +9,15 @@
   
   --font-family-serif: "Playfair Display", serif;
   --font-family-sans: "Inter", sans-serif;
+    
+}
+
+/* Cacher le curseur sur tous les éléments sauf les inputs */
+*, *:hover, *:focus, *:active {
+  cursor: none !important;
+}
+
+/* Montrer le curseur uniquement sur les éléments de saisie */
+input, textarea, select {
+  cursor: auto !important;
 }
