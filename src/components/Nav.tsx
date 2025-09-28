@@ -37,8 +37,8 @@ export default function Nav() {
             <nav className="container mx-auto px-6 py-8 flex justify-start items-center">
                 <a 
                     href="#hero" 
-                    className={`font-serif text-6xl md:text-8xl lg:text-9xl font-bold transition-colors duration-500 tracking-wider ${
-                        isOverDark ? 'text-brand-gold hover:text-brand-cream' : 'text-brand-deep hover:text-brand-gold'
+                    className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold transition-colors duration-500 tracking-[0.5rem] sm:tracking-[1rem] md:tracking-[2rem] lg:tracking-[3rem] xl:tracking-[4rem] ${
+                        isOverDark ? 'text-brand-gold' : 'text-brand-deep'
                     }`}
                 >
                     NADIA LUNA

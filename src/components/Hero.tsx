@@ -32,19 +32,18 @@ export default function Hero() {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-brand-deep mb-6"
+              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[0.9] sm:leading-[0.85] text-brand-deep mb-4 sm:mb-6"
             >
               I craft
               <span className="block text-brand-gold italic">premium</span>
               <span className="block">experiences</span>
             </motion.h1>
-
           {/* Subtitle */}
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-xl md:text-2xl text-brand-deep/80 max-w-2xl mb-8 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-brand-deep/80 max-w-full sm:max-w-2xl mb-6 sm:mb-8 lg:mb-12 leading-relaxed"
           >
             Transforming luxury retail through strategic product leadership, 
             <span className="text-brand-gold font-medium"> data-driven innovation</span>, 
@@ -56,19 +55,19 @@ export default function Hero() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap gap-8 mb-12"
+            className="flex flex-wrap gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12 lg:mb-16"
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-deep">10+</div>
-              <div className="text-sm text-brand-deep/60 uppercase tracking-wide">Years Experience</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-brand-deep">10+</div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-brand-deep/60 uppercase tracking-wide">Years Experience</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-deep">€50M+</div>
-              <div className="text-sm text-brand-deep/60 uppercase tracking-wide">Revenue Impact</div>
+              <div className="text-2xl sm:text-3xl font-bold text-brand-deep">€50M+</div>
+              <div className="text-xs sm:text-sm text-brand-deep/60 uppercase tracking-wide">Revenue Impact</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-deep">25+</div>
-              <div className="text-sm text-brand-deep/60 uppercase tracking-wide">Products Launched</div>
+              <div className="text-2xl sm:text-3xl font-bold text-brand-deep">25+</div>
+              <div className="text-xs sm:text-sm text-brand-deep/60 uppercase tracking-wide">Products Launched</div>
             </div>
           </motion.div>
 
@@ -81,7 +80,7 @@ export default function Hero() {
             >
               <a 
                 href="#contact" 
-                className="group inline-flex items-center justify-center px-8 py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
                 Let&apos;s create something extraordinary
                 <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +95,7 @@ export default function Hero() {
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative pl-8"
+            className="relative pl-0 md:pl-8 flex justify-center md:justify-start"
           >
             <div className="relative">
               {/* Decorative elements behind image */}
@@ -107,7 +106,7 @@ export default function Hero() {
               <img 
                 src="/nadia.jpg" 
                 alt="Nadia Luna - Product Owner" 
-                className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[3/4]"
+                className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[3/4] mb-8 md:mb-0"
               />
               
             </div>

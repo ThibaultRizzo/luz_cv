@@ -64,44 +64,42 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold"></div>
+            {/* Vertical line - centered */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold transform -translate-x-1/2"></div>
             
-            <div className="space-y-16">
+            <div className="space-y-12 md:space-y-20">
               {experiences.map((exp, index) => (
-                <div key={index} className="relative flex items-start">
-                  {/* Timeline dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10"></div>
+                <div key={index} className="relative flex items-center">
+                  {/* Timeline dot - centered */}
+                  <div className="absolute left-1/2 w-4 h-4 md:w-5 md:h-5 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10 transform -translate-x-1/2"></div>
                   
-                  {/* Content card */}
-                  <div className="ml-20 bg-white rounded-2xl shadow-xl p-8 border border-brand-gold/10 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
-                      <div className="mb-4 lg:mb-0">
-                        <h3 className="font-serif text-3xl text-brand-deep mb-2">{exp.role}</h3>
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-brand-gold font-medium">
-                          <span className="text-xl">{exp.company}</span>
-                          <span className="hidden sm:block">•</span>
-                          <span>{exp.location}</span>
-                        </div>
+                  {/* Content card - alternating sides on desktop, centered on mobile */}
+                  <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:ml-auto md:pl-12'} bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-brand-gold/10 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 mx-4 md:mx-0`}>
+                    <div className="mb-4 md:mb-6">
+                      <h3 className="font-serif text-2xl md:text-3xl text-brand-deep mb-2">{exp.role}</h3>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 md:gap-2 text-brand-gold font-medium">
+                        <span className="text-lg md:text-xl">{exp.company}</span>
+                        <span className="hidden sm:block">•</span>
+                        <span className="text-sm md:text-base">{exp.location}</span>
                       </div>
-                      <div className="bg-brand-deep/5 px-4 py-2 rounded-full">
-                        <span className="text-brand-deep font-medium">{exp.period}</span>
+                      <div className="mt-2">
+                        <span className="bg-brand-deep/5 px-3 md:px-4 py-2 rounded-full text-brand-deep font-medium text-sm md:text-base">{exp.period}</span>
                       </div>
                     </div>
 
                     {/* Highlight */}
-                    <div className="bg-brand-gold/10 rounded-xl p-4 mb-6 border-l-4 border-brand-gold">
+                    <div className={`bg-brand-gold/10 rounded-xl p-4 mb-4 md:mb-6 ${index % 2 === 0 ? 'border-l-4 md:border-l-4 border-brand-gold' : 'border-r-4 md:border-r-4 border-brand-gold'}`}>
                       <p className="text-brand-deep font-medium italic">{exp.highlight}</p>
                     </div>
 
                     {/* Achievements */}
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2 md:space-y-3">
                       {exp.achievements.map((achievement, i) => (
-                        <div key={i} className="flex items-start space-x-3">
+                        <div key={i} className={`flex items-start ${index % 2 === 0 ? 'md:justify-end md:space-x-reverse md:space-x-3 space-x-3' : 'space-x-3'}`}>
                           <div className="w-2 h-2 bg-brand-gold rounded-full mt-2 flex-shrink-0"></div>
-                          <p className="text-brand-deep/80">{achievement}</p>
+                          <p className="text-brand-deep/80 text-sm md:text-base">{achievement}</p>
                         </div>
                       ))}
                     </div>

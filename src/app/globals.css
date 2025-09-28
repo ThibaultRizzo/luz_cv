@@ -12,6 +12,240 @@
     
 }
 
+/* Responsive breakpoints and utilities */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .section-padding {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  .text-responsive-hero {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  .text-responsive-section {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .section-padding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  
+  .text-responsive-hero {
+    font-size: 3rem;
+    line-height: 1.05;
+  }
+  
+  .text-responsive-section {
+    font-size: 2.5rem;
+    line-height: 1.15;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  .text-responsive-hero {
+    font-size: 3.5rem;
+    line-height: 1;
+  }
+  
+  .text-responsive-section {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  
+  .text-responsive-hero {
+    font-size: 4rem;
+    line-height: 0.95;
+  }
+  
+  .text-responsive-section {
+    font-size: 3.5rem;
+    line-height: 1.05;
+  }
+}
+
+@media (min-width: 1281px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+  
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+  
+  .text-responsive-hero {
+    font-size: 5rem;
+    line-height: 0.9;
+  }
+  
+  .text-responsive-section {
+    font-size: 4rem;
+    line-height: 1;
+  }
+}
+
+/* Responsive spacing utilities */
+.responsive-margin {
+  margin: 1rem;
+}
+
+@media (min-width: 641px) {
+  .responsive-margin {
+    margin: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-margin {
+    margin: 2rem;
+  }
+}
+
+.responsive-padding {
+  padding: 1rem;
+}
+
+@media (min-width: 641px) {
+  .responsive-padding {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-padding {
+    padding: 2rem;
+  }
+}
+
+/* Responsive grid utilities */
+.responsive-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 641px) {
+  .responsive-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    gap: 2rem;
+  }
+}
+
+/* Responsive text sizing */
+.text-responsive-sm {
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  .text-responsive-sm {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.text-responsive-base {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 641px) {
+  .text-responsive-base {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+}
+
+.text-responsive-lg {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 641px) {
+  .text-responsive-lg {
+    font-size: 1.25rem;
+    line-height: 1.6;
+  }
+}
+
+/* Responsive flex utilities */
+.responsive-flex-col {
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .responsive-flex-col {
+    flex-direction: row;
+  }
+}
+
+/* Responsive width utilities */
+.responsive-width {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .responsive-width {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-width {
+    width: 33.333333%;
+  }
+}
+
 /* Cacher le curseur sur tous les éléments sauf les inputs */
 *, *:hover, *:focus, *:active {
   cursor: none !important;

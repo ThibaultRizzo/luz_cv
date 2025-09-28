@@ -68,22 +68,22 @@ export default function Skills() {
         </div>
 
         {/* Skills grid */}
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto mb-12 md:mb-16">
           {skillCategories.map((category, index) => (
-            <div key={index} className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-8 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <div className="text-4xl mr-4">{category.icon}</div>
-                <h3 className="font-serif text-2xl text-brand-gold">{category.category}</h3>
+            <div key={index} className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300">
+              <div className="flex items-center mb-4 md:mb-6">
+                <div className="text-3xl md:text-4xl mr-3 md:mr-4">{category.icon}</div>
+                <h3 className="font-serif text-xl md:text-2xl text-brand-gold">{category.category}</h3>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-2">
+                  <div key={skillIndex} className="space-y-1 md:space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-brand-cream font-medium">{skill.name}</span>
-                      <span className="text-brand-gold text-sm font-bold">{skill.level}%</span>
+                      <span className="text-brand-cream font-medium text-sm md:text-base">{skill.name}</span>
+                      <span className="text-brand-gold text-xs md:text-sm font-bold">{skill.level}%</span>
                     </div>
-                    <div className="h-2 bg-brand-deep/30 rounded-full overflow-hidden">
+                    <div className="h-1.5 md:h-2 bg-brand-deep/30 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-brand-gold to-brand-cream rounded-full transition-all duration-1000 ease-out"
                         style={{ width: `${skill.level}%` }}
@@ -97,7 +97,7 @@ export default function Skills() {
         </div>
 
         {/* Certifications & Tools */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
           {/* Certifications */}
           <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-8 border border-brand-gold/20">
             <h3 className="font-serif text-2xl text-brand-gold mb-6 flex items-center">
