@@ -54,19 +54,19 @@ export default function Hero() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12 lg:mb-16"
+            className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-8 lg:px-12"
           >
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-brand-deep">10+</div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-brand-deep/60 uppercase tracking-wide">Years Experience</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">10+</div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium leading-tight">Years<br className="sm:hidden"/>Experience</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-brand-deep">€50M+</div>
-              <div className="text-xs sm:text-sm text-brand-deep/60 uppercase tracking-wide">Revenue Impact</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">€50M+</div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">Revenue Impact</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-brand-deep">25+</div>
-              <div className="text-xs sm:text-sm text-brand-deep/60 uppercase tracking-wide">Products Launched</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">25+</div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">Products<br className="sm:hidden"/>Launched</div>
             </div>
           </motion.div>
 
