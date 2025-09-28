@@ -89,16 +89,12 @@ export default function MouseFollower() {
                     className="absolute w-24 h-24 rounded-full border"
                     style={{
                         borderWidth: '1px',
-                        borderColor: isOnDarkSection
-                            ? '#D4AF37' // Gold on dark sections
-                            : '#1e293b', // Dark blue on light sections
-                        boxShadow: isOnDarkSection
-                            ? '0 0 15px rgba(212, 175, 55, 0.3)'
-                            : '0 0 15px rgba(30, 41, 59, 0.3)'
+                        borderColor: '#1e293b', // Always dark blue
+                        boxShadow: '0 0 15px rgba(30, 41, 59, 0.3)'
                     }}
                 />
 
-                {/* Zoom Effect - Shows magnified content */}
+                {/* Real Magnifying Glass Effect */}
                 <div
                     className="absolute w-24 h-24 rounded-full overflow-hidden"
                     style={{
@@ -106,18 +102,44 @@ export default function MouseFollower() {
                         clipPath: 'circle(48px at center)',
                     }}
                 >
+                    {/* Strong magnification effect */}
                     <div
                         className="absolute w-full h-full"
                         style={{
-                            background: `radial-gradient(circle at center, 
-                                rgba(255, 255, 255, 0.1) 0%, 
-                                rgba(255, 255, 255, 0.05) 30%, 
-                                transparent 70%)`,
-                            backdropFilter: 'brightness(1.3) contrast(1.2)',
-                            transform: 'scale(1.5)',
+                            backdropFilter: 'brightness(1.5) contrast(1.4) saturate(1.3) blur(0.5px)',
+                            WebkitBackdropFilter: 'brightness(1.5) contrast(1.4) saturate(1.3) blur(0.5px)',
+                            transform: 'scale(1.8)',
+                            transformOrigin: 'center',
+                            mixBlendMode: 'screen',
+                        }}
+                    />
+                    
+                    {/* Glass lens shine */}
+                    <div
+                        className="absolute w-full h-full rounded-full"
+                        style={{
+                            background: `
+                                radial-gradient(circle at 25% 25%, 
+                                    rgba(255, 255, 255, 0.4) 0%, 
+                                    rgba(255, 255, 255, 0.15) 15%, 
+                                    transparent 35%),
+                                radial-gradient(circle at 75% 75%, 
+                                    rgba(255, 255, 255, 0.1) 0%, 
+                                    transparent 25%)
+                            `,
+                            mixBlendMode: 'overlay',
                         }}
                     />
                 </div>
+                
+                {/* Glass edge highlight */}
+                <div
+                    className="absolute w-24 h-24 rounded-full pointer-events-none"
+                    style={{
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        boxShadow: 'inset 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)',
+                    }}
+                />
             </div>
 
         </>
