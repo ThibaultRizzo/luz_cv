@@ -103,8 +103,8 @@ export default function MouseFollower() {
     const backdropFilterValue = isOverInput
         ? "brightness(1.2) contrast(1.2) saturate(1.3)"
         : isHovering
-        ? "brightness(1.1) contrast(1.1) saturate(1.2)"
-        : "none";
+            ? "brightness(1.1) contrast(1.1) saturate(1.2)"
+            : "none";
 
     return (
         <>
@@ -126,7 +126,7 @@ export default function MouseFollower() {
                     style={{
                         width: SIZE,
                         height: SIZE,
-                        border: `2px solid ${borderColor}`,
+                        border: `1px solid ${borderColor}`,
                         boxShadow: isHovering
                             ? "0 8px 30px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)"
                             : "0 6px 18px rgba(0,0,0,0.12)",
