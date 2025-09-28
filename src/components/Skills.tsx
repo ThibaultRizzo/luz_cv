@@ -46,8 +46,8 @@ export default function Skills() {
     <section id="skills" className="py-32 bg-brand-deep text-brand-cream relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-brand-cream/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-1/3 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-1/3 w-80 h-80 bg-brand-cream/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

@@ -1,13 +1,38 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import MouseFollower from "@/components/MouseFollower";
 import Footer from "@/components/Footer";
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
   description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
+  keywords: "Product Owner, Luxury Retail, Digital Transformation, Product Strategy, UX Design",
+  authors: [{ name: "Nadia Luna" }],
+  openGraph: {
+    title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
+    description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nadia Luna — Product Owner",
+    description: "Product Owner with 10+ years of leadership in luxury retail",
+  },
 };
 export default function RootLayout({
   children,
@@ -15,10 +40,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans bg-brand-cream text-brand-deep antialiased cursor-none">
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="font-sans bg-brand-cream text-brand-deep antialiased">
+        <a href="#main-content" className="skip-nav">
+          Skip to main content
+        </a>
         <Nav />
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
         <Footer />
         <MouseFollower />
       </body>

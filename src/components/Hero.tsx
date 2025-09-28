@@ -103,9 +103,9 @@ export default function Hero() {
               <div className="absolute -bottom-4 -left-4 w-full h-full bg-brand-deep/10 rounded-2xl transform -rotate-2"></div>
               
               {/* Main image */}
-              <img 
-                src="/nadia.jpg" 
-                alt="Nadia Luna - Product Owner" 
+              <img
+                src="/nadia.jpg"
+                alt="Nadia Luna - Product Owner and Luxury Retail Expert"
                 className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[3/4] mb-8 md:mb-0"
               />
               

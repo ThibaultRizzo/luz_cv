@@ -71,10 +71,7 @@ export default function MouseFollower() {
 
     // trailing animation using requestAnimationFrame and refs (no interval leak)
     useEffect(() => {
-        let last = performance.now();
-
-        const step = (now: number) => {
-            last = now;
+        const step = () => {
             setTrailingPosition((prev) => {
                 const mx = mouseRef.current.x;
                 const my = mouseRef.current.y;
@@ -93,18 +90,19 @@ export default function MouseFollower() {
         };
     }, []);
 
-    // ne rien afficher si on est invisible ou sur un champ input (évite interférences)
-    if (!isVisible || isOverInput) return null;
+    // ne rien afficher si on est invisible
+    if (!isVisible) return null;
 
-    // Taille du cercle (diamètre en px)
-    const SIZE = 128;
+    // Taille du cercle (diamètre en px) - plus petit sur les inputs
+    const SIZE = isOverInput ? 64 : 128;
 
     // Bord selon section sombre ou non
     const borderColor = isOnDarkSection ? "rgba(255,255,255,0.9)" : "rgba(30,41,59,0.9)";
 
-    // Lorsque isHovering === true on applique un effet plus subtil
-    // Note : backdrop-filter doit être supporté par le navigateur pour fonctionner.
-    const backdropFilterValue = isHovering
+    // Effet spécial pour les inputs ou éléments interactifs
+    const backdropFilterValue = isOverInput
+        ? "brightness(1.2) contrast(1.2) saturate(1.3)"
+        : isHovering
         ? "brightness(1.1) contrast(1.1) saturate(1.2)"
         : "none";
 
