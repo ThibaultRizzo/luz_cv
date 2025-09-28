@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useTextContent } from '@/lib/TextContentContext';
 
 export default function Hero() {
+  const { textContent } = useTextContent();
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 pt-32">
       {/* Background decorative elements */}
@@ -34,9 +36,8 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[0.9] sm:leading-[0.85] text-brand-deep mb-4 sm:mb-6"
             >
-              I craft
-              <span className="block text-brand-gold italic">premium</span>
-              <span className="block">experiences</span>
+              {textContent.heroTitle}
+              <span className="block text-brand-gold italic">{textContent.heroSubtitle}</span>
             </motion.h1>
           {/* Subtitle */}
           <motion.p
@@ -45,9 +46,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-brand-deep/80 max-w-full sm:max-w-2xl mb-6 sm:mb-8 lg:mb-12 leading-relaxed"
           >
-            Transforming luxury retail through strategic product leadership, 
-            <span className="text-brand-gold font-medium"> data-driven innovation</span>, 
-            and customer-obsessed design.
+            {textContent.heroDescription}
           </motion.p>
 
           {/* Stats */}

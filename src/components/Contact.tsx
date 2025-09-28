@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from 'react';
+import { useTextContent } from '@/lib/TextContentContext';
 
 export default function Contact() {
+    const { textContent } = useTextContent();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -55,12 +57,12 @@ export default function Contact() {
                         Let&apos;s Connect
                     </div>
                     <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-brand-deep mb-4 sm:mb-6">
-                        Ready to create
-                        <span className="block text-brand-gold italic">something extraordinary?</span>
+                        {textContent.contactTitle}
+                        <span className="block text-brand-gold italic">{textContent.contactSubtitle}</span>
                     </h2>
                     <div className="w-16 sm:w-20 md:w-24 h-1 bg-brand-gold mx-auto mb-6 sm:mb-8"></div>
                     <p className="text-base sm:text-lg md:text-xl text-brand-deep/80 max-w-2xl sm:max-w-3xl mx-auto">
-                        Whether you&apos;re looking to transform your luxury retail experience or explore new product opportunities, I&apos;d love to hear from you.
+                        {textContent.contactDescription}
                     </p>
                 </div>
 

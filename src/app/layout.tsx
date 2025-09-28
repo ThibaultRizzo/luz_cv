@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import MouseFollower from "@/components/MouseFollower";
 import Footer from "@/components/Footer";
+import { TextContentProvider } from "@/lib/TextContentContext";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,12 +49,14 @@ export default function RootLayout({
         <a href="#main-content" className="skip-nav">
           Skip to main content
         </a>
-        <Nav />
-        <main id="main-content">
-          {children}
-        </main>
-        <Footer />
-        <MouseFollower />
+        <TextContentProvider>
+          <Nav />
+          <main id="main-content">
+            {children}
+          </main>
+          <Footer />
+          <MouseFollower />
+        </TextContentProvider>
       </body>
     </html>
   );
