@@ -175,7 +175,6 @@ const TextContentContext = createContext<TextContentContextType | undefined>(und
 
 export function TextContentProvider({ children }: { children: React.ReactNode }) {
     const [textContent, setTextContent] = useState<TextContent>(defaultTextContent);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Load content from API on mount
@@ -183,13 +182,11 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
             try {
                 const response = await contentApi.getContent();
                 if (response.success && response.data) {
-                    setTextContent(response.data);
+                    setTextContent(response.data as TextContent);
                 }
             } catch (error) {
                 console.error('Error loading content:', error);
                 // Fall back to default content if API fails
-            } finally {
-                setIsLoading(false);
             }
         };
 
@@ -202,9 +199,9 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
 
         // Sync with backend
         try {
-            const response = await contentApi.updateContent({ ...textContent, ...newContent });
+            const response = await contentApi.updateContent({ ...textContent, ...newContent } as Record<string, unknown>);
             if (response.success && response.data) {
-                setTextContent(response.data);
+                setTextContent(response.data as TextContent);
             }
         } catch (error) {
             console.error('Error updating content:', error);

@@ -10,12 +10,12 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'alelunapaint-s
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '24h';
 const REFRESH_TOKEN_EXPIRE = process.env.REFRESH_TOKEN_EXPIRE || '7d';
 
-function generateTokenPair(user: any) {
+function generateTokenPair(user: { id: string; username: string; role: string | null }) {
   const accessToken = jwt.sign(
     {
       userId: user.id,
       username: user.username,
-      role: user.role,
+      role: user.role || 'admin',
     },
     JWT_SECRET,
     {
@@ -40,7 +40,8 @@ function generateTokenPair(user: any) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { username, password } = await request.json();
+    const body = await request.json() as { username?: string; password?: string };
+    const { username, password } = body;
 
     if (!username || !password) {
       return NextResponse.json(

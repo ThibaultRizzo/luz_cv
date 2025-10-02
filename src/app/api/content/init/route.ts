@@ -60,7 +60,7 @@ const defaultContent = {
   contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."
 };
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Check if content already exists
     const existingContent = await db

@@ -164,7 +164,7 @@ export default function BackOffice() {
     const handleSave = async () => {
         setSaveStatus('saving');
         try {
-            const response = await contentApi.updateContent(textContent);
+            const response = await contentApi.updateContent(textContent as unknown as Record<string, unknown>);
 
             if (response.success) {
                 setSaveStatus('saved');
