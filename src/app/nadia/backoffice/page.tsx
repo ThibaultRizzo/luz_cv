@@ -440,6 +440,36 @@ export default function BackOffice() {
                                 className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                             />
                         </div>
+
+                        {/* Skill Categories - Display Only Warning */}
+                        <div className="border-t pt-6">
+                            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4">
+                                <p className="text-sm text-yellow-800">
+                                    <strong>Note:</strong> Skill categories (Product Leadership, Retail Excellence, etc.) are currently hardcoded in the frontend.
+                                    To modify them, you need to edit the TextContentContext.tsx file.
+                                </p>
+                            </div>
+                            <h3 className="font-serif text-lg text-brand-deep mb-4">Current Skill Categories</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                {textContent.skillCategories.map((category, index) => (
+                                    <div key={index} className="bg-brand-cream/30 p-4 rounded-xl border border-brand-deep/10">
+                                        <div className="flex items-center mb-2">
+                                            <span className="text-2xl mr-2">{category.icon}</span>
+                                            <h4 className="font-medium text-brand-deep">{category.category}</h4>
+                                        </div>
+                                        <div className="space-y-1 text-sm">
+                                            {category.skills.map((skill, skillIndex) => (
+                                                <div key={skillIndex} className="flex justify-between">
+                                                    <span>{skill.name}</span>
+                                                    <span className="text-brand-gold font-medium">{skill.level}%</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         <div>
                             <label className="block text-sm font-medium text-brand-deep mb-2">Skills Quote</label>
                             <textarea
