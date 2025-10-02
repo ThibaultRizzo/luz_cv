@@ -19,14 +19,14 @@ export interface AuthResponse {
 
 export interface ContentResponse {
     success: boolean;
-    data: any;
+    data: Record<string, unknown> | null;
     message?: string;
 }
 
 export interface ApiError {
     success: false;
     message: string;
-    errors?: any[];
+    errors?: Array<{ msg: string; param?: string }>;
 }
 
 // Storage utilities
@@ -54,12 +54,12 @@ class TokenStorage {
         localStorage.removeItem('userInfo');
     }
 
-    static setUserInfo(user: any): void {
+    static setUserInfo(user: { id: string; username: string; role: string; lastLogin: string }): void {
         if (typeof window === 'undefined') return;
         localStorage.setItem('userInfo', JSON.stringify(user));
     }
 
-    static getUserInfo(): any | null {
+    static getUserInfo(): { id: string; username: string; role: string; lastLogin: string } | null {
         if (typeof window === 'undefined') return null;
         const userInfo = localStorage.getItem('userInfo');
         return userInfo ? JSON.parse(userInfo) : null;
@@ -136,7 +136,7 @@ class ApiClient {
         }
     }
 
-    async get(endpoint: string): Promise<any> {
+    async get(endpoint: string): Promise<Record<string, unknown>> {
         const response = await this.makeRequest(endpoint, {
             method: 'GET',
         });
@@ -144,7 +144,7 @@ class ApiClient {
         return response.json();
     }
 
-    async post(endpoint: string, data: any): Promise<any> {
+    async post(endpoint: string, data: Record<string, unknown>): Promise<Record<string, unknown>> {
         const response = await this.makeRequest(endpoint, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -153,7 +153,7 @@ class ApiClient {
         return response.json();
     }
 
-    async put(endpoint: string, data: any): Promise<any> {
+    async put(endpoint: string, data: Record<string, unknown>): Promise<Record<string, unknown>> {
         const response = await this.makeRequest(endpoint, {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -162,7 +162,7 @@ class ApiClient {
         return response.json();
     }
 
-    async patch(endpoint: string, data: any): Promise<any> {
+    async patch(endpoint: string, data: Record<string, unknown>): Promise<Record<string, unknown>> {
         const response = await this.makeRequest(endpoint, {
             method: 'PATCH',
             body: JSON.stringify(data),
@@ -171,7 +171,7 @@ class ApiClient {
         return response.json();
     }
 
-    async delete(endpoint: string): Promise<any> {
+    async delete(endpoint: string): Promise<Record<string, unknown>> {
         const response = await this.makeRequest(endpoint, {
             method: 'DELETE',
         });
@@ -222,9 +222,9 @@ export const authApi = {
         }
     },
 
-    async getCurrentUser(): Promise<any> {
+    async getCurrentUser(): Promise<{ success: boolean; message?: string; data?: { user: { id: string; username: string; role: string; lastLogin: string } } }> {
         try {
-            return await apiClient.get('/auth/me');
+            return await apiClient.get('/auth/me') as { success: boolean; message?: string; data?: { user: { id: string; username: string; role: string; lastLogin: string } } };
         } catch (error) {
             console.error('Get current user error:', error);
             return { success: false, message: 'Failed to get user info' };
@@ -235,7 +235,7 @@ export const authApi = {
         return !!TokenStorage.getAccessToken();
     },
 
-    getUserInfo(): any | null {
+    getUserInfo(): { id: string; username: string; role: string; lastLogin: string } | null {
         return TokenStorage.getUserInfo();
     },
 };
@@ -255,9 +255,9 @@ export const contentApi = {
         }
     },
 
-    async updateContent(content: any): Promise<ContentResponse> {
+    async updateContent(content: Record<string, unknown>): Promise<ContentResponse> {
         try {
-            return await apiClient.put('/content', content);
+            return await apiClient.put('/content', content) as ContentResponse;
         } catch (error) {
             console.error('Update content error:', error);
             return {
@@ -268,9 +268,9 @@ export const contentApi = {
         }
     },
 
-    async updateSection(section: string, data: any): Promise<ContentResponse> {
+    async updateSection(section: string, data: Record<string, unknown>): Promise<ContentResponse> {
         try {
-            return await apiClient.patch(`/content/section/${section}`, data);
+            return await apiClient.patch(`/content/section/${section}`, data) as ContentResponse;
         } catch (error) {
             console.error('Update section error:', error);
             return {
@@ -281,9 +281,9 @@ export const contentApi = {
         }
     },
 
-    async getBackups(): Promise<any> {
+    async getBackups(): Promise<{ success: boolean; message?: string; data?: unknown[] }> {
         try {
-            return await apiClient.get('/content/backups');
+            return await apiClient.get('/content/backups') as { success: boolean; message?: string; data?: unknown[] };
         } catch (error) {
             console.error('Get backups error:', error);
             return {
@@ -295,7 +295,7 @@ export const contentApi = {
 
     async restoreBackup(backupId: string): Promise<ContentResponse> {
         try {
-            return await apiClient.post(`/content/restore/${backupId}`, {});
+            return await apiClient.post(`/content/restore/${backupId}`, {}) as ContentResponse;
         } catch (error) {
             console.error('Restore backup error:', error);
             return {
