@@ -1,4 +1,10 @@
+"use client";
+
+import { useTextContent } from '@/lib/TextContentContext';
+
 export default function About() {
+    const { textContent } = useTextContent();
+
     return (
         <section id="about" className="py-32 bg-brand-deep text-brand-cream relative overflow-hidden">
             {/* Background elements */}
@@ -15,7 +21,7 @@ export default function About() {
                         About Me
                     </div>
                     <h2 className="font-serif text-5xl md:text-7xl leading-tight mb-6">
-                        Turning vision into
+                        {textContent.aboutTitle}
                         <span className="block text-brand-gold italic">reality</span>
                     </h2>
                     <div className="w-24 h-1 bg-brand-gold mx-auto"></div>
@@ -26,10 +32,10 @@ export default function About() {
                     <div className="space-y-8">
                         <div className="space-y-6">
                             <p className="text-xl md:text-2xl leading-relaxed text-brand-cream/90">
-                                I am a <span className="text-brand-gold font-semibold">visionary Product Owner</span> with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.
+                                {textContent.aboutMainText}
                             </p>
                             <p className="text-lg leading-relaxed text-brand-cream/80">
-                                My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I&apos;ve built my career on one fundamental belief: <span className="text-brand-gold font-medium">premium products deserve premium experiences</span>.
+                                {textContent.aboutSecondaryText}
                             </p>
                         </div>
 
@@ -89,7 +95,7 @@ export default function About() {
                         {/* Quote */}
                         <div className="relative bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/20">
                             <blockquote className="text-xl italic text-brand-cream/90 text-center">
-                                &quot;Excellence isn&apos;t a destination—it&apos;s a mindset that transforms every touchpoint into an opportunity for delight.&quot;
+                                &quot;{textContent.aboutQuote}&quot;
                             </blockquote>
                             <div className="text-center mt-4">
                                 <cite className="text-brand-gold font-medium">— Nadia Luna</cite>

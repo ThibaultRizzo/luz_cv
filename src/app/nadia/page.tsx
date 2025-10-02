@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { authApi } from '@/lib/api';
 
 export default function NadiaLogin() {
     const [username, setUsername] = useState('');
@@ -10,22 +11,25 @@ export default function NadiaLogin() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
 
-        // Simulate authentication check
-        setTimeout(() => {
-            if (username === 'mia' && password === 'himiko') {
-                // Store authentication state
-                localStorage.setItem('nadiaAuth', 'true');
+        try {
+            const response = await authApi.login(username, password);
+
+            if (response.success) {
                 router.push('/nadia/backoffice');
             } else {
-                setError('Invalid credentials');
+                setError(response.message || 'Invalid credentials');
             }
+        } catch (error) {
+            setError('Network error. Please try again.');
+            console.error('Login error:', error);
+        } finally {
             setIsLoading(false);
-        }, 1000);
+        }
     };
 
     return (

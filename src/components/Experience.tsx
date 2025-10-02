@@ -1,45 +1,9 @@
+"use client";
+
+import { useTextContent } from '@/lib/TextContentContext';
+
 export default function Experience() {
-  const experiences = [
-    {
-      role: "Senior Product Owner",
-      company: "Maison Lumière",
-      period: "2018 - Present",
-      location: "Paris, France",
-      achievements: [
-        "Spearheaded digital transformation resulting in €25M+ revenue increase",
-        "Led cross-functional teams of 15+ across 3 countries",
-        "Launched omnichannel platform serving 2M+ customers globally",
-        "Achieved 40% increase in online conversion rates"
-      ],
-      highlight: "Transformed traditional luxury retail into digital-first experiences"
-    },
-    {
-      role: "Product Manager",
-      company: "RetailTech Innovations",
-      period: "2015 - 2018",
-      location: "London, UK",
-      achievements: [
-        "Managed €15M product portfolio across 8 retail brands",
-        "Increased customer engagement by 35% through AI-driven personalization",
-        "Reduced time-to-market by 50% with agile methodologies",
-        "Built and scaled product team from 5 to 20 members"
-      ],
-      highlight: "Pioneered data-driven product strategies in luxury retail"
-    },
-    {
-      role: "Junior Product Manager",
-      company: "Fashion Forward Startup",
-      period: "2012 - 2015",
-      location: "Milan, Italy",
-      achievements: [
-        "Co-launched mobile app with 500K+ downloads in first year",
-        "Featured in Vogue Business and WWD for innovation",
-        "Grew user base by 300% through strategic partnerships",
-        "Established product development processes from ground up"
-      ],
-      highlight: "Laid foundation for product excellence in emerging fashion tech"
-    }
-  ];
+  const { textContent } = useTextContent();
 
   return (
     <section id="experience" className="py-32 bg-brand-cream relative overflow-hidden">
@@ -57,8 +21,8 @@ export default function Experience() {
             Career Journey
           </div>
           <h2 className="font-serif text-5xl md:text-7xl leading-tight text-brand-deep mb-6">
-            A decade of
-            <span className="block text-brand-gold italic">transformation</span>
+            {textContent.experienceTitle}
+            <span className="block text-brand-gold italic">{textContent.experienceSubtitle}</span>
           </h2>
           <div className="w-24 h-1 bg-brand-gold mx-auto"></div>
         </div>
@@ -70,7 +34,7 @@ export default function Experience() {
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold transform -translate-x-1/2"></div>
             
             <div className="space-y-12 md:space-y-20">
-              {experiences.map((exp, index) => (
+              {textContent.experiences.map((exp, index) => (
                 <div key={index} className="relative flex items-center">
                   {/* Timeline dot - centered */}
                   <div className="absolute left-1/2 w-4 h-4 md:w-5 md:h-5 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10 transform -translate-x-1/2"></div>
