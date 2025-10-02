@@ -138,8 +138,9 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error('Content update error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update content';
     return NextResponse.json(
-      { success: false, message: 'Failed to update content' },
+      { success: false, message: errorMessage, error: String(error) },
       { status: 500 }
     );
   }

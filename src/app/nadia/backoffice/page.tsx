@@ -154,7 +154,7 @@ export default function BackOffice() {
         }
     };
 
-    const handleTextChange = (field: keyof TextContent, value: string) => {
+    const handleTextChange = (field: keyof TextContent, value: string | string[]) => {
         setTextContent(prev => ({
             ...prev,
             [field]: value
