@@ -457,9 +457,10 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-cream">Stat {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('heroStats', index)}
-                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                className="text-red-500 hover:text-red-700 text-lg"
+                                                title="Remove"
                                             >
-                                                Remove
+                                                🗑️
                                             </button>
                                         </div>
                                         <div className="grid grid-cols-2 gap-3">
@@ -574,7 +575,7 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-cream">Item {index + 1}</h4>
                                             <button
                                                 onClick={() => removeApproachItem(index)}
-                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                className="text-red-500 hover:text-red-700 text-lg" title="Remove"
                                             >
                                                 Remove
                                             </button>
@@ -630,7 +631,7 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-cream">Metric {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('aboutImpactMetrics', index)}
-                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                className="text-red-500 hover:text-red-700 text-lg" title="Remove"
                                             >
                                                 Remove
                                             </button>
@@ -732,7 +733,7 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-cream">Stat {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('experienceBottomStats', index)}
-                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                className="text-red-500 hover:text-red-700 text-lg" title="Remove"
                                             >
                                                 Remove
                                             </button>
@@ -779,7 +780,7 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-cream">Experience {index + 1}</h4>
                                             <button
                                                 onClick={() => removeExperience(index)}
-                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                className="text-red-500 hover:text-red-700 text-lg" title="Remove"
                                             >
                                                 Remove
                                             </button>
