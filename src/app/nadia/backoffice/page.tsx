@@ -2402,18 +2402,16 @@ export default function BackOffice() {
         </div>
       )}
 
-      <div className="container mx-auto px-6 py-4 max-w-7xl">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-4 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6">
-              <div className="mb-6">
-                <h1 className="font-serif text-2xl text-brand-cream mb-4">
-                  Back Office
-                </h1>
+      <div className="container mx-auto px-4 py-4 max-w-[1800px]">
+        <div className="flex gap-4">
+          {/* Compact Sidebar */}
+          <div className="w-20 flex-shrink-0">
+            <div className="sticky top-4 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3">
+              <div className="mb-4">
                 <button
                   onClick={handleLogout}
-                  className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm text-brand-cream rounded-lg hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 flex items-center justify-center gap-2 border border-white/30"
+                  className="w-full p-2 bg-white/20 backdrop-blur-sm text-brand-cream rounded-lg hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 flex items-center justify-center border border-white/30"
+                  title="Logout"
                 >
                   <svg
                     className="w-5 h-5"
@@ -2428,17 +2426,13 @@ export default function BackOffice() {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  Logout
                 </button>
               </div>
 
-              <h2 className="font-serif text-lg text-brand-cream/80 mb-4 mt-6">
-                Sections
-              </h2>
               <nav className="space-y-2">
                 {[
                   { id: "hero", label: "Hero Section", icon: "🏠" },
-                  { id: "about", label: "About Section", icon: "👤" },
+                  { id: "about", label: "About", icon: "👤" },
                   { id: "experience", label: "Experience", icon: "💼" },
                   { id: "skills", label: "Skills", icon: "⚡" },
                   { id: "achievements", label: "Achievements", icon: "🏆" },
@@ -2447,37 +2441,96 @@ export default function BackOffice() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
+                    className={`w-full p-3 rounded-lg transition-all duration-300 flex items-center justify-center ${
                       activeTab === tab.id
-                        ? "bg-brand-gold text-brand-deep font-medium shadow-md"
-                        : "text-brand-cream/70 hover:bg-white/20 hover:text-brand-cream border border-transparent hover:border-white/20"
+                        ? "bg-brand-gold shadow-md"
+                        : "hover:bg-white/20 border border-transparent hover:border-white/20"
                     }`}
+                    title={tab.label}
                   >
-                    <span className="text-xl">{tab.icon}</span>
-                    <span>{tab.label}</span>
+                    <span className="text-2xl">{tab.icon}</span>
                   </button>
                 ))}
               </nav>
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-8">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="font-serif text-2xl text-brand-cream capitalize">
-                  {activeTab} Section
-                </h2>
-                <button
-                  onClick={handleSave}
-                  disabled={saveStatus === "saving"}
-                  className="px-6 py-3 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg"
-                >
-                  {saveStatus === "saving" ? "Saving..." : "Save Changes"}
-                </button>
-              </div>
+          {/* Split View: Editor + Preview */}
+          <div className="flex-1 flex gap-4">
+            {/* Editor Panel */}
+            <div className="w-[45%] flex-shrink-0">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="font-serif text-xl text-brand-cream capitalize">
+                    Edit {activeTab}
+                  </h2>
+                  <button
+                    onClick={handleSave}
+                    disabled={saveStatus === "saving"}
+                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm"
+                  >
+                    {saveStatus === "saving" ? "Saving..." : "Save"}
+                  </button>
+                </div>
 
-              {renderTabContent()}
+                {renderTabContent()}
+              </div>
+            </div>
+
+            {/* Live Preview Panel */}
+            <div className="flex-1">
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
+                  <span className="text-xs text-brand-cream/60 bg-brand-gold/20 px-3 py-1 rounded-full">Real-time</span>
+                </div>
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                  {/* Preview content will be rendered here based on activeTab */}
+                  <div className="transform scale-90 origin-top-left w-[111%]">
+                    {activeTab === "hero" && (
+                      <div className="relative min-h-[500px] flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 p-8">
+                        <div className="w-full">
+                          <div className="grid lg:grid-cols-2 gap-8 items-center">
+                            <div>
+                              {textContent.heroBadge && (
+                                <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
+                                  <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                                  {textContent.heroBadge}
+                                </div>
+                              )}
+                              <h1 className="font-serif text-3xl lg:text-4xl leading-tight text-brand-deep mb-3">
+                                {textContent.heroTitle}
+                                <span className="block text-brand-gold italic">{textContent.heroSubtitle}</span>
+                              </h1>
+                              <p className="text-sm lg:text-base text-brand-deep/80 mb-6">
+                                {textContent.heroDescription}
+                              </p>
+                              {textContent.heroCtaText && (
+                                <button className="px-4 py-2 bg-brand-deep text-brand-cream rounded-full text-sm font-medium">
+                                  {textContent.heroCtaText}
+                                </button>
+                              )}
+                            </div>
+                            <div className="flex justify-center">
+                              <img
+                                src={textContent.heroImage || "/nadia.jpg"}
+                                alt="Hero"
+                                className="w-48 h-64 rounded-2xl shadow-2xl object-cover"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {activeTab !== "hero" && (
+                      <div className="p-8 text-center text-brand-deep/60">
+                        <p className="text-sm">Preview for {activeTab} section</p>
+                        <p className="text-xs mt-2">Changes will be visible in real-time here</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
