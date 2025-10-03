@@ -42,7 +42,7 @@ export default function Contact() {
         }
     };
     return (
-        <section id="contact" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-cream relative overflow-hidden">
+        <section id="contact" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-cream relative overflow-hidden scroll-mt-20">
             {/* Background elements */}
             <div className="absolute inset-0">
                 <div className="absolute top-1/4 left-0 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-brand-gold/10 rounded-full blur-3xl"></div>

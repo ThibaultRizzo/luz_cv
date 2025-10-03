@@ -6,7 +6,7 @@ export default function About() {
     const { textContent } = useTextContent();
 
     return (
-        <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden">
+        <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">
             {/* Background elements */}
             <div className="absolute inset-0">
                 <div className="absolute top-0 left-1/4 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
@@ -42,18 +42,15 @@ export default function About() {
                         {/* Key principles */}
                         <div className="space-y-4">
                             <h3 className="text-xl sm:text-2xl font-serif text-brand-gold mb-4 sm:mb-6">{textContent.aboutApproachTitle || 'My Approach'}</h3>
-                            <div className="space-y-3 sm:space-y-4">
+                            <div className="space-y-4 sm:space-y-5">
                                 {(textContent.aboutApproachItems && textContent.aboutApproachItems.length > 0 ? textContent.aboutApproachItems : [
                                     { title: 'Customer-First Philosophy', description: 'Every decision starts with understanding the customer\'s deepest needs and desires' },
                                     { title: 'Data-Driven Innovation', description: 'Combining intuition with analytics to create breakthrough solutions' },
                                     { title: 'Cross-Functional Leadership', description: 'Building bridges between teams to deliver cohesive, impactful products' }
                                 ]).map((item, index) => (
-                                    <div key={index} className="flex items-start space-x-3 sm:space-x-4">
-                                        <div className="w-2 h-2 bg-brand-gold rounded-full mt-2 sm:mt-3 flex-shrink-0"></div>
-                                        <div>
-                                            <h4 className="font-semibold text-brand-cream mb-1 text-sm sm:text-base">{item.title}</h4>
-                                            <p className="text-brand-cream/70 text-xs sm:text-sm md:text-base">{item.description}</p>
-                                        </div>
+                                    <div key={index} className="bg-brand-cream/5 rounded-xl p-4 border-l-4 border-brand-gold">
+                                        <h4 className="font-semibold text-brand-cream mb-2 text-sm sm:text-base">{item.title}</h4>
+                                        <p className="text-brand-cream/70 text-sm md:text-base leading-relaxed">{item.description}</p>
                                     </div>
                                 ))}
                             </div>
@@ -72,9 +69,9 @@ export default function About() {
                                     { metric: '25+', label: 'Products Launched' },
                                     { metric: '15+', label: 'Teams Led' }
                                 ]).map((item, index) => (
-                                    <div key={index} className="text-center">
-                                        <div className="text-2xl sm:text-3xl font-bold text-brand-cream mb-1">{item.metric}</div>
-                                        <div className="text-xs sm:text-sm text-brand-cream/60 uppercase tracking-wide">{item.label}</div>
+                                    <div key={index} className="text-center bg-brand-gold/10 rounded-xl p-4">
+                                        <div className="text-3xl sm:text-4xl font-bold text-brand-gold mb-2">{item.metric}</div>
+                                        <div className="text-xs sm:text-sm text-brand-cream uppercase tracking-wide">{item.label}</div>
                                     </div>
                                 ))}
                             </div>

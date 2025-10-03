@@ -6,7 +6,7 @@ import { useTextContent } from '@/lib/TextContentContext';
 export default function Hero() {
   const { textContent } = useTextContent();
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-16 sm:pb-20 md:pb-24 lg:pb-32">
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-16 sm:pb-20 md:pb-24 lg:pb-32 scroll-mt-20">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-10 sm:top-20 right-5 sm:right-10 w-40 h-40 sm:w-72 sm:h-72 bg-brand-gold/10 rounded-full blur-3xl"></div>

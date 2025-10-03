@@ -6,7 +6,7 @@ export default function Skills() {
   const { textContent } = useTextContent();
 
   return (
-    <section id="skills" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden">
+    <section id="skills" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">
       {/* Background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-10 sm:top-20 left-1/3 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
@@ -43,10 +43,10 @@ export default function Skills() {
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex} className="space-y-1 sm:space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-brand-cream font-medium text-xs sm:text-sm md:text-base">{skill.name}</span>
-                      <span className="text-brand-gold text-xs sm:text-sm font-bold">{skill.level}%</span>
+                      <span className="text-brand-cream font-medium text-sm md:text-base">{skill.name}</span>
+                      <span className="text-brand-gold text-sm font-bold">{skill.level}%</span>
                     </div>
-                    <div className="h-1.5 sm:h-2 bg-brand-deep/30 rounded-full overflow-hidden">
+                    <div className="h-2 bg-brand-deep/30 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-brand-gold to-brand-cream rounded-full transition-all duration-1000 ease-out"
                         style={{ width: `${skill.level}%` }}
@@ -70,7 +70,7 @@ export default function Skills() {
               {textContent.certifications.map((cert, index) => (
                 <div key={index} className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-brand-gold rounded-full flex-shrink-0"></div>
-                  <span className="text-xs sm:text-sm md:text-base">{cert}</span>
+                  <span className="text-sm md:text-base">{cert}</span>
                 </div>
               ))}
             </div>
@@ -83,7 +83,7 @@ export default function Skills() {
             </h3>
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {textContent.tools.map((tool, index) => (
-                <div key={index} className="bg-brand-gold/10 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-center text-xs sm:text-sm font-medium">
+                <div key={index} className="bg-brand-gold/10 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-center text-sm font-medium">
                   {tool}
                 </div>
               ))}
