@@ -99,6 +99,7 @@ export default function Hero() {
               <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-full h-full bg-brand-deep/10 rounded-2xl transform -rotate-2"></div>
 
               {/* Main image */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={textContent.heroImage || "/nadia.jpg"}
                 alt="Nadia Luna - Product Owner and Luxury Retail Expert"

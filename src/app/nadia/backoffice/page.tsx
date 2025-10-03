@@ -238,7 +238,6 @@ export default function BackOffice() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
   const [showPreview, setShowPreview] = useState(false); // For mobile toggle
-  const [showMobileMenu, setShowMobileMenu] = useState(false); // For mobile menu
   const router = useRouter();
 
   useEffect(() => {
@@ -737,6 +736,7 @@ export default function BackOffice() {
                 {/* Image Preview */}
                 {textContent.heroImage && (
                   <div className="relative w-full max-w-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       key={textContent.heroImage}
                       src={textContent.heroImage}
@@ -2636,6 +2636,7 @@ export default function BackOffice() {
                               )}
                             </div>
                             <div className="flex justify-center">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 key={textContent.heroImage}
                                 src={textContent.heroImage || "/nadia.jpg"}

@@ -58,6 +58,7 @@ export const content = pgTable('content', {
   skillsCertificationsTitle: text('skills_certifications_title'),
   skillsToolsTitle: text('skills_tools_title'),
   skillsQuoteAuthor: text('skills_quote_author'),
+  softSkills: jsonb('soft_skills').default([]),
 
   // Achievements
   achievementsTitle: text('achievements_title'),
