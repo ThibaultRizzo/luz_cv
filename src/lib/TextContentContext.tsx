@@ -91,6 +91,7 @@ interface TextContent {
     contactAvailabilityDescription: string;
     contactAvailabilityItems: string[];
     contactDownloadText: string;
+    contactCvPath: string;
     contactBottomInfo: {
         responseTime: { label: string; value: string };
         location: { label: string; value: string };
@@ -271,6 +272,7 @@ const defaultTextContent: TextContent = {
     contactAvailabilityDescription: "",
     contactAvailabilityItems: [],
     contactDownloadText: "",
+    contactCvPath: "/cv.pdf",
     contactBottomInfo: {
         responseTime: {
             label: "",

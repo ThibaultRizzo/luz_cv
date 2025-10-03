@@ -105,6 +105,7 @@ interface TextContent {
   contactAvailabilityDescription: string;
   contactAvailabilityItems: string[];
   contactDownloadText: string;
+  contactCvPath: string;
   contactBottomInfo: ContactBottomInfo;
 }
 
@@ -207,6 +208,7 @@ export default function BackOffice() {
     contactAvailabilityDescription: "",
     contactAvailabilityItems: [],
     contactDownloadText: "",
+    contactCvPath: "/cv.pdf",
     contactBottomInfo: {
       responseTime: { label: "", value: "" },
       location: { label: "", value: "" },
@@ -218,6 +220,8 @@ export default function BackOffice() {
     "idle" | "saving" | "saved" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [uploadingCv, setUploadingCv] = useState(false);
+  const [cvUploadStatus, setCvUploadStatus] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -519,6 +523,56 @@ export default function BackOffice() {
         [section]: { ...prev.contactBottomInfo[section], [key]: value },
       },
     }));
+  };
+
+  // CV Upload handler
+  const handleCvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      setCvUploadStatus('Only PDF files are allowed');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setCvUploadStatus('File size must be less than 10MB');
+      return;
+    }
+
+    setUploadingCv(true);
+    setCvUploadStatus('');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setTextContent(prev => ({
+          ...prev,
+          contactCvPath: result.data.path
+        }));
+        setCvUploadStatus('CV uploaded successfully!');
+      } else {
+        setCvUploadStatus(result.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      setCvUploadStatus('Failed to upload CV');
+    } finally {
+      setUploadingCv(false);
+    }
   };
 
   const renderTabContent = () => {
@@ -1904,6 +1958,31 @@ export default function BackOffice() {
                   }
                   className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  CV/Portfolio File
+                </label>
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleCvUpload}
+                    disabled={uploadingCv}
+                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-gold file:text-brand-deep hover:file:bg-brand-cream"
+                  />
+                  {cvUploadStatus && (
+                    <p className={`text-sm ${cvUploadStatus.includes('success') ? 'text-green-400' : 'text-red-400'}`}>
+                      {cvUploadStatus}
+                    </p>
+                  )}
+                  <p className="text-xs text-brand-cream/60">
+                    Current CV: {textContent.contactCvPath || '/cv.pdf'}
+                  </p>
+                  <p className="text-xs text-brand-cream/60">
+                    Upload a PDF file (max 10MB). The file will be saved as cv.pdf.
+                  </p>
+                </div>
               </div>
             </div>
 

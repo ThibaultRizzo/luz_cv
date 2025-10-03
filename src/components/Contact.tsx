@@ -237,7 +237,7 @@ export default function Contact() {
                         {/* Download CV */}
                         <div className="text-center">
                             <a
-                                href="/cv.pdf"
+                                href={textContent.contactCvPath || "/cv.pdf"}
                                 download
                                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
                             >
