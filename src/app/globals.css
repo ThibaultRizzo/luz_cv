@@ -2,6 +2,12 @@
 
 @import "tailwindcss";
 
+@theme {
+  --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-family-display: var(--font-cormorant), ui-serif, Georgia, serif;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
