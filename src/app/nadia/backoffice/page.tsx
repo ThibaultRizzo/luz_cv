@@ -616,9 +616,9 @@ export default function BackOffice() {
                 </div>
             </header>
 
-            {/* Save Status - Fixed at top */}
+            {/* Save Status - Fixed below header */}
             {saveStatus !== 'idle' && (
-                <div className="fixed top-4 right-4 z-50 animate-fade-in">
+                <div className="fixed top-20 right-4 z-50 animate-fade-in">
                     {saveStatus === 'saving' && (
                         <div className="flex items-center px-6 py-3 bg-blue-100 text-blue-700 rounded-lg shadow-lg">
                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
@@ -652,32 +652,33 @@ export default function BackOffice() {
                 </div>
             )}
 
-            <div className="container mx-auto px-6 py-8">
+            <div className="container mx-auto px-6 py-8 max-w-7xl">
 
                 <div className="grid lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-2xl shadow-lg p-6">
+                        <div className="lg:sticky lg:top-24 bg-white rounded-2xl shadow-lg p-6">
                             <h2 className="font-serif text-xl text-brand-deep mb-6">Sections</h2>
                             <nav className="space-y-2">
                                 {[
-                                    { id: 'hero', label: 'Hero Section' },
-                                    { id: 'about', label: 'About Section' },
-                                    { id: 'experience', label: 'Experience Section' },
-                                    { id: 'skills', label: 'Skills Section' },
-                                    { id: 'achievements', label: 'Achievements Section' },
-                                    { id: 'contact', label: 'Contact Section' }
+                                    { id: 'hero', label: 'Hero Section', icon: '🏠' },
+                                    { id: 'about', label: 'About Section', icon: '👤' },
+                                    { id: 'experience', label: 'Experience', icon: '💼' },
+                                    { id: 'skills', label: 'Skills', icon: '⚡' },
+                                    { id: 'achievements', label: 'Achievements', icon: '🏆' },
+                                    { id: 'contact', label: 'Contact', icon: '📧' }
                                 ].map((tab) => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`w-full text-left px-4 py-3 rounded-lg transition-colors duration-300 ${
+                                        className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
                                             activeTab === tab.id
-                                                ? 'bg-brand-gold text-brand-deep font-medium'
-                                                : 'text-brand-deep/70 hover:bg-brand-cream/50'
+                                                ? 'bg-brand-gold text-brand-deep font-medium shadow-md'
+                                                : 'text-brand-deep/70 hover:bg-brand-cream/50 hover:text-brand-deep'
                                         }`}
                                     >
-                                        {tab.label}
+                                        <span className="text-xl">{tab.icon}</span>
+                                        <span>{tab.label}</span>
                                     </button>
                                 ))}
                             </nav>
