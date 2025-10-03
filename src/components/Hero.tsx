@@ -100,7 +100,7 @@ export default function Hero() {
               
               {/* Main image */}
               <img
-                src="/nadia.jpg"
+                src={textContent.heroImage || "/nadia.jpg"}
                 alt="Nadia Luna - Product Owner and Luxury Retail Expert"
                 className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[3/4] mb-8 md:mb-0"
               />

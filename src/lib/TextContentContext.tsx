@@ -28,6 +28,7 @@ interface TextContent {
     heroSubtitle: string;
     heroDescription: string;
     heroBadge: string;
+    heroImage: string;
     heroStats: { metric: string; label: string }[];
     heroCtaText: string;
     heroScrollText: string;
@@ -106,6 +107,7 @@ const defaultTextContent: TextContent = {
     heroTitle: "Ready to create",
     heroSubtitle: "something extraordinary?",
     heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
+    heroImage: "/nadia.jpg",
     aboutTitle: "Turning vision into reality",
     aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
     aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",

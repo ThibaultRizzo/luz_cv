@@ -52,6 +52,7 @@ interface TextContent {
   heroSubtitle: string;
   heroDescription: string;
   heroBadge: string;
+  heroImage: string;
   heroStats: StatItem[];
   heroCtaText: string;
   heroScrollText: string;
@@ -116,6 +117,7 @@ export default function BackOffice() {
     heroDescription:
       "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
     heroBadge: "",
+    heroImage: "/nadia.jpg",
     heroStats: [],
     heroCtaText: "",
     heroScrollText: "",
@@ -571,6 +573,23 @@ export default function BackOffice() {
                 rows={4}
                 className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                Hero Image URL
+              </label>
+              <input
+                type="text"
+                value={textContent.heroImage}
+                onChange={(e) =>
+                  handleTextChange("heroImage", e.target.value)
+                }
+                placeholder="/nadia.jpg or https://example.com/image.jpg"
+                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+              />
+              <p className="text-xs text-brand-cream/60 mt-2">
+                Enter a path to an image in the public folder (e.g., /image.jpg) or a full URL
+              </p>
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-cream/90 mb-2">
