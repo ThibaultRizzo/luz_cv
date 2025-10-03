@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { contentApi } from './api';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { contentApi } from "./api";
 
 interface ExperienceItem {
     role: string;
@@ -66,8 +66,18 @@ interface TextContent {
     contactDescription: string;
     contactBadge: string;
     contactFormTitle: string;
-    contactFormLabels: { name: string; email: string; company: string; message: string };
-    contactFormPlaceholders: { name: string; email: string; company: string; message: string };
+    contactFormLabels: {
+        name: string;
+        email: string;
+        company: string;
+        message: string;
+    };
+    contactFormPlaceholders: {
+        name: string;
+        email: string;
+        company: string;
+        message: string;
+    };
     contactSubmitButton: string;
     contactSuccessMessage: string;
     contactErrorMessage: string;
@@ -80,7 +90,11 @@ interface TextContent {
     contactAvailabilityDescription: string;
     contactAvailabilityItems: string[];
     contactDownloadText: string;
-    contactBottomInfo: { responseTime: { label: string; value: string }; location: { label: string; value: string }; languages: { label: string; value: string } };
+    contactBottomInfo: {
+        responseTime: { label: string; value: string };
+        location: { label: string; value: string };
+        languages: { label: string; value: string };
+    };
 }
 
 interface TextContentContextType {
@@ -109,9 +123,9 @@ const defaultTextContent: TextContent = {
                 "Spearheaded digital transformation resulting in €25M+ revenue increase",
                 "Led cross-functional teams of 15+ across 3 countries",
                 "Launched omnichannel platform serving 2M+ customers globally",
-                "Achieved 40% increase in online conversion rates"
+                "Achieved 40% increase in online conversion rates",
             ],
-            highlight: "Transformed traditional luxury retail into digital-first experiences"
+            highlight: "Transformed traditional luxury retail into digital-first experiences",
         },
         {
             role: "Product Manager",
@@ -122,9 +136,9 @@ const defaultTextContent: TextContent = {
                 "Managed €15M product portfolio across 8 retail brands",
                 "Increased customer engagement by 35% through AI-driven personalization",
                 "Reduced time-to-market by 50% with agile methodologies",
-                "Built and scaled product team from 5 to 20 members"
+                "Built and scaled product team from 5 to 20 members",
             ],
-            highlight: "Pioneered data-driven product strategies in luxury retail"
+            highlight: "Pioneered data-driven product strategies in luxury retail",
         },
         {
             role: "Junior Product Manager",
@@ -135,10 +149,10 @@ const defaultTextContent: TextContent = {
                 "Co-launched mobile app with 500K+ downloads in first year",
                 "Featured in Vogue Business and WWD for innovation",
                 "Grew user base by 300% through strategic partnerships",
-                "Established product development processes from ground up"
+                "Established product development processes from ground up",
             ],
-            highlight: "Laid foundation for product excellence in emerging fashion tech"
-        }
+            highlight: "Laid foundation for product excellence in emerging fashion tech",
+        },
     ],
     skillsTitle: "Mastery through",
     skillsSubtitle: "experience",
@@ -151,8 +165,8 @@ const defaultTextContent: TextContent = {
                 { name: "Product Strategy", level: 95 },
                 { name: "Roadmap Planning", level: 90 },
                 { name: "Stakeholder Management", level: 92 },
-                { name: "Cross-functional Leadership", level: 88 }
-            ]
+                { name: "Cross-functional Leadership", level: 88 },
+            ],
         },
         {
             category: "Retail Excellence",
@@ -161,8 +175,8 @@ const defaultTextContent: TextContent = {
                 { name: "Luxury Retail Strategy", level: 95 },
                 { name: "Omnichannel Experience", level: 90 },
                 { name: "Customer Journey Mapping", level: 85 },
-                { name: "Brand Positioning", level: 88 }
-            ]
+                { name: "Brand Positioning", level: 88 },
+            ],
         },
         {
             category: "Digital Innovation",
@@ -171,8 +185,8 @@ const defaultTextContent: TextContent = {
                 { name: "Digital Transformation", level: 92 },
                 { name: "E-commerce Platforms", level: 88 },
                 { name: "Data Analytics", level: 85 },
-                { name: "AI/ML Applications", level: 80 }
-            ]
+                { name: "AI/ML Applications", level: 80 },
+            ],
         },
         {
             category: "Business Impact",
@@ -181,34 +195,107 @@ const defaultTextContent: TextContent = {
                 { name: "Revenue Growth", level: 95 },
                 { name: "Market Expansion", level: 88 },
                 { name: "Process Optimization", level: 90 },
-                { name: "Team Scaling", level: 85 }
-            ]
-        }
+                { name: "Team Scaling", level: 85 },
+            ],
+        },
     ],
     certifications: [
         "Certified Scrum Product Owner (CSPO)",
         "Google Analytics Certified",
         "Luxury Brand Management (HEC Paris)",
-        "Design Thinking Practitioner"
+        "Design Thinking Practitioner",
     ],
-    tools: ["Jira", "Figma", "Shopify Plus", "Salesforce", "Tableau", "Miro", "Slack", "Notion"],
+    tools: [
+        "Jira",
+        "Figma",
+        "Shopify Plus",
+        "Salesforce",
+        "Tableau",
+        "Miro",
+        "Slack",
+        "Notion",
+    ],
     skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
     achievementsTitle: "Achievements",
     achievements: [
         { metric: "+40%", description: "Increase in Online Sales" },
         { metric: "+25%", description: "Customer Retention in 1 Year" },
         { metric: "10+", description: "New Boutiques Opened Worldwide" },
-        { metric: "+30%", description: "Improvement in Customer Engagement" }
+        { metric: "+30%", description: "Improvement in Customer Engagement" },
     ],
     contactTitle: "Ready to create",
     contactSubtitle: "something extraordinary?",
-    contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."
+    contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you.",
+    heroBadge: "",
+    heroStats: [],
+    heroCtaText: "",
+    heroScrollText: "",
+    aboutBadge: "",
+    aboutTitleSuffix: "",
+    aboutApproachTitle: "",
+    aboutApproachItems: [],
+    aboutImpactTitle: "",
+    aboutImpactMetrics: [],
+    aboutQuoteAuthor: "",
+    experienceBadge: "",
+    experienceBottomStats: [],
+    skillsBadge: "",
+    skillsCertificationsTitle: "",
+    skillsToolsTitle: "",
+    skillsQuoteAuthor: "",
+    contactBadge: "",
+    contactFormTitle: "",
+    contactFormLabels: {
+        name: "",
+        email: "",
+        company: "",
+        message: ""
+    },
+    contactFormPlaceholders: {
+        name: "",
+        email: "",
+        company: "",
+        message: ""
+    },
+    contactSubmitButton: "",
+    contactSuccessMessage: "",
+    contactErrorMessage: "",
+    contactInfoTitle: "",
+    contactEmail: "",
+    contactLinkedin: "",
+    contactPhone: "",
+    contactAvailabilityTitle: "",
+    contactAvailabilityStatus: "",
+    contactAvailabilityDescription: "",
+    contactAvailabilityItems: [],
+    contactDownloadText: "",
+    contactBottomInfo: {
+        responseTime: {
+            label: "",
+            value: ""
+        },
+        location: {
+            label: "",
+            value: ""
+        },
+        languages: {
+            label: "",
+            value: ""
+        }
+    }
 };
 
-const TextContentContext = createContext<TextContentContextType | undefined>(undefined);
+const TextContentContext = createContext<TextContentContextType | undefined>(
+    undefined,
+);
 
-export function TextContentProvider({ children }: { children: React.ReactNode }) {
-    const [textContent, setTextContent] = useState<TextContent>(defaultTextContent);
+export function TextContentProvider({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    const [textContent, setTextContent] =
+        useState<TextContent>(defaultTextContent);
 
     useEffect(() => {
         // Load content from API on mount
@@ -219,7 +306,7 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
                     setTextContent(response.data as unknown as TextContent);
                 }
             } catch (error) {
-                console.error('Error loading content:', error);
+                console.error("Error loading content:", error);
                 // Fall back to default content if API fails
             }
         };
@@ -229,18 +316,21 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
 
     const updateTextContent = async (newContent: Partial<TextContent>) => {
         // Optimistically update UI
-        setTextContent(prev => ({ ...prev, ...newContent }));
+        setTextContent((prev) => ({ ...prev, ...newContent }));
 
         // Sync with backend
         try {
-            const response = await contentApi.updateContent({ ...textContent, ...newContent } as Record<string, unknown>);
+            const response = await contentApi.updateContent({
+                ...textContent,
+                ...newContent,
+            } as Record<string, unknown>);
             if (response.success && response.data) {
                 setTextContent(response.data as unknown as TextContent);
             }
         } catch (error) {
-            console.error('Error updating content:', error);
+            console.error("Error updating content:", error);
             // Revert on error
-            setTextContent(prev => prev);
+            setTextContent((prev) => prev);
         }
     };
 
@@ -254,7 +344,7 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
 export function useTextContent() {
     const context = useContext(TextContentContext);
     if (context === undefined) {
-        throw new Error('useTextContent must be used within a TextContentProvider');
+        throw new Error("useTextContent must be used within a TextContentProvider");
     }
     return context;
 }
