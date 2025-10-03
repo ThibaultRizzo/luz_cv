@@ -7,6 +7,7 @@ export default function Nav() {
     const { textContent } = useTextContent();
     const [isOverDark, setIsOverDark] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -59,33 +60,76 @@ export default function Nav() {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-3xl border-b border-white/20" style={{ backdropFilter: 'blur(20px) saturate(180%)', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
             <nav className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 md:py-8 flex justify-between items-center">
-                <a
-                    href="#hero"
-                    className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wide sm:tracking-wider md:tracking-widest ${
-                        textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
-                        textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
-                        'font-serif'
-                    } ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'}`}
-                >
-                    NADIA LUNA
-                </a>
+                {/* Header with dynamic section name */}
+                <div className="flex items-center gap-4">
+                    <a
+                        href="#hero"
+                        className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wide sm:tracking-wider md:tracking-widest ${
+                            textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
+                            textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
+                            'font-serif'
+                        } ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'}`}
+                    >
+                        NADIA LUNA
+                    </a>
 
-                {/* Desktop Navigation - Minimal Dot Menu */}
-                <div className="hidden md:flex items-center gap-2">
+                    {/* Section name that appears on hover */}
+                    <div
+                        className={`hidden md:block overflow-hidden transition-[max-width] duration-700 ease-in-out ${hoveredSection ? 'max-w-xs' : 'max-w-0'}`}
+                        style={{
+                            transitionDelay: hoveredSection ? '0ms' : '0ms'
+                        }}
+                    >
+                        <div className="flex items-center gap-3 whitespace-nowrap">
+                            <div
+                                className={`w-px h-8 ${isOverDark ? 'bg-brand-gold' : 'bg-brand-deep'}`}
+                                style={{
+                                    transition: 'background-color 500ms ease-in-out, opacity 700ms ease-in-out',
+                                    opacity: hoveredSection ? 1 : 0
+                                }}
+                            ></div>
+                            <span
+                                className={`text-base sm:text-lg md:text-xl font-medium italic ${isOverDark ? 'text-brand-gold' : 'text-brand-deep/70'}`}
+                                style={{
+                                    transition: 'opacity 700ms ease-in-out, transform 700ms ease-in-out, color 500ms ease-in-out',
+                                    opacity: hoveredSection ? 1 : 0,
+                                    transform: hoveredSection ? 'translateX(0)' : 'translateX(-1rem)'
+                                }}
+                            >
+                                {hoveredSection || '\u00A0'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Desktop Navigation - Enhanced with labels */}
+                <div className="hidden md:flex items-center gap-1">
                     {navItems.slice(1).map((item) => (
                         <button
                             key={item.id}
                             onClick={() => handleNavClick(item.id)}
-                            className="group relative px-3 py-2"
-                            title={item.label}
+                            onMouseEnter={() => setHoveredSection(item.label)}
+                            onMouseLeave={() => setHoveredSection(null)}
+                            className="group relative px-3 py-2.5 rounded-lg transition-all duration-300 hover:bg-brand-gold/10"
+                            aria-label={`Navigate to ${item.label}`}
                         >
-                            <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
-                                } group-hover:scale-150`}></div>
+                            <div className="flex items-center gap-2.5">
+                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                    isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
+                                } group-hover:scale-125`}></div>
 
-                            {/* Tooltip on hover */}
-                            <div className={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${isOverDark ? 'bg-brand-cream text-brand-deep' : 'bg-brand-deep text-brand-cream'
-                                }`}>
-                                {item.label}
+                                {/* Label that appears on hover */}
+                                <span
+                                    className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                                        isOverDark ? 'text-brand-gold' : 'text-brand-deep'
+                                    }`}
+                                    style={{
+                                        maxWidth: hoveredSection === item.label ? '200px' : '0px',
+                                        opacity: hoveredSection === item.label ? 1 : 0
+                                    }}
+                                >
+                                    {item.label}
+                                </span>
                             </div>
                         </button>
                     ))}
