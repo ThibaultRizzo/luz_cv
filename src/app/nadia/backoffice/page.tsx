@@ -2887,7 +2887,7 @@ export default function BackOffice() {
                           {textContent.softSkills && textContent.softSkills.length > 0 && (
                             <div className="max-w-4xl mx-auto mb-8">
                               <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/30">
-                                <h3 className="font-serif text-xl text-brand-gold mb-6 text-center flex items-center justify-center gap-2">
+                                <h3 className="font-serif text-xl text-brand-gold mb-6 text-center flex flex-col sm:flex-row items-center justify-center gap-2">
                                   <span className="text-2xl">💎</span>
                                   <span>Leadership & Soft Skills</span>
                                 </h3>
