@@ -296,21 +296,10 @@ html {
   }
 }
 
-/* Custom cursor - more accessible approach - only for home page */
-.home-layout * {
-  cursor: none;
-}
-
-/* Show cursor on interactive elements for accessibility */
-input, textarea, select, button, a, [role="button"], [tabindex] {
-  cursor: auto !important;
-}
-
 /* Focus indicators for accessibility */
 *:focus-visible {
   outline: 2px solid var(--color-brand-gold);
   outline-offset: 2px;
-  cursor: auto !important;
 }
 
 /* Skip navigation for accessibility */

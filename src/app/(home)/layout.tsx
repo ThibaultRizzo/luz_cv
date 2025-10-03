@@ -1,5 +1,4 @@
 import Nav from "@/components/Nav";
-import MouseFollower from "@/components/MouseFollower";
 import Footer from "@/components/Footer";
 
 export default function HomeLayout({
@@ -17,7 +16,6 @@ export default function HomeLayout({
         {children}
       </main>
       <Footer />
-      <MouseFollower />
     </div>
   );
 }

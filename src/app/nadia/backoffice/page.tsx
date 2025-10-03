@@ -224,6 +224,8 @@ export default function BackOffice() {
   const [cvUploadStatus, setCvUploadStatus] = useState<string>("");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
+  const [showPreview, setShowPreview] = useState(false); // For mobile toggle
+  const [showMobileMenu, setShowMobileMenu] = useState(false); // For mobile menu
   const router = useRouter();
 
   useEffect(() => {
@@ -665,31 +667,31 @@ export default function BackOffice() {
     switch (activeTab) {
       case "hero":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Badge
               </label>
               <input
                 type="text"
                 value={textContent.heroBadge}
                 onChange={(e) => handleTextChange("heroBadge", e.target.value)}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Title
               </label>
               <input
                 type="text"
                 value={textContent.heroTitle}
                 onChange={(e) => handleTextChange("heroTitle", e.target.value)}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Subtitle
               </label>
               <input
@@ -698,11 +700,11 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("heroSubtitle", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Description
               </label>
               <textarea
@@ -711,11 +713,11 @@ export default function BackOffice() {
                   handleTextChange("heroDescription", e.target.value)
                 }
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Image
               </label>
               <div className="space-y-4">
@@ -774,7 +776,7 @@ export default function BackOffice() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero CTA Text
               </label>
               <input
@@ -783,11 +785,11 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("heroCtaText", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Scroll Text
               </label>
               <input
@@ -796,7 +798,7 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("heroScrollText", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
 
@@ -876,21 +878,21 @@ export default function BackOffice() {
         );
       case "about":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 About Badge
               </label>
               <input
                 type="text"
                 value={textContent.aboutBadge}
                 onChange={(e) => handleTextChange("aboutBadge", e.target.value)}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   About Title
                 </label>
                 <input
@@ -899,11 +901,11 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("aboutTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   About Title Suffix
                 </label>
                 <input
@@ -912,12 +914,12 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("aboutTitleSuffix", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 About Description
               </label>
               <textarea
@@ -926,11 +928,11 @@ export default function BackOffice() {
                   handleTextChange("aboutDescription", e.target.value)
                 }
                 rows={3}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Main Text
               </label>
               <textarea
@@ -939,11 +941,11 @@ export default function BackOffice() {
                   handleTextChange("aboutMainText", e.target.value)
                 }
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Secondary Text
               </label>
               <textarea
@@ -952,13 +954,13 @@ export default function BackOffice() {
                   handleTextChange("aboutSecondaryText", e.target.value)
                 }
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
 
             <div className="border-t border-white/10 pt-6">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Approach Title
                 </label>
                 <input
@@ -967,7 +969,7 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("aboutApproachTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div className="flex justify-between items-center mb-4 mt-4">
@@ -1038,7 +1040,7 @@ export default function BackOffice() {
 
             <div className="border-t border-white/10 pt-6">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Impact Title
                 </label>
                 <input
@@ -1047,7 +1049,7 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("aboutImpactTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div className="flex justify-between items-center mb-4 mt-4">
@@ -1126,7 +1128,7 @@ export default function BackOffice() {
 
             <div className="border-t border-white/10 pt-6">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Quote
                 </label>
                 <textarea
@@ -1135,11 +1137,11 @@ export default function BackOffice() {
                     handleTextChange("aboutQuote", e.target.value)
                   }
                   rows={3}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Quote Author
                 </label>
                 <input
@@ -1148,7 +1150,7 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("aboutQuoteAuthor", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
@@ -1156,9 +1158,9 @@ export default function BackOffice() {
         );
       case "experience":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Experience Badge
               </label>
               <input
@@ -1167,12 +1169,12 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("experienceBadge", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Experience Title
                 </label>
                 <input
@@ -1181,11 +1183,11 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("experienceTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Experience Subtitle
                 </label>
                 <input
@@ -1194,7 +1196,7 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("experienceSubtitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
@@ -1286,7 +1288,7 @@ export default function BackOffice() {
                   Add Experience
                 </button>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-5 md:space-y-6">
                 {textContent.experiences.map((exp, index) => (
                   <div
                     key={index}
@@ -1398,9 +1400,9 @@ export default function BackOffice() {
         );
       case "skills":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Skills Badge
               </label>
               <input
@@ -1409,12 +1411,12 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("skillsBadge", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Skills Title
                 </label>
                 <input
@@ -1423,11 +1425,11 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("skillsTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Skills Subtitle
                 </label>
                 <input
@@ -1436,12 +1438,12 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("skillsSubtitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Skills Description
               </label>
               <textarea
@@ -1450,7 +1452,7 @@ export default function BackOffice() {
                   handleTextChange("skillsDescription", e.target.value)
                 }
                 rows={3}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
 
@@ -1467,7 +1469,7 @@ export default function BackOffice() {
                   Add Category
                 </button>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-5 md:space-y-6">
                 {textContent.skillCategories.map((category, categoryIndex) => (
                   <div
                     key={categoryIndex}
@@ -1605,7 +1607,7 @@ export default function BackOffice() {
 
             <div className="border-t border-white/10 pt-6">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Skills Quote
                 </label>
                 <textarea
@@ -1614,11 +1616,11 @@ export default function BackOffice() {
                     handleTextChange("skillsQuote", e.target.value)
                   }
                   rows={2}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Quote Author
                 </label>
                 <input
@@ -1627,13 +1629,13 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("skillsQuoteAuthor", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Certifications Title
                 </label>
                 <input
@@ -1645,11 +1647,11 @@ export default function BackOffice() {
                       e.target.value,
                     )
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Tools Title
                 </label>
                 <input
@@ -1658,13 +1660,13 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("skillsToolsTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Certifications (one per line)
                 </label>
                 <textarea
@@ -1676,11 +1678,11 @@ export default function BackOffice() {
                     )
                   }
                   rows={6}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Tools (one per line)
                 </label>
                 <textarea
@@ -1692,7 +1694,7 @@ export default function BackOffice() {
                     )
                   }
                   rows={6}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
             </div>
@@ -1700,9 +1702,9 @@ export default function BackOffice() {
         );
       case "achievements":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Achievements Title
               </label>
               <input
@@ -1711,7 +1713,7 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("achievementsTitle", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div className="border-t border-white/10 pt-6">
@@ -1762,8 +1764,7 @@ export default function BackOffice() {
                         <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                           Description
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           value={achievement.description}
                           onChange={(e) =>
                             updateAchievement(
@@ -1772,7 +1773,8 @@ export default function BackOffice() {
                               e.target.value,
                             )
                           }
-                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                          rows={3}
+                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm resize-none"
                         />
                       </div>
                     </div>
@@ -1784,9 +1786,9 @@ export default function BackOffice() {
         );
       case "contact":
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Contact Badge
               </label>
               <input
@@ -1795,11 +1797,11 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("contactBadge", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Contact Title
               </label>
               <input
@@ -1808,11 +1810,11 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("contactTitle", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Contact Subtitle
               </label>
               <input
@@ -1821,11 +1823,11 @@ export default function BackOffice() {
                 onChange={(e) =>
                   handleTextChange("contactSubtitle", e.target.value)
                 }
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Contact Description
               </label>
               <textarea
@@ -1834,7 +1836,7 @@ export default function BackOffice() {
                   handleTextChange("contactDescription", e.target.value)
                 }
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
               />
             </div>
 
@@ -1843,7 +1845,7 @@ export default function BackOffice() {
                 Contact Form
               </h3>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Form Title
                 </label>
                 <input
@@ -1852,7 +1854,7 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("contactFormTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div className="mt-4 bg-brand-cream/30 p-4 rounded-xl">
@@ -1975,7 +1977,7 @@ export default function BackOffice() {
               </div>
               <div className="mt-4 grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Submit Button Text
                   </label>
                   <input
@@ -1988,7 +1990,7 @@ export default function BackOffice() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Success Message
                   </label>
                   <input
@@ -2001,7 +2003,7 @@ export default function BackOffice() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Error Message
                   </label>
                   <input
@@ -2021,7 +2023,7 @@ export default function BackOffice() {
                 Contact Information
               </h3>
               <div>
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Info Title
                 </label>
                 <input
@@ -2030,12 +2032,12 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("contactInfoTitle", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div className="grid grid-cols-3 gap-4 mt-4">
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Email
                   </label>
                   <input
@@ -2048,7 +2050,7 @@ export default function BackOffice() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     LinkedIn
                   </label>
                   <input
@@ -2061,7 +2063,7 @@ export default function BackOffice() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Phone
                   </label>
                   <input
@@ -2075,7 +2077,7 @@ export default function BackOffice() {
                 </div>
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Download Resume Text
                 </label>
                 <input
@@ -2084,11 +2086,11 @@ export default function BackOffice() {
                   onChange={(e) =>
                     handleTextChange("contactDownloadText", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                 />
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   CV/Portfolio File
                 </label>
                 <div className="space-y-3">
@@ -2120,7 +2122,7 @@ export default function BackOffice() {
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Availability Title
                   </label>
                   <input
@@ -2132,11 +2134,11 @@ export default function BackOffice() {
                         e.target.value,
                       )
                     }
-                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                     Availability Status
                   </label>
                   <input
@@ -2148,12 +2150,12 @@ export default function BackOffice() {
                         e.target.value,
                       )
                     }
-                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                   />
                 </div>
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Availability Description
                 </label>
                 <textarea
@@ -2165,11 +2167,11 @@ export default function BackOffice() {
                     )
                   }
                   rows={3}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-brand-cream/90 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                   Availability Items (one per line)
                 </label>
                 <textarea
@@ -2181,7 +2183,7 @@ export default function BackOffice() {
                     )
                   }
                   rows={4}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                 />
               </div>
             </div>
@@ -2404,10 +2406,10 @@ export default function BackOffice() {
         </div>
       )}
 
-      <div className="w-full px-6 py-4">
-        <div className="flex gap-6">
-          {/* Enhanced Sidebar */}
-          <div className="w-64 flex-shrink-0">
+      <div className="w-full px-2 sm:px-4 md:px-6 py-2 md:py-4 pb-24 md:pb-4">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-6">
+          {/* Enhanced Sidebar - Desktop Only */}
+          <div className="hidden md:block w-64 flex-shrink-0">
             <div className="sticky top-4 bg-gradient-to-br from-brand-deep to-brand-deep/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-brand-gold/20 p-4">
               {/* Header */}
               <div className="mb-6 pb-4 border-b border-brand-gold/20">
@@ -2467,18 +2469,42 @@ export default function BackOffice() {
           </div>
 
           {/* Split View: Editor + Preview */}
-          <div className="flex-1 flex gap-4">
+          <div className="flex-1 flex flex-col md:flex-row gap-2 md:gap-4">
+            {/* Mobile Toggle Buttons */}
+            <div className="md:hidden flex gap-2 mb-2">
+              <button
+                onClick={() => setShowPreview(false)}
+                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
+                  !showPreview
+                    ? 'bg-brand-gold text-brand-deep shadow-lg'
+                    : 'bg-white/10 text-brand-cream border border-white/20'
+                }`}
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => setShowPreview(true)}
+                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
+                  showPreview
+                    ? 'bg-brand-gold text-brand-deep shadow-lg'
+                    : 'bg-white/10 text-brand-cream border border-white/20'
+                }`}
+              >
+                👁️ Preview
+              </button>
+            </div>
+
             {/* Editor Panel */}
-            <div className="w-[45%] flex-shrink-0">
-              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="font-serif text-xl text-brand-cream capitalize">
+            <div className={`${showPreview ? 'hidden md:block' : 'block'} w-full md:w-[45%] flex-shrink-0`}>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3 sm:p-4 md:p-6 md:sticky md:top-4 max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom pb-32 md:pb-6">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                  <h2 className="font-serif text-lg md:text-xl text-brand-cream capitalize">
                     Edit {activeTab}
                   </h2>
                   <button
                     onClick={handleSave}
                     disabled={saveStatus === "saving"}
-                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm"
+                    className="hidden md:block px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm"
                   >
                     {saveStatus === "saving" ? "Saving..." : "Save"}
                   </button>
@@ -2489,8 +2515,8 @@ export default function BackOffice() {
             </div>
 
             {/* Live Preview Panel */}
-            <div className="flex-1">
-              <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom">
+            <div className={`${!showPreview ? 'hidden md:block' : 'block'} flex-1`}>
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3 sm:p-4 md:p-6 md:sticky md:top-4 max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom pb-32 md:pb-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
                   <span className="text-xs text-brand-cream/60 bg-brand-gold/20 px-3 py-1 rounded-full">Real-time</span>
@@ -2568,7 +2594,7 @@ export default function BackOffice() {
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                          <div className="space-y-6">
+                          <div className="space-y-4 sm:space-y-5 md:space-y-6">
                             <p className="text-sm md:text-base leading-relaxed text-brand-cream/90">{textContent.aboutMainText}</p>
                             <p className="text-sm leading-relaxed text-brand-cream/80">{textContent.aboutSecondaryText}</p>
 
@@ -2999,6 +3025,68 @@ export default function BackOffice() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-brand-deep border-t border-brand-gold/20 shadow-2xl z-40">
+        {/* Tab Navigation */}
+        <div className="flex justify-around sm:justify-around overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+          {[
+            { id: "hero", label: "Hero", icon: "🏠" },
+            { id: "about", label: "About", icon: "👤" },
+            { id: "experience", label: "Experience", icon: "💼" },
+            { id: "skills", label: "Skills", icon: "⚡" },
+            { id: "achievements", label: "Achievements", icon: "🏆" },
+            { id: "contact", label: "Contact", icon: "📧" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setShowPreview(false); // Switch to edit view when changing tabs
+              }}
+              className={`flex-shrink-0 flex flex-col items-center justify-center px-3 py-2 min-w-[60px] transition-all duration-300 snap-center ${
+                activeTab === tab.id
+                  ? 'bg-brand-gold/20 border-t-2 border-brand-gold'
+                  : 'border-t-2 border-transparent'
+              }`}
+            >
+              <span className="text-lg mb-0.5">{tab.icon}</span>
+              <span className={`text-[10px] font-medium ${activeTab === tab.id ? 'text-brand-gold' : 'text-brand-cream/70'}`}>
+                {tab.label}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Action Bar */}
+        <div className="flex gap-2 p-2 bg-brand-deep/95 border-t border-brand-gold/10">
+          <button
+            onClick={handleSave}
+            disabled={saveStatus === "saving"}
+            className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm flex items-center justify-center gap-2"
+          >
+            {saveStatus === "saving" ? (
+              <>
+                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Saving...
+              </>
+            ) : (
+              <>
+                💾 Save Changes
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleLogout}
+            className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
+          >
+            🚪 Logout
+          </button>
         </div>
       </div>
     </div>
