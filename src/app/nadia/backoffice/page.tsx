@@ -2531,26 +2531,73 @@ export default function BackOffice() {
                     )}
 
                     {activeTab === "about" && (
-                      <div className="bg-brand-cream p-8 min-h-[500px]">
-                        {textContent.aboutBadge && (
-                          <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
-                            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-                            {textContent.aboutBadge}
-                          </div>
-                        )}
-                        <h2 className="font-serif text-3xl text-brand-deep mb-6">
-                          {textContent.aboutTitle} <span className="text-brand-gold italic">{textContent.aboutTitleSuffix}</span>
-                        </h2>
-                        <p className="text-brand-deep/80 mb-4 text-sm">{textContent.aboutMainText}</p>
-                        <p className="text-brand-deep/70 text-sm mb-6">{textContent.aboutSecondaryText}</p>
-                        {textContent.aboutQuote && (
-                          <div className="bg-brand-gold/10 border-l-4 border-brand-gold p-4 rounded-lg mb-6">
-                            <p className="text-brand-deep italic text-sm">"{textContent.aboutQuote}"</p>
-                            {textContent.aboutQuoteAuthor && (
-                              <p className="text-brand-deep/70 text-xs mt-2">— {textContent.aboutQuoteAuthor}</p>
+                      <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px]">
+                        <div className="text-center mb-12">
+                          {textContent.aboutBadge && (
+                            <div className="inline-flex items-center px-3 py-1 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4">
+                              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                              {textContent.aboutBadge}
+                            </div>
+                          )}
+                          <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-4">
+                            {textContent.aboutTitle}
+                            <span className="block text-brand-gold italic">{textContent.aboutTitleSuffix}</span>
+                          </h2>
+                          <div className="w-12 h-0.5 bg-brand-gold mx-auto"></div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                          <div className="space-y-6">
+                            <p className="text-sm md:text-base leading-relaxed text-brand-cream/90">{textContent.aboutMainText}</p>
+                            <p className="text-sm leading-relaxed text-brand-cream/80">{textContent.aboutSecondaryText}</p>
+
+                            {textContent.aboutApproachTitle && (
+                              <div className="space-y-3">
+                                <h3 className="text-lg font-serif text-brand-gold mb-3">{textContent.aboutApproachTitle}</h3>
+                                <div className="space-y-2">
+                                  {textContent.aboutApproachItems?.slice(0, 3).map((item, index) => (
+                                    <div key={index} className="flex items-start space-x-2">
+                                      <div className="w-1.5 h-1.5 bg-brand-gold rounded-full mt-2 flex-shrink-0"></div>
+                                      <div>
+                                        <h4 className="font-semibold text-brand-cream text-sm">{item.title}</h4>
+                                        <p className="text-brand-cream/70 text-xs">{item.description}</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
                             )}
                           </div>
-                        )}
+
+                          <div className="space-y-4">
+                            {textContent.aboutImpactTitle && (
+                              <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
+                                <h3 className="text-lg font-serif text-brand-gold mb-3">{textContent.aboutImpactTitle}</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                  {textContent.aboutImpactMetrics?.map((item, index) => (
+                                    <div key={index} className="text-center">
+                                      <div className="text-xl font-bold text-brand-cream mb-0.5">{item.metric}</div>
+                                      <div className="text-xs text-brand-cream/60 uppercase tracking-wide">{item.label}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {textContent.aboutQuote && (
+                              <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
+                                <blockquote className="text-sm italic text-brand-cream/90 text-center">
+                                  &quot;{textContent.aboutQuote}&quot;
+                                </blockquote>
+                                {textContent.aboutQuoteAuthor && (
+                                  <div className="text-center mt-2">
+                                    <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor}</cite>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
 
