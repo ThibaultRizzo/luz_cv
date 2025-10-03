@@ -2529,10 +2529,154 @@ export default function BackOffice() {
                         </div>
                       </div>
                     )}
-                    {activeTab !== "hero" && (
-                      <div className="p-8 text-center text-brand-deep/60">
-                        <p className="text-sm">Preview for {activeTab} section</p>
-                        <p className="text-xs mt-2">Changes will be visible in real-time here</p>
+
+                    {activeTab === "about" && (
+                      <div className="bg-brand-cream p-8 min-h-[500px]">
+                        {textContent.aboutBadge && (
+                          <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
+                            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                            {textContent.aboutBadge}
+                          </div>
+                        )}
+                        <h2 className="font-serif text-3xl text-brand-deep mb-6">
+                          {textContent.aboutTitle} <span className="text-brand-gold italic">{textContent.aboutTitleSuffix}</span>
+                        </h2>
+                        <p className="text-brand-deep/80 mb-4 text-sm">{textContent.aboutMainText}</p>
+                        <p className="text-brand-deep/70 text-sm mb-6">{textContent.aboutSecondaryText}</p>
+                        {textContent.aboutQuote && (
+                          <div className="bg-brand-gold/10 border-l-4 border-brand-gold p-4 rounded-lg mb-6">
+                            <p className="text-brand-deep italic text-sm">"{textContent.aboutQuote}"</p>
+                            {textContent.aboutQuoteAuthor && (
+                              <p className="text-brand-deep/70 text-xs mt-2">— {textContent.aboutQuoteAuthor}</p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {activeTab === "experience" && (
+                      <div className="bg-brand-cream p-8 min-h-[500px]">
+                        {textContent.experienceBadge && (
+                          <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
+                            💼 {textContent.experienceBadge}
+                          </div>
+                        )}
+                        <h2 className="font-serif text-3xl text-brand-deep mb-6">
+                          {textContent.experienceTitle} <span className="text-brand-gold italic">{textContent.experienceSubtitle}</span>
+                        </h2>
+                        <div className="space-y-4">
+                          {textContent.experiences.slice(0, 2).map((exp, idx) => (
+                            <div key={idx} className="bg-white rounded-xl p-4 shadow-md border border-brand-gold/10">
+                              <h3 className="font-serif text-xl text-brand-deep mb-1">{exp.role}</h3>
+                              <div className="text-brand-gold font-medium text-sm mb-1">{exp.company}</div>
+                              <div className="text-brand-deep/60 text-xs mb-2">{exp.period} • {exp.location}</div>
+                              {exp.highlight && (
+                                <div className="bg-brand-gold/10 border-l-4 border-brand-gold p-2 rounded text-xs italic mb-2">
+                                  {exp.highlight}
+                                </div>
+                              )}
+                              <ul className="space-y-1">
+                                {exp.achievements.slice(0, 2).map((achievement, i) => (
+                                  <li key={i} className="text-xs text-brand-deep/80 flex items-start">
+                                    <span className="text-brand-gold mr-2">•</span>
+                                    {achievement}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === "skills" && (
+                      <div className="bg-brand-cream p-8 min-h-[500px]">
+                        {textContent.skillsBadge && (
+                          <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
+                            ⚡ {textContent.skillsBadge}
+                          </div>
+                        )}
+                        <h2 className="font-serif text-3xl text-brand-deep mb-2">{textContent.skillsTitle}</h2>
+                        <p className="text-brand-deep/70 text-sm mb-6">{textContent.skillsSubtitle}</p>
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          {textContent.skillCategories.slice(0, 4).map((category, idx) => (
+                            <div key={idx} className="bg-white rounded-xl p-4 shadow-md border border-brand-gold/10">
+                              <div className="flex items-center mb-3">
+                                <span className="text-xl mr-2">{category.icon}</span>
+                                <h3 className="font-semibold text-brand-deep text-sm">{category.category}</h3>
+                              </div>
+                              <div className="space-y-2">
+                                {category.skills.map((skill, i) => (
+                                  <div key={i}>
+                                    <div className="flex justify-between text-xs mb-1">
+                                      <span className="text-brand-deep/80">{skill.name}</span>
+                                      <span className="text-brand-gold font-medium">{skill.level}%</span>
+                                    </div>
+                                    <div className="h-1.5 bg-brand-deep/10 rounded-full overflow-hidden">
+                                      <div className="h-full bg-brand-gold rounded-full" style={{ width: `${skill.level}%` }}></div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === "achievements" && (
+                      <div className="bg-brand-cream p-8 min-h-[500px]">
+                        <h2 className="font-serif text-3xl text-brand-deep mb-6">{textContent.achievementsTitle}</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                          {textContent.achievements.map((achievement, idx) => (
+                            <div key={idx} className="bg-white rounded-xl p-4 shadow-md text-center border border-brand-gold/10">
+                              <div className="text-3xl font-bold text-brand-gold mb-1">{achievement.metric}</div>
+                              <div className="text-sm text-brand-deep/80">{achievement.description}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === "contact" && (
+                      <div className="bg-brand-cream p-8 min-h-[500px]">
+                        {textContent.contactBadge && (
+                          <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
+                            📧 {textContent.contactBadge}
+                          </div>
+                        )}
+                        <h2 className="font-serif text-3xl text-brand-deep mb-2">{textContent.contactTitle}</h2>
+                        <p className="text-brand-deep/70 text-sm mb-6">{textContent.contactSubtitle}</p>
+
+                        <div className="grid grid-cols-2 gap-6">
+                          <div className="bg-white rounded-xl p-4 shadow-md">
+                            <h3 className="font-semibold text-brand-deep mb-3 text-sm">{textContent.contactFormTitle}</h3>
+                            <div className="space-y-2">
+                              <input type="text" placeholder={textContent.contactFormPlaceholders?.name || "Name"} className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg text-xs" disabled />
+                              <input type="email" placeholder={textContent.contactFormPlaceholders?.email || "Email"} className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg text-xs" disabled />
+                              <textarea placeholder={textContent.contactFormPlaceholders?.message || "Message"} rows={3} className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg text-xs resize-none" disabled></textarea>
+                              <button className="w-full px-4 py-2 bg-brand-deep text-brand-cream rounded-lg text-xs font-medium" disabled>
+                                {textContent.contactSubmitButton || "Send Message"}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-brand-deep rounded-xl p-4 shadow-md text-brand-cream">
+                            <h3 className="font-semibold mb-3 text-sm">{textContent.contactInfoTitle}</h3>
+                            <div className="space-y-2 text-xs">
+                              <div>📧 {textContent.contactEmail}</div>
+                              <div>💼 {textContent.contactLinkedin}</div>
+                              <div>📱 {textContent.contactPhone}</div>
+                            </div>
+                            {textContent.contactAvailabilityTitle && (
+                              <div className="mt-4 pt-4 border-t border-brand-cream/20">
+                                <h4 className="font-semibold text-sm mb-2">{textContent.contactAvailabilityTitle}</h4>
+                                <div className="text-brand-gold text-xs mb-1">{textContent.contactAvailabilityStatus}</div>
+                                <p className="text-xs text-brand-cream/80">{textContent.contactAvailabilityDescription}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
