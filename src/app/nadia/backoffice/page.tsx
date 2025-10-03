@@ -442,7 +442,7 @@ export default function BackOffice() {
 
                         <div className="border-t border-white/10 pt-6">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-serif text-lg text-brand-deep">Hero Stats</h3>
+                                <h3 className="font-serif text-lg text-brand-cream">Hero Stats</h3>
                                 <button
                                     onClick={() => addStatItem('heroStats')}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
@@ -559,7 +559,7 @@ export default function BackOffice() {
                                 />
                             </div>
                             <div className="flex justify-between items-center mb-4 mt-4">
-                                <h3 className="font-serif text-lg text-brand-deep">Approach Items</h3>
+                                <h3 className="font-serif text-lg text-brand-cream">Approach Items</h3>
                                 <button
                                     onClick={addApproachItem}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
@@ -615,7 +615,7 @@ export default function BackOffice() {
                                 />
                             </div>
                             <div className="flex justify-between items-center mb-4 mt-4">
-                                <h3 className="font-serif text-lg text-brand-deep">Impact Metrics</h3>
+                                <h3 className="font-serif text-lg text-brand-cream">Impact Metrics</h3>
                                 <button
                                     onClick={() => addStatItem('aboutImpactMetrics')}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
@@ -717,7 +717,7 @@ export default function BackOffice() {
 
                         <div className="border-t border-white/10 pt-6">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-serif text-lg text-brand-deep">Bottom Stats</h3>
+                                <h3 className="font-serif text-lg text-brand-cream">Bottom Stats</h3>
                                 <button
                                     onClick={() => addStatItem('experienceBottomStats')}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
@@ -764,7 +764,7 @@ export default function BackOffice() {
 
                         <div className="border-t border-white/10 pt-6">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-serif text-lg text-brand-deep">Experience Items</h3>
+                                <h3 className="font-serif text-lg text-brand-cream">Experience Items</h3>
                                 <button
                                     onClick={addExperience}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
@@ -1443,11 +1443,10 @@ export default function BackOffice() {
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
-                                            activeTab === tab.id
+                                        className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${activeTab === tab.id
                                                 ? 'bg-brand-gold text-brand-deep font-medium shadow-md'
                                                 : 'text-brand-cream/70 hover:bg-white/20 hover:text-brand-cream border border-transparent hover:border-white/20'
-                                        }`}
+                                            }`}
                                     >
                                         <span className="text-xl">{tab.icon}</span>
                                         <span>{tab.label}</span>
