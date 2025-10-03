@@ -2500,10 +2500,10 @@ export default function BackOffice() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full p-3 rounded-xl transition-all duration-300 flex items-start gap-3 group ${
+                    className={`w-full p-3 rounded-xl transition-all duration-300 flex items-start gap-3 group backdrop-blur-sm border ${
                       activeTab === tab.id
-                        ? "bg-brand-gold shadow-lg scale-[1.02]"
-                        : "hover:bg-white/20 border border-transparent hover:border-white/20"
+                        ? "bg-brand-gold/90 shadow-lg scale-[1.02] border-brand-gold"
+                        : "bg-brand-gold/10 border-brand-gold/20 hover:bg-brand-gold/20 hover:border-brand-gold/40"
                     }`}
                     title={tab.label}
                   >
