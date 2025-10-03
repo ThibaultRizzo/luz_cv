@@ -2459,7 +2459,7 @@ export default function BackOffice() {
           <div className="flex-1 flex gap-4">
             {/* Editor Panel */}
             <div className="w-[45%] flex-shrink-0">
-              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="font-serif text-xl text-brand-cream capitalize">
                     Edit {activeTab}
@@ -2479,7 +2479,7 @@ export default function BackOffice() {
 
             {/* Live Preview Panel */}
             <div className="flex-1">
-              <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
                   <span className="text-xs text-brand-cream/60 bg-brand-gold/20 px-3 py-1 rounded-full">Real-time</span>
