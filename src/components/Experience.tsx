@@ -109,18 +109,18 @@ export default function Experience() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-12 sm:mt-16 md:mt-20">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-0 sm:space-x-4 bg-brand-deep/5 rounded-2xl p-4 sm:p-6 max-w-sm sm:max-w-none mx-auto">
+        <div className="text-center mt-8 sm:mt-12 md:mt-16">
+          <div className="flex flex-row items-center justify-center gap-6 sm:gap-0 sm:space-x-6 bg-brand-deep/5 rounded-2xl py-4 px-6 sm:p-6 max-w-lg sm:max-w-none mx-auto">
             {(textContent.experienceBottomStats && textContent.experienceBottomStats.length > 0 ? textContent.experienceBottomStats : [
               { metric: '10+', label: 'Years' },
               { metric: '€50M+', label: 'Impact' },
               { metric: '25+', label: 'Products' }
             ]).map((stat, index) => (
               <div key={index} className="flex items-center">
-                {index > 0 && <div className="hidden sm:block w-px h-12 bg-brand-gold/30 mr-4"></div>}
+                {index > 0 && <div className="hidden sm:block w-px h-10 bg-brand-gold/30 mr-6"></div>}
                 <div className="text-brand-deep text-center">
-                  <div className="text-xl sm:text-2xl font-bold">{stat.metric}</div>
-                  <div className="text-xs sm:text-sm uppercase tracking-wide">{stat.label}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold">{stat.metric}</div>
+                  <div className="text-xs uppercase tracking-wide mt-0.5">{stat.label}</div>
                 </div>
               </div>
             ))}
