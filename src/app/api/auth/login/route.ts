@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import { db } from '@/lib/db/connection';
 import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
@@ -22,7 +22,7 @@ function generateTokenPair(user: { id: string; username: string; role: string | 
       expiresIn: JWT_EXPIRE,
       audience: 'alelunapaint-frontend',
       issuer: 'alelunapaint-backend',
-    }
+    } as SignOptions
   );
 
   const refreshToken = jwt.sign(
@@ -32,7 +32,7 @@ function generateTokenPair(user: { id: string; username: string; role: string | 
       expiresIn: REFRESH_TOKEN_EXPIRE,
       audience: 'alelunapaint-frontend',
       issuer: 'alelunapaint-backend',
-    }
+    } as SignOptions
   );
 
   return { accessToken, refreshToken };

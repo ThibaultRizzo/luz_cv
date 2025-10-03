@@ -131,7 +131,7 @@ export default function BackOffice() {
                 // Load content from API
                 const contentResponse = await contentApi.getContent();
                 if (contentResponse.success && contentResponse.data) {
-                    setTextContent(contentResponse.data);
+                    setTextContent(contentResponse.data as unknown as TextContent);
                 }
             } catch (error) {
                 console.error('Auth check failed:', error);

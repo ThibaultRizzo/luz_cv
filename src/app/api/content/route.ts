@@ -71,7 +71,7 @@ export async function PUT(request: NextRequest) {
       .where(eq(content.isActive, true))
       .limit(1);
 
-    let currentContent = currentContentResult[0];
+    const currentContent = currentContentResult[0];
     let contentId: string;
 
     if (currentContent) {

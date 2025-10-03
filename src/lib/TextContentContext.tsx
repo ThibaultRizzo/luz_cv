@@ -182,7 +182,7 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
             try {
                 const response = await contentApi.getContent();
                 if (response.success && response.data) {
-                    setTextContent(response.data as TextContent);
+                    setTextContent(response.data as unknown as TextContent);
                 }
             } catch (error) {
                 console.error('Error loading content:', error);
@@ -201,7 +201,7 @@ export function TextContentProvider({ children }: { children: React.ReactNode })
         try {
             const response = await contentApi.updateContent({ ...textContent, ...newContent } as Record<string, unknown>);
             if (response.success && response.data) {
-                setTextContent(response.data as TextContent);
+                setTextContent(response.data as unknown as TextContent);
             }
         } catch (error) {
             console.error('Error updating content:', error);

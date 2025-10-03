@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     let decoded: { userId: string; username: string; role: string };
     try {
       decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string; role: string };
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { success: false, message: 'Invalid or expired token' },
         { status: 401 }

@@ -75,9 +75,9 @@ class ApiClient {
         const url = `${API_BASE_URL}${endpoint}`;
         const accessToken = TokenStorage.getAccessToken();
 
-        const headers = {
+        const headers: Record<string, string> = {
             'Content-Type': 'application/json',
-            ...options.headers,
+            ...options.headers as Record<string, string>,
         };
 
         if (accessToken) {
@@ -189,7 +189,7 @@ export const authApi = {
             const response = await apiClient.post('/auth/login', {
                 username,
                 password,
-            });
+            }) as unknown as AuthResponse;
 
             if (response.success && response.data) {
                 TokenStorage.setTokens(
@@ -244,7 +244,7 @@ export const authApi = {
 export const contentApi = {
     async getContent(): Promise<ContentResponse> {
         try {
-            return await apiClient.get('/content');
+            return await apiClient.get('/content') as unknown as ContentResponse;
         } catch (error) {
             console.error('Get content error:', error);
             return {
@@ -257,7 +257,7 @@ export const contentApi = {
 
     async updateContent(content: Record<string, unknown>): Promise<ContentResponse> {
         try {
-            return await apiClient.put('/content', content) as ContentResponse;
+            return await apiClient.put('/content', content) as unknown as ContentResponse;
         } catch (error) {
             console.error('Update content error:', error);
             return {
@@ -270,7 +270,7 @@ export const contentApi = {
 
     async updateSection(section: string, data: Record<string, unknown>): Promise<ContentResponse> {
         try {
-            return await apiClient.patch(`/content/section/${section}`, data) as ContentResponse;
+            return await apiClient.patch(`/content/section/${section}`, data) as unknown as ContentResponse;
         } catch (error) {
             console.error('Update section error:', error);
             return {
@@ -295,7 +295,7 @@ export const contentApi = {
 
     async restoreBackup(backupId: string): Promise<ContentResponse> {
         try {
-            return await apiClient.post(`/content/restore/${backupId}`, {}) as ContentResponse;
+            return await apiClient.post(`/content/restore/${backupId}`, {}) as unknown as ContentResponse;
         } catch (error) {
             console.error('Restore backup error:', error);
             return {
