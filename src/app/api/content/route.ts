@@ -65,6 +65,7 @@ export async function PUT(request: NextRequest) {
     const updates = await request.json();
 
     // Filter out metadata fields that shouldn't be updated
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, version, isActive, lastModifiedBy, createdAt, updatedAt, ...contentUpdates } = updates;
 
     // Get current content for backup

@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/Nav";
-import MouseFollower from "@/components/MouseFollower";
-import Footer from "@/components/Footer";
 import { TextContentProvider } from "@/lib/TextContentContext";
 
 const inter = Inter({
