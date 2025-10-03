@@ -22,9 +22,9 @@ export default function Hero() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8"
+              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8 hover:bg-brand-gold/20 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group"
             >
-              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-125 transition-transform duration-300"></span>
               {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
             </motion.div>
 
@@ -76,10 +76,11 @@ export default function Hero() {
             >
               <a
                 href="#contact"
-                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base overflow-hidden"
               >
-                {textContent.heroCtaText || "Let's Craft Excellence Together"}
-                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="absolute inset-0 bg-gradient-to-r from-brand-gold/0 via-brand-gold/30 to-brand-gold/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></span>
+                <span className="relative">{textContent.heroCtaText || "Let's Craft Excellence Together"}</span>
+                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>

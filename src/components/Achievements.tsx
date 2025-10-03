@@ -19,8 +19,8 @@ export default function Achievements() {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs sm:text-sm mb-4 sm:mb-6">
-            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs sm:text-sm mb-4 sm:mb-6 hover:bg-brand-gold/30 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group">
+            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-125 transition-transform duration-300"></span>
             Key Achievements
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 sm:mb-6">
@@ -34,8 +34,10 @@ export default function Achievements() {
           {textContent.achievements.map((achievement, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-10 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-500 hover:transform hover:-translate-y-2 shadow-xl hover:shadow-2xl"
+              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-10 border border-brand-gold/20 hover:border-brand-gold/60 transition-all duration-500 hover:transform hover:-translate-y-2 hover:scale-[1.02] shadow-xl hover:shadow-2xl overflow-hidden"
             >
+              {/* Shimmer effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
               {/* Icon */}
               <div className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 opacity-80 group-hover:scale-110 transition-transform duration-300">
                 {achievement.icon || defaultIcons[index] || '⭐'}
