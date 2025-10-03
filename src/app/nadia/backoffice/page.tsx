@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authApi, contentApi } from "@/lib/api";
+import EmojiPicker from "@/components/EmojiPicker";
 
 interface ExperienceItem {
   role: string;
@@ -1522,17 +1523,15 @@ export default function BackOffice() {
                         <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                           Icon (emoji)
                         </label>
-                        <input
-                          type="text"
+                        <EmojiPicker
                           value={category.icon}
-                          onChange={(e) =>
+                          onChange={(emoji) =>
                             updateSkillCategory(
                               categoryIndex,
                               "icon",
-                              e.target.value,
+                              emoji,
                             )
                           }
-                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                         />
                       </div>
                     </div>
@@ -1674,15 +1673,13 @@ export default function BackOffice() {
                         <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                           Icon (emoji)
                         </label>
-                        <input
-                          type="text"
+                        <EmojiPicker
                           value={softSkill.icon}
-                          onChange={(e) => {
+                          onChange={(emoji) => {
                             const updated = [...textContent.softSkills];
-                            updated[index].icon = e.target.value;
+                            updated[index].icon = emoji;
                             handleTextChange("softSkills", updated);
                           }}
-                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                           placeholder="🤝"
                         />
                       </div>
@@ -1824,13 +1821,11 @@ export default function BackOffice() {
                           <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                             Icon (emoji)
                           </label>
-                          <input
-                            type="text"
+                          <EmojiPicker
                             value={achievement.icon || ''}
-                            onChange={(e) =>
-                              updateAchievement(index, "icon", e.target.value)
+                            onChange={(emoji) =>
+                              updateAchievement(index, "icon", emoji)
                             }
-                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                             placeholder="📈"
                           />
                         </div>
