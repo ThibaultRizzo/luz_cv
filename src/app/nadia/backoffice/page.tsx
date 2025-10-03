@@ -344,6 +344,24 @@ export default function BackOffice() {
     setTextContent((prev) => ({ ...prev, achievements: newAchievements }));
   };
 
+  const addAchievement = () => {
+    const newAchievement: Achievement = {
+      metric: "+0%",
+      description: "New Achievement",
+    };
+    setTextContent((prev) => ({
+      ...prev,
+      achievements: [...prev.achievements, newAchievement],
+    }));
+  };
+
+  const removeAchievement = (index: number) => {
+    setTextContent((prev) => ({
+      ...prev,
+      achievements: prev.achievements.filter((_, i) => i !== index),
+    }));
+  };
+
   // Helper functions for StatItem arrays (heroStats, aboutImpactMetrics, experienceBottomStats)
   const updateStatItem = (
     field: "heroStats" | "aboutImpactMetrics" | "experienceBottomStats",
@@ -1496,18 +1514,35 @@ export default function BackOffice() {
               />
             </div>
             <div className="border-t border-white/10 pt-6">
-              <h3 className="font-serif text-lg text-brand-cream/90 mb-4">
-                Achievement Items
-              </h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-serif text-lg text-brand-cream">
+                  Achievement Items
+                </h3>
+                <button
+                  onClick={addAchievement}
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                >
+                  Add Achievement
+                </button>
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 {textContent.achievements.map((achievement, index) => (
                   <div
                     key={index}
                     className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
                   >
-                    <h4 className="font-medium text-brand-cream mb-3">
-                      Achievement {index + 1}
-                    </h4>
+                    <div className="flex justify-between items-center mb-3">
+                      <h4 className="font-medium text-brand-cream">
+                        Achievement {index + 1}
+                      </h4>
+                      <button
+                        onClick={() => removeAchievement(index)}
+                        className="text-red-500 hover:text-red-700 text-lg"
+                        title="Remove"
+                      >
+                        🗑️
+                      </button>
+                    </div>
                     <div className="space-y-3">
                       <div>
                         <label className="block text-sm font-medium text-brand-cream/80 mb-1">
