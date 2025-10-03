@@ -399,6 +399,69 @@ export default function BackOffice() {
     }));
   };
 
+  // Helper functions for SkillCategory management
+  const updateSkillCategory = (
+    index: number,
+    key: keyof SkillCategory,
+    value: string | { name: string; level: number }[],
+  ) => {
+    const newCategories = [...textContent.skillCategories];
+    if (key === "skills") {
+      newCategories[index][key] = value as { name: string; level: number }[];
+    } else {
+      newCategories[index][key] = value as string;
+    }
+    setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+  };
+
+  const addSkillCategory = () => {
+    const newCategory: SkillCategory = {
+      category: "New Category",
+      icon: "⭐",
+      skills: [{ name: "New Skill", level: 50 }],
+    };
+    setTextContent((prev) => ({
+      ...prev,
+      skillCategories: [...prev.skillCategories, newCategory],
+    }));
+  };
+
+  const removeSkillCategory = (index: number) => {
+    setTextContent((prev) => ({
+      ...prev,
+      skillCategories: prev.skillCategories.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateSkill = (
+    categoryIndex: number,
+    skillIndex: number,
+    key: "name" | "level",
+    value: string | number,
+  ) => {
+    const newCategories = [...textContent.skillCategories];
+    if (key === "level") {
+      newCategories[categoryIndex].skills[skillIndex][key] = Number(value);
+    } else {
+      newCategories[categoryIndex].skills[skillIndex][key] = value as string;
+    }
+    setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+  };
+
+  const addSkill = (categoryIndex: number) => {
+    const newCategories = [...textContent.skillCategories];
+    newCategories[categoryIndex].skills.push({ name: "New Skill", level: 50 });
+    setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+  };
+
+  const removeSkill = (categoryIndex: number, skillIndex: number) => {
+    const newCategories = [...textContent.skillCategories];
+    newCategories[categoryIndex].skills = newCategories[
+      categoryIndex
+    ].skills.filter((_, i) => i !== skillIndex);
+    setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+  };
+
   // Helper functions for ContactFormLabels
   const updateContactFormLabels = (
     key: keyof ContactFormLabels,
@@ -1174,37 +1237,147 @@ export default function BackOffice() {
 
             {/* Skill Categories */}
             <div className="border-t border-white/10 pt-6">
-              <h3 className="font-serif text-lg text-brand-cream/90 mb-4">
-                Skill Categories
-              </h3>
-              <p className="text-sm text-brand-cream/60 mb-4">
-                These categories are stored in the database and loaded
-                dynamically.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {textContent.skillCategories.map((category, index) => (
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-serif text-lg text-brand-cream">
+                  Skill Categories
+                </h3>
+                <button
+                  onClick={addSkillCategory}
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                >
+                  Add Category
+                </button>
+              </div>
+              <div className="space-y-6">
+                {textContent.skillCategories.map((category, categoryIndex) => (
                   <div
-                    key={index}
-                    className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
+                    key={categoryIndex}
+                    className="bg-brand-cream/30 p-6 rounded-xl border border-brand-deep/10"
                   >
-                    <div className="flex items-center mb-2">
-                      <span className="text-2xl mr-2">{category.icon}</span>
+                    <div className="flex justify-between items-center mb-4">
                       <h4 className="font-medium text-brand-cream">
-                        {category.category}
+                        Category {categoryIndex + 1}
                       </h4>
+                      <button
+                        onClick={() => removeSkillCategory(categoryIndex)}
+                        className="text-red-500 hover:text-red-700 text-lg"
+                        title="Remove Category"
+                      >
+                        🗑️
+                      </button>
                     </div>
-                    <div className="space-y-1 text-sm">
-                      {category.skills.map((skill, skillIndex) => (
-                        <div
-                          key={skillIndex}
-                          className="flex justify-between text-brand-cream"
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                          Category Name
+                        </label>
+                        <input
+                          type="text"
+                          value={category.category}
+                          onChange={(e) =>
+                            updateSkillCategory(
+                              categoryIndex,
+                              "category",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                          Icon (emoji)
+                        </label>
+                        <input
+                          type="text"
+                          value={category.icon}
+                          onChange={(e) =>
+                            updateSkillCategory(
+                              categoryIndex,
+                              "icon",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="border-t border-brand-deep/10 pt-4 mt-4">
+                      <div className="flex justify-between items-center mb-3">
+                        <h5 className="font-medium text-brand-cream text-sm">
+                          Skills in this Category
+                        </h5>
+                        <button
+                          onClick={() => addSkill(categoryIndex)}
+                          className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg hover:bg-brand-gold transition-colors"
                         >
-                          <span>{skill.name}</span>
-                          <span className="text-brand-gold font-medium">
-                            {skill.level}%
-                          </span>
-                        </div>
-                      ))}
+                          Add Skill
+                        </button>
+                      </div>
+                      <div className="space-y-3">
+                        {category.skills.map((skill, skillIndex) => (
+                          <div
+                            key={skillIndex}
+                            className="bg-white/10 p-3 rounded-lg"
+                          >
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-xs font-medium text-brand-cream/80">
+                                Skill {skillIndex + 1}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  removeSkill(categoryIndex, skillIndex)
+                                }
+                                className="text-red-500 hover:text-red-700 text-sm"
+                                title="Remove Skill"
+                              >
+                                🗑️
+                              </button>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="block text-xs text-brand-cream/70 mb-1">
+                                  Skill Name
+                                </label>
+                                <input
+                                  type="text"
+                                  value={skill.name}
+                                  onChange={(e) =>
+                                    updateSkill(
+                                      categoryIndex,
+                                      skillIndex,
+                                      "name",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-2 py-1 bg-white border border-brand-deep/20 rounded text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs text-brand-cream/70 mb-1">
+                                  Level (%)
+                                </label>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max="100"
+                                  value={skill.level}
+                                  onChange={(e) =>
+                                    updateSkill(
+                                      categoryIndex,
+                                      skillIndex,
+                                      "level",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-2 py-1 bg-white border border-brand-deep/20 rounded text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
