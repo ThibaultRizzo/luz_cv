@@ -14,8 +14,6 @@ export default function NadiaLogin() {
         setError('');
 
         try {
-            console.log('Attempting login with:', username);
-
             // Direct API call to bypass any client issues
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -26,24 +24,19 @@ export default function NadiaLogin() {
             });
 
             const data = await response.json();
-            console.log('Login response:', data);
 
             if (data.success) {
-                console.log('Login successful, saving tokens and redirecting');
                 // Save tokens to localStorage
                 localStorage.setItem('accessToken', data.data.accessToken);
                 localStorage.setItem('refreshToken', data.data.refreshToken);
                 localStorage.setItem('userInfo', JSON.stringify(data.data.user));
 
-                // Try multiple redirect methods
-                console.log('Attempting redirect...');
+                // Redirect to backoffice
                 window.location.href = '/nadia/backoffice';
             } else {
-                console.log('Login failed:', data.message);
                 setError(data.message || 'Invalid credentials');
             }
-        } catch (error) {
-            console.error('Login error:', error);
+        } catch {
             setError('Network error. Please try again.');
         } finally {
             setIsLoading(false);

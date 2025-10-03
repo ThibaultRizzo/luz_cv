@@ -130,8 +130,7 @@ class ApiClient {
             }
 
             return false;
-        } catch (error) {
-            console.error('Token refresh failed:', error);
+        } catch {
             return false;
         }
     }
@@ -200,8 +199,7 @@ export const authApi = {
             }
 
             return response;
-        } catch (error) {
-            console.error('Login error:', error);
+        } catch {
             return {
                 success: false,
                 message: 'Network error occurred',
@@ -215,8 +213,6 @@ export const authApi = {
             if (refreshToken) {
                 await apiClient.post('/auth/logout', { refreshToken });
             }
-        } catch (error) {
-            console.error('Logout error:', error);
         } finally {
             TokenStorage.clearTokens();
         }
@@ -225,8 +221,7 @@ export const authApi = {
     async getCurrentUser(): Promise<{ success: boolean; message?: string; data?: { user: { id: string; username: string; role: string; lastLogin: string } } }> {
         try {
             return await apiClient.get('/auth/me') as { success: boolean; message?: string; data?: { user: { id: string; username: string; role: string; lastLogin: string } } };
-        } catch (error) {
-            console.error('Get current user error:', error);
+        } catch {
             return { success: false, message: 'Failed to get user info' };
         }
     },
@@ -245,8 +240,7 @@ export const contentApi = {
     async getContent(): Promise<ContentResponse> {
         try {
             return await apiClient.get('/content') as unknown as ContentResponse;
-        } catch (error) {
-            console.error('Get content error:', error);
+        } catch {
             return {
                 success: false,
                 data: null,
@@ -258,8 +252,7 @@ export const contentApi = {
     async updateContent(content: Record<string, unknown>): Promise<ContentResponse> {
         try {
             return await apiClient.put('/content', content) as unknown as ContentResponse;
-        } catch (error) {
-            console.error('Update content error:', error);
+        } catch {
             return {
                 success: false,
                 data: null,
@@ -271,8 +264,7 @@ export const contentApi = {
     async updateSection(section: string, data: Record<string, unknown>): Promise<ContentResponse> {
         try {
             return await apiClient.patch(`/content/section/${section}`, data) as unknown as ContentResponse;
-        } catch (error) {
-            console.error('Update section error:', error);
+        } catch {
             return {
                 success: false,
                 data: null,
@@ -284,8 +276,7 @@ export const contentApi = {
     async getBackups(): Promise<{ success: boolean; message?: string; data?: unknown[] }> {
         try {
             return await apiClient.get('/content/backups') as { success: boolean; message?: string; data?: unknown[] };
-        } catch (error) {
-            console.error('Get backups error:', error);
+        } catch {
             return {
                 success: false,
                 message: 'Failed to fetch backups',
@@ -296,8 +287,7 @@ export const contentApi = {
     async restoreBackup(backupId: string): Promise<ContentResponse> {
         try {
             return await apiClient.post(`/content/restore/${backupId}`, {}) as unknown as ContentResponse;
-        } catch (error) {
-            console.error('Restore backup error:', error);
+        } catch {
             return {
                 success: false,
                 data: null,
