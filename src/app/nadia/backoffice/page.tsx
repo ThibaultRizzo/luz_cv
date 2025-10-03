@@ -2517,9 +2517,8 @@ export default function BackOffice() {
             {/* Live Preview Panel */}
             <div className={`${!showPreview ? 'hidden md:block' : 'block'} flex-1`}>
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3 sm:p-4 md:p-6 md:sticky md:top-4 max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom pb-32 md:pb-6">
-                <div className="mb-4 flex items-center justify-between">
+                <div className="mb-4">
                   <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
-                  <span className="text-xs text-brand-cream/60 bg-brand-gold/20 px-3 py-1 rounded-full">Real-time</span>
                 </div>
                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
                   {/* Preview content will be rendered here based on activeTab */}
