@@ -43,20 +43,54 @@ export async function POST() {
       .limit(1);
 
     if (existingContent.length === 0) {
-      // Create initial content
+      // Create initial content with complete luxury retail data
       await db.insert(content).values({
+        // Hero Section
         heroTitle: "Ready to create",
         heroSubtitle: "something extraordinary?",
         heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
+        heroBadge: "Product Owner • Luxury Retail Expert",
+        heroImage: "/nadia.jpg",
+        heroStats: [
+          { metric: "10+", label: "Years Experience" },
+          { metric: "€50M+", label: "Revenue Impact" },
+          { metric: "25+", label: "Products Launched" }
+        ],
+        heroCtaText: "Let's Craft Excellence Together",
+        heroScrollText: "Scroll",
 
-        aboutTitle: "Turning vision into reality",
+        // About Section
+        aboutTitle: "Turning vision into",
+        aboutTitleSuffix: "reality",
         aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
+        aboutBadge: "About Me",
         aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
         aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
         aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
+        aboutQuoteAuthor: "— Nadia Luna",
+        aboutApproachTitle: "My Approach",
+        aboutApproachItems: [
+          { title: "Customer-First Philosophy", description: "Every decision starts with understanding the customer's deepest needs and desires" },
+          { title: "Data-Driven Innovation", description: "Combining intuition with analytics to create breakthrough solutions" },
+          { title: "Cross-Functional Leadership", description: "Building bridges between teams to deliver cohesive, impactful products" }
+        ],
+        aboutImpactTitle: "Impact at a Glance",
+        aboutImpactMetrics: [
+          { metric: "€50M+", label: "Revenue Generated" },
+          { metric: "40%", label: "Avg Growth Rate" },
+          { metric: "25+", label: "Products Launched" },
+          { metric: "15+", label: "Teams Led" }
+        ],
 
+        // Experience Section
         experienceTitle: "A decade of",
         experienceSubtitle: "transformation",
+        experienceBadge: "Career Journey",
+        experienceBottomStats: [
+          { metric: "10+", label: "Years" },
+          { metric: "€50M+", label: "Impact" },
+          { metric: "25+", label: "Products" }
+        ],
         experiences: [
           {
             role: "Senior Product Owner",
@@ -70,38 +104,149 @@ export async function POST() {
               "Achieved 40% increase in online conversion rates"
             ],
             highlight: "Transformed traditional luxury retail into digital-first experiences"
+          },
+          {
+            role: "Product Manager",
+            company: "RetailTech Innovations",
+            period: "2015 - 2018",
+            location: "London, UK",
+            achievements: [
+              "Managed €15M product portfolio across 8 retail brands",
+              "Increased customer engagement by 35% through AI-driven personalization",
+              "Reduced time-to-market by 50% with agile methodologies",
+              "Built and scaled product team from 5 to 20 members"
+            ],
+            highlight: "Pioneered data-driven product strategies in luxury retail"
+          },
+          {
+            role: "Junior Product Manager",
+            company: "Fashion Forward Startup",
+            period: "2012 - 2015",
+            location: "Milan, Italy",
+            achievements: [
+              "Co-launched mobile app with 500K+ downloads in first year",
+              "Featured in Vogue Business and WWD for innovation",
+              "Grew user base by 300% through strategic partnerships",
+              "Established product development processes from ground up"
+            ],
+            highlight: "Laid foundation for product excellence in emerging fashion tech"
           }
         ],
 
+        // Skills Section
         skillsTitle: "Mastery through",
         skillsSubtitle: "experience",
+        skillsBadge: "Core Expertise",
         skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
+        skillsCertificationsTitle: "🏆 Certifications",
+        skillsToolsTitle: "🛠️ Tools & Platforms",
+        skillsQuoteAuthor: "— Nadia Luna",
         skillCategories: [
           {
             category: "Product Leadership",
             icon: "🎯",
             skills: [
               { name: "Product Strategy", level: 95 },
-              { name: "Roadmap Planning", level: 90 }
+              { name: "Roadmap Planning", level: 90 },
+              { name: "Stakeholder Management", level: 92 },
+              { name: "Cross-functional Leadership", level: 88 }
+            ]
+          },
+          {
+            category: "Retail Excellence",
+            icon: "🏪",
+            skills: [
+              { name: "Luxury Retail Strategy", level: 95 },
+              { name: "Omnichannel Experience", level: 90 },
+              { name: "Customer Journey Mapping", level: 85 },
+              { name: "Brand Positioning", level: 88 }
+            ]
+          },
+          {
+            category: "Digital Innovation",
+            icon: "⚡",
+            skills: [
+              { name: "Digital Transformation", level: 92 },
+              { name: "E-commerce Platforms", level: 88 },
+              { name: "Data Analytics", level: 85 },
+              { name: "AI/ML Applications", level: 80 }
+            ]
+          },
+          {
+            category: "Business Impact",
+            icon: "📈",
+            skills: [
+              { name: "Revenue Growth", level: 95 },
+              { name: "Market Expansion", level: 88 },
+              { name: "Process Optimization", level: 90 },
+              { name: "Team Scaling", level: 85 }
             ]
           }
         ],
         certifications: [
           "Certified Scrum Product Owner (CSPO)",
-          "Google Analytics Certified"
+          "Google Analytics Certified",
+          "Luxury Brand Management (HEC Paris)",
+          "Design Thinking Practitioner"
         ],
-        tools: ["Jira", "Figma", "Shopify Plus"],
+        tools: ["Jira", "Figma", "Shopify Plus", "Salesforce", "Tableau", "Miro", "Slack", "Notion"],
         skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
-
-        achievementsTitle: "Achievements",
-        achievements: [
-          { metric: "+40%", description: "Increase in Online Sales" },
-          { metric: "+25%", description: "Customer Retention in 1 Year" }
+        softSkills: [
+          { skill: "Executive Stakeholder Management", icon: "🤝" },
+          { skill: "Cross-Cultural Communication", icon: "🌍" },
+          { skill: "Luxury Customer Psychology", icon: "✨" },
+          { skill: "Change Management", icon: "🔄" }
         ],
 
+        // Achievements Section
+        achievementsTitle: "Key Achievements",
+        achievements: [
+          { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
+          { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
+          { metric: "€50M+", description: "Revenue Impact Across Products", icon: "🏆" },
+          { metric: "2M+", description: "Premium Customers Served", icon: "💎" }
+        ],
+
+        // Contact Section
         contactTitle: "Ready to create",
         contactSubtitle: "something extraordinary?",
+        contactBadge: "Let's Connect",
         contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you.",
+        contactFormTitle: "Send a Message",
+        contactFormLabels: {
+          name: "Name",
+          email: "Email",
+          company: "Company",
+          message: "Message"
+        },
+        contactFormPlaceholders: {
+          name: "Your name",
+          email: "your.email@example.com",
+          company: "Your company",
+          message: "Tell me about your project..."
+        },
+        contactSubmitButton: "Send Message",
+        contactSuccessMessage: "Thank you! Your message has been sent successfully.",
+        contactErrorMessage: "Sorry, there was an error sending your message. Please try again.",
+        contactInfoTitle: "Contact Information",
+        contactEmail: "nadia.luna@example.com",
+        contactLinkedin: "linkedin.com/in/nadialuna",
+        contactPhone: "+33 6 12 34 56 78",
+        contactAvailabilityTitle: "Availability",
+        contactAvailabilityStatus: "Open to Opportunities",
+        contactAvailabilityDescription: "Currently available for senior product leadership roles in luxury retail and fashion technology.",
+        contactAvailabilityItems: [
+          "Full-time positions",
+          "Strategic consulting",
+          "Advisory roles"
+        ],
+        contactDownloadText: "Download CV",
+        contactCvPath: "/cv.pdf",
+        contactBottomInfo: {
+          responseTime: { label: "Response Time", value: "Within 24h" },
+          location: { label: "Location", value: "Paris, France" },
+          languages: { label: "Languages", value: "EN • FR • ESP" }
+        },
 
         version: 1,
         isActive: true,

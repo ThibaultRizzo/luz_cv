@@ -21,6 +21,12 @@ interface SkillCategory {
 interface Achievement {
     metric: string;
     description: string;
+    icon?: string;
+}
+
+interface SoftSkill {
+    skill: string;
+    icon: string;
 }
 
 interface TextContent {
@@ -60,6 +66,7 @@ interface TextContent {
     skillsCertificationsTitle: string;
     skillsToolsTitle: string;
     skillsQuoteAuthor: string;
+    softSkills: SoftSkill[];
     achievementsTitle: string;
     achievements: Achievement[];
     contactTitle: string;
@@ -219,12 +226,18 @@ const defaultTextContent: TextContent = {
         "Notion",
     ],
     skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
+    softSkills: [
+        { skill: 'Executive Stakeholder Management', icon: '🤝' },
+        { skill: 'Cross-Cultural Communication', icon: '🌍' },
+        { skill: 'Luxury Customer Psychology', icon: '✨' },
+        { skill: 'Change Management', icon: '🔄' }
+    ],
     achievementsTitle: "Achievements",
     achievements: [
-        { metric: "+40%", description: "Increase in Online Sales" },
-        { metric: "+25%", description: "Customer Retention in 1 Year" },
-        { metric: "10+", description: "New Boutiques Opened Worldwide" },
-        { metric: "+30%", description: "Improvement in Customer Engagement" },
+        { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
+        { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
+        { metric: "10+", description: "New Boutiques Opened Worldwide", icon: "🏆" },
+        { metric: "+30%", description: "Improvement in Customer Engagement", icon: "💎" },
     ],
     contactTitle: "Ready to create",
     contactSubtitle: "something extraordinary?",

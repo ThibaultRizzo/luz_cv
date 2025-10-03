@@ -5,6 +5,14 @@ import { useTextContent } from '@/lib/TextContentContext';
 export default function Skills() {
   const { textContent } = useTextContent();
 
+  // Default soft skills if not defined
+  const softSkills = textContent.softSkills || [
+    { skill: 'Executive Stakeholder Management', icon: '🤝' },
+    { skill: 'Cross-Cultural Communication', icon: '🌍' },
+    { skill: 'Luxury Customer Psychology', icon: '✨' },
+    { skill: 'Change Management', icon: '🔄' }
+  ];
+
   return (
     <section id="skills" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">
       {/* Background elements */}
@@ -58,6 +66,25 @@ export default function Skills() {
             </div>
           ))}
         </div>
+
+        {/* Soft Skills - Critical for Luxury Retail */}
+        {softSkills.length > 0 && (
+          <div className="max-w-5xl mx-auto mb-10 sm:mb-12 md:mb-16">
+            <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 border border-brand-gold/30">
+              <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-gold mb-6 sm:mb-8 text-center">
+                💎 Leadership & Soft Skills
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {softSkills.map((item, index) => (
+                  <div key={index} className="text-center group">
+                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                    <p className="text-sm md:text-base text-brand-cream font-medium leading-snug">{item.skill}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Certifications & Tools */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">

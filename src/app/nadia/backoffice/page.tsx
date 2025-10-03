@@ -22,6 +22,12 @@ interface SkillCategory {
 interface Achievement {
   metric: string;
   description: string;
+  icon?: string;
+}
+
+interface SoftSkill {
+  skill: string;
+  icon: string;
 }
 
 interface StatItem {
@@ -84,6 +90,7 @@ interface TextContent {
   certifications: string[];
   tools: string[];
   skillsQuote: string;
+  softSkills: SoftSkill[];
   achievementsTitle: string;
   achievements: Achievement[];
   contactTitle: string;
@@ -183,10 +190,16 @@ export default function BackOffice() {
     tools: ["Jira", "Figma", "Shopify Plus", "Salesforce"],
     skillsQuote:
       "Skills are built through challenges, refined through experience, and perfected through passion.",
+    softSkills: [
+      { skill: 'Executive Stakeholder Management', icon: '🤝' },
+      { skill: 'Cross-Cultural Communication', icon: '🌍' },
+      { skill: 'Luxury Customer Psychology', icon: '✨' },
+      { skill: 'Change Management', icon: '🔄' }
+    ],
     achievementsTitle: "Achievements",
     achievements: [
-      { metric: "+40%", description: "Increase in Online Sales" },
-      { metric: "+25%", description: "Customer Retention in 1 Year" },
+      { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
+      { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
     ],
     contactTitle: "Ready to create",
     contactSubtitle: "something extraordinary?",
@@ -281,7 +294,7 @@ export default function BackOffice() {
 
   const handleTextChange = (
     field: keyof TextContent,
-    value: string | string[],
+    value: string | string[] | SoftSkill[] | Achievement[],
   ) => {
     setTextContent((prev) => ({
       ...prev,
@@ -1633,6 +1646,52 @@ export default function BackOffice() {
                 />
               </div>
             </div>
+            {/* Soft Skills Section */}
+            <div className="border-t border-white/10 pt-6">
+              <h3 className="font-serif text-lg text-brand-cream mb-4">
+                Soft Skills
+              </h3>
+              <div className="space-y-4">
+                {textContent.softSkills.map((softSkill, index) => (
+                  <div key={index} className="bg-brand-cream/30 p-4 rounded-xl">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                          Skill Name
+                        </label>
+                        <input
+                          type="text"
+                          value={softSkill.skill}
+                          onChange={(e) => {
+                            const updated = [...textContent.softSkills];
+                            updated[index].skill = e.target.value;
+                            handleTextChange("softSkills", updated);
+                          }}
+                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                          Icon (emoji)
+                        </label>
+                        <input
+                          type="text"
+                          value={softSkill.icon}
+                          onChange={(e) => {
+                            const updated = [...textContent.softSkills];
+                            updated[index].icon = e.target.value;
+                            handleTextChange("softSkills", updated);
+                          }}
+                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                          placeholder="🤝"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
@@ -1747,18 +1806,34 @@ export default function BackOffice() {
                       </button>
                     </div>
                     <div className="space-y-3">
-                      <div>
-                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                          Metric
-                        </label>
-                        <input
-                          type="text"
-                          value={achievement.metric}
-                          onChange={(e) =>
-                            updateAchievement(index, "metric", e.target.value)
-                          }
-                          className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
-                        />
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                            Metric
+                          </label>
+                          <input
+                            type="text"
+                            value={achievement.metric}
+                            onChange={(e) =>
+                              updateAchievement(index, "metric", e.target.value)
+                            }
+                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                            Icon (emoji)
+                          </label>
+                          <input
+                            type="text"
+                            value={achievement.icon || ''}
+                            onChange={(e) =>
+                              updateAchievement(index, "icon", e.target.value)
+                            }
+                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                            placeholder="📈"
+                          />
+                        </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-brand-cream/80 mb-1">
