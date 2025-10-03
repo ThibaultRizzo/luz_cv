@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { verifyToken } from '@/lib/jwt';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'alelunapaint-super-secure-jwt-secret-key-2024-development';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,11 +17,13 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const decoded = verifyToken(token);
 
-    if (!decoded) {
+    // Verify token
+    try {
+      jwt.verify(token, JWT_SECRET);
+    } catch {
       return NextResponse.json(
-        { success: false, message: 'Invalid token' },
+        { success: false, message: 'Invalid or expired token' },
         { status: 401 }
       );
     }
