@@ -271,10 +271,9 @@ export default function BackOffice() {
   const handleLogout = async () => {
     try {
       await authApi.logout();
-    } catch (error) {
-      console.error("Logout error:", error);
     } finally {
-      router.push("/nadia");
+      // Redirect to homepage
+      router.push("/");
     }
   };
 
