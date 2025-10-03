@@ -61,8 +61,8 @@ export default function Hero() {
               { metric: '25+', label: 'Products Launched' }
             ]).map((stat: { metric: string; label: string }, index: number) => (
               <div key={index} className="text-center">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">{stat.metric}</div>
-                <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">{stat.label}</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-gold mb-2">{stat.metric}</div>
+                <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep uppercase tracking-wider font-medium">{stat.label}</div>
               </div>
             ))}
           </motion.div>
