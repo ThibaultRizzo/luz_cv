@@ -888,15 +888,10 @@ export default function BackOffice() {
                             />
                         </div>
 
-                        {/* Skill Categories - Display Only Warning */}
+                        {/* Skill Categories */}
                         <div className="border-t border-white/10 pt-6">
-                            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4">
-                                <p className="text-sm text-yellow-800">
-                                    <strong>Note:</strong> Skill categories (Product Leadership, Retail Excellence, etc.) are currently hardcoded in the frontend.
-                                    To modify them, you need to edit the TextContentContext.tsx file.
-                                </p>
-                            </div>
-                            <h3 className="font-serif text-lg text-brand-cream/90 mb-4">Current Skill Categories</h3>
+                            <h3 className="font-serif text-lg text-brand-cream/90 mb-4">Skill Categories</h3>
+                            <p className="text-sm text-brand-cream/60 mb-4">These categories are stored in the database and loaded dynamically.</p>
                             <div className="grid grid-cols-2 gap-4">
                                 {textContent.skillCategories.map((category, index) => (
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
@@ -906,7 +901,7 @@ export default function BackOffice() {
                                         </div>
                                         <div className="space-y-1 text-sm">
                                             {category.skills.map((skill, skillIndex) => (
-                                                <div key={skillIndex} className="flex justify-between">
+                                                <div key={skillIndex} className="flex justify-between text-brand-cream">
                                                     <span>{skill.name}</span>
                                                     <span className="text-brand-gold font-medium">{skill.level}%</span>
                                                 </div>
@@ -1444,8 +1439,8 @@ export default function BackOffice() {
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${activeTab === tab.id
-                                                ? 'bg-brand-gold text-brand-deep font-medium shadow-md'
-                                                : 'text-brand-cream/70 hover:bg-white/20 hover:text-brand-cream border border-transparent hover:border-white/20'
+                                            ? 'bg-brand-gold text-brand-deep font-medium shadow-md'
+                                            : 'text-brand-cream/70 hover:bg-white/20 hover:text-brand-cream border border-transparent hover:border-white/20'
                                             }`}
                                     >
                                         <span className="text-xl">{tab.icon}</span>
