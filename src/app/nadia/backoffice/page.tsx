@@ -601,24 +601,9 @@ export default function BackOffice() {
 
     return (
         <div className="min-h-screen bg-brand-cream">
-            {/* Header */}
-            <header className="bg-brand-deep text-brand-cream shadow-lg">
-                <div className="container mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <h1 className="font-serif text-2xl">Back Office</h1>
-                        <button
-                            onClick={handleLogout}
-                            className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors duration-300"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            {/* Save Status - Fixed below header */}
+            {/* Save Status - Fixed at top */}
             {saveStatus !== 'idle' && (
-                <div className="fixed top-20 right-4 z-50 animate-fade-in">
+                <div className="fixed top-4 right-4 z-50 animate-fade-in">
                     {saveStatus === 'saving' && (
                         <div className="flex items-center px-6 py-3 bg-blue-100 text-blue-700 rounded-lg shadow-lg">
                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
@@ -652,13 +637,26 @@ export default function BackOffice() {
                 </div>
             )}
 
-            <div className="container mx-auto px-6 py-8 max-w-7xl">
+            <div className="container mx-auto px-6 py-4 max-w-7xl">
 
                 <div className="grid lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
                     <div className="lg:col-span-1">
-                        <div className="lg:sticky lg:top-24 bg-white rounded-2xl shadow-lg p-6">
-                            <h2 className="font-serif text-xl text-brand-deep mb-6">Sections</h2>
+                        <div className="lg:sticky lg:top-4 bg-white rounded-2xl shadow-lg p-6">
+                            <div className="mb-6">
+                                <h1 className="font-serif text-2xl text-brand-deep mb-4">Back Office</h1>
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full px-4 py-2 bg-brand-deep text-brand-cream rounded-lg hover:bg-brand-gold hover:text-brand-deep transition-colors duration-300 flex items-center justify-center gap-2"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Logout
+                                </button>
+                            </div>
+
+                            <h2 className="font-serif text-lg text-brand-deep mb-4 mt-6">Sections</h2>
                             <nav className="space-y-2">
                                 {[
                                     { id: 'hero', label: 'Hero Section', icon: '🏠' },
