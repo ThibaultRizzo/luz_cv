@@ -46,16 +46,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-sans bg-brand-cream text-brand-deep antialiased">
-        <a href="#main-content" className="skip-nav">
-          Skip to main content
-        </a>
         <TextContentProvider>
-          <Nav />
-          <main id="main-content">
-            {children}
-          </main>
-          <Footer />
-          <MouseFollower />
+          {children}
         </TextContentProvider>
       </body>
     </html>

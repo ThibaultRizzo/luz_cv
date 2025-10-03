@@ -296,8 +296,8 @@ html {
   }
 }
 
-/* Custom cursor - more accessible approach */
-* {
+/* Custom cursor - more accessible approach - only for home page */
+.home-layout * {
   cursor: none;
 }
 
