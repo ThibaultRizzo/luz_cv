@@ -20,6 +20,7 @@ export const content = pgTable('content', {
   heroSubtitle: text('hero_subtitle'),
   heroDescription: text('hero_description'),
   heroBadge: text('hero_badge'),
+  heroImage: text('hero_image').default('/nadia.jpg'),
   heroStats: jsonb('hero_stats').default([]),
   heroCtaText: text('hero_cta_text'),
   heroScrollText: text('hero_scroll_text'),
@@ -82,6 +83,7 @@ export const content = pgTable('content', {
   contactAvailabilityDescription: text('contact_availability_description'),
   contactAvailabilityItems: jsonb('contact_availability_items').default([]),
   contactDownloadText: text('contact_download_text'),
+  contactCvPath: text('contact_cv_path').default('/cv.pdf'),
   contactBottomInfo: jsonb('contact_bottom_info').default({}),
 
   // Meta
