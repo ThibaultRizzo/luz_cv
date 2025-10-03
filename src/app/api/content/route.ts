@@ -64,6 +64,9 @@ export async function PUT(request: NextRequest) {
 
     const updates = await request.json();
 
+    // Filter out metadata fields that shouldn't be updated
+    const { id, version, isActive, lastModifiedBy, createdAt, updatedAt, ...contentUpdates } = updates;
+
     // Get current content for backup
     const currentContentResult = await db
       .select()
@@ -87,7 +90,7 @@ export async function PUT(request: NextRequest) {
       const updatedContent = await db
         .update(content)
         .set({
-          ...updates,
+          ...contentUpdates,
           version: currentContent.version + 1,
           lastModifiedBy: decoded.userId,
           updatedAt: new Date(),
@@ -101,7 +104,7 @@ export async function PUT(request: NextRequest) {
       const newContent = await db
         .insert(content)
         .values({
-          ...updates,
+          ...contentUpdates,
           version: 1,
           lastModifiedBy: decoded.userId,
           isActive: true,
