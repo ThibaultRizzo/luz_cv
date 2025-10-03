@@ -2,20 +2,47 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-// Create database connection
-const connectionString = process.env.POSTGRES_URL;
+// Create database connection lazily to avoid build-time errors
+let sql: postgres.Sql | null = null;
+let dbInstance: ReturnType<typeof drizzle> | null = null;
 
-if (!connectionString) {
-  throw new Error('POSTGRES_URL environment variable is not set. Please configure it in your Vercel environment variables.');
+function getDb() {
+  if (dbInstance) return dbInstance;
+
+  const connectionString = process.env.POSTGRES_URL;
+
+  if (!connectionString) {
+    throw new Error('POSTGRES_URL environment variable is not set. Please configure it in your Vercel environment variables.');
+  }
+
+  sql = postgres(connectionString);
+  dbInstance = drizzle(sql, { schema });
+  return dbInstance;
 }
 
-const sql = postgres(connectionString);
-export const db = drizzle(sql, { schema });
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(target, prop) {
+    return getDb()[prop as keyof ReturnType<typeof drizzle>];
+  }
+});
+
+// Get the underlying SQL instance for utility functions
+function getSql() {
+  if (!sql) {
+    const connectionString = process.env.POSTGRES_URL;
+    if (!connectionString) {
+      throw new Error('POSTGRES_URL environment variable is not set.');
+    }
+    sql = postgres(connectionString);
+  }
+  return sql;
+}
 
 // Database utilities
 export async function testConnection() {
   try {
-    await sql`SELECT 1`;
+    const sqlClient = getSql();
+    await sqlClient`SELECT 1`;
     console.log('✅ Database connection successful');
     return true;
   } catch (error) {
@@ -26,8 +53,9 @@ export async function testConnection() {
 
 export async function initializeDatabase() {
   try {
+    const sqlClient = getSql();
     // Check if tables exist and create them if not
-    await sql`
+    await sqlClient`
       CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
         username TEXT UNIQUE NOT NULL,
@@ -40,7 +68,7 @@ export async function initializeDatabase() {
       )
     `;
 
-    await sql`
+    await sqlClient`
       CREATE TABLE IF NOT EXISTS content (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
         hero_title TEXT,
@@ -74,7 +102,7 @@ export async function initializeDatabase() {
       )
     `;
 
-    await sql`
+    await sqlClient`
       CREATE TABLE IF NOT EXISTS content_backups (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
         content_id TEXT REFERENCES content(id) NOT NULL,
