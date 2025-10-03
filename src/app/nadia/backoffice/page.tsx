@@ -2947,62 +2947,46 @@ export default function BackOffice() {
                     )}
 
                     {activeTab === "achievements" && (
-                      <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px]">
+                      <div className="bg-brand-deep text-brand-cream p-4 sm:p-6 md:p-8 min-h-[500px]">
                         {/* Section header */}
-                        <div className="text-center mb-12">
-                          <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4">
+                        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+                          <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3 sm:mb-4">
                             <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2"></span>
                             Key Achievements
                           </div>
-                          <h2 className="font-serif text-4xl mb-4">{textContent.achievementsTitle}</h2>
-                          <div className="w-16 h-1 bg-brand-gold mx-auto"></div>
+                          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">{textContent.achievementsTitle}</h2>
+                          <div className="w-12 sm:w-16 h-1 bg-brand-gold mx-auto"></div>
                         </div>
 
-                        {/* Achievements grid - 3 columns max */}
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                          {textContent.achievements.slice(0, 3).map((achievement, idx) => (
+                        {/* Achievements grid - responsive */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
+                          {textContent.achievements.map((achievement, idx) => (
                             <div
                               key={idx}
-                              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300"
+                              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-2xl p-4 sm:p-5 md:p-6 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300"
                             >
                               {/* Icon */}
                               {achievement.icon && (
-                                <div className="text-4xl mb-4 opacity-80 group-hover:scale-110 transition-transform duration-300">
+                                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 opacity-80 group-hover:scale-110 transition-transform duration-300">
                                   {achievement.icon}
                                 </div>
                               )}
 
                               {/* Metric */}
-                              <div className="font-serif text-5xl font-bold text-brand-gold mb-4 leading-none">
+                              <div className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-gold mb-2 sm:mb-3 md:mb-4 leading-none">
                                 {achievement.metric}
                               </div>
 
                               {/* Description */}
-                              <h3 className="text-base font-semibold text-brand-cream">
+                              <h3 className="text-sm sm:text-base font-semibold text-brand-cream leading-snug">
                                 {achievement.description}
                               </h3>
+
+                              {/* Decorative line */}
+                              <div className="h-1 w-8 bg-brand-gold/50 rounded-full mt-2 sm:mt-3"></div>
                             </div>
                           ))}
                         </div>
-
-                        {/* Remaining achievements */}
-                        {textContent.achievements.length > 3 && (
-                          <div className="mt-8 flex flex-wrap justify-center gap-4">
-                            {textContent.achievements.slice(3).map((achievement, idx) => (
-                              <div
-                                key={idx + 3}
-                                className="bg-brand-cream/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-brand-gold/20"
-                              >
-                                <div className="text-2xl font-bold text-brand-gold mb-1">
-                                  {achievement.metric}
-                                </div>
-                                <div className="text-sm text-brand-cream/80">
-                                  {achievement.description}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                       </div>
                     )}
 

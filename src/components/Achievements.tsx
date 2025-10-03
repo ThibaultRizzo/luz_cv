@@ -29,30 +29,30 @@ export default function Achievements() {
           <div className="w-16 sm:w-20 md:w-24 h-1 bg-brand-gold mx-auto"></div>
         </div>
 
-        {/* Achievements grid - 3 columns max for luxury feel */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 max-w-6xl mx-auto">
-          {textContent.achievements.slice(0, 3).map((achievement, index) => (
+        {/* Achievements grid - responsive layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10 max-w-7xl mx-auto">
+          {textContent.achievements.map((achievement, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-500 hover:transform hover:-translate-y-2 shadow-xl hover:shadow-2xl"
+              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-10 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-500 hover:transform hover:-translate-y-2 shadow-xl hover:shadow-2xl"
             >
               {/* Icon */}
-              <div className="text-5xl sm:text-6xl mb-6 opacity-80 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 opacity-80 group-hover:scale-110 transition-transform duration-300">
                 {achievement.icon || defaultIcons[index] || '⭐'}
               </div>
 
               {/* Metric */}
-              <div className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-brand-gold mb-4 sm:mb-6 leading-none">
+              <div className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-brand-gold mb-3 sm:mb-4 md:mb-6 leading-none">
                 {achievement.metric}
               </div>
 
               {/* Description/Context */}
-              <div className="space-y-3">
-                <h3 className="text-lg sm:text-xl font-semibold text-brand-cream">
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-brand-cream leading-snug">
                   {achievement.description}
                 </h3>
 
-                {/* Optional: Add more context if available in future */}
+                {/* Decorative line */}
                 <div className="h-1 w-12 bg-brand-gold/50 rounded-full"></div>
               </div>
 
@@ -61,25 +61,6 @@ export default function Achievements() {
             </div>
           ))}
         </div>
-
-        {/* Show remaining achievements in a compact row if more than 3 */}
-        {textContent.achievements.length > 3 && (
-          <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4 sm:gap-6">
-            {textContent.achievements.slice(3).map((achievement, index) => (
-              <div
-                key={index + 3}
-                className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl px-6 sm:px-8 py-4 sm:py-5 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300"
-              >
-                <div className="text-2xl sm:text-3xl font-bold text-brand-gold mb-1">
-                  {achievement.metric}
-                </div>
-                <div className="text-sm sm:text-base text-brand-cream/80">
-                  {achievement.description}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </section>
   );
