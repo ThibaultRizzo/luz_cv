@@ -454,7 +454,7 @@ export default function BackOffice() {
                                 {textContent.heroStats.map((stat, index) => (
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-medium text-brand-deep">Stat {index + 1}</h4>
+                                            <h4 className="font-medium text-brand-cream">Stat {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('heroStats', index)}
                                                 className="text-red-500 hover:text-red-700 text-sm"
@@ -571,7 +571,7 @@ export default function BackOffice() {
                                 {textContent.aboutApproachItems.map((item, index) => (
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-medium text-brand-deep">Item {index + 1}</h4>
+                                            <h4 className="font-medium text-brand-cream">Item {index + 1}</h4>
                                             <button
                                                 onClick={() => removeApproachItem(index)}
                                                 className="text-red-500 hover:text-red-700 text-sm"
@@ -627,7 +627,7 @@ export default function BackOffice() {
                                 {textContent.aboutImpactMetrics.map((metric, index) => (
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-medium text-brand-deep">Metric {index + 1}</h4>
+                                            <h4 className="font-medium text-brand-cream">Metric {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('aboutImpactMetrics', index)}
                                                 className="text-red-500 hover:text-red-700 text-sm"
@@ -729,7 +729,7 @@ export default function BackOffice() {
                                 {textContent.experienceBottomStats.map((stat, index) => (
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-medium text-brand-deep">Stat {index + 1}</h4>
+                                            <h4 className="font-medium text-brand-cream">Stat {index + 1}</h4>
                                             <button
                                                 onClick={() => removeStatItem('experienceBottomStats', index)}
                                                 className="text-red-500 hover:text-red-700 text-sm"
@@ -776,7 +776,7 @@ export default function BackOffice() {
                                 {textContent.experiences.map((exp, index) => (
                                     <div key={index} className="bg-brand-cream/30 p-6 rounded-xl border border-brand-deep/10">
                                         <div className="flex justify-between items-center mb-4">
-                                            <h4 className="font-medium text-brand-deep">Experience {index + 1}</h4>
+                                            <h4 className="font-medium text-brand-cream">Experience {index + 1}</h4>
                                             <button
                                                 onClick={() => removeExperience(index)}
                                                 className="text-red-500 hover:text-red-700 text-sm"
@@ -902,7 +902,7 @@ export default function BackOffice() {
                                     <div key={index} className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                         <div className="flex items-center mb-2">
                                             <span className="text-2xl mr-2">{category.icon}</span>
-                                            <h4 className="font-medium text-brand-deep">{category.category}</h4>
+                                            <h4 className="font-medium text-brand-cream">{category.category}</h4>
                                         </div>
                                         <div className="space-y-1 text-sm">
                                             {category.skills.map((skill, skillIndex) => (
@@ -1078,7 +1078,7 @@ export default function BackOffice() {
                                 <h4 className="font-medium text-brand-cream mb-3">Form Labels</h4>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Name Label</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Name Label</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormLabels.name}
@@ -1087,7 +1087,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Email Label</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Email Label</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormLabels.email}
@@ -1096,7 +1096,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Company Label</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Company Label</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormLabels.company}
@@ -1105,7 +1105,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Message Label</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Message Label</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormLabels.message}
@@ -1119,7 +1119,7 @@ export default function BackOffice() {
                                 <h4 className="font-medium text-brand-cream mb-3">Form Placeholders</h4>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Name Placeholder</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Name Placeholder</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormPlaceholders.name}
@@ -1128,7 +1128,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Email Placeholder</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Email Placeholder</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormPlaceholders.email}
@@ -1137,7 +1137,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Company Placeholder</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Company Placeholder</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormPlaceholders.company}
@@ -1146,7 +1146,7 @@ export default function BackOffice() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-brand-deep mb-1">Message Placeholder</label>
+                                        <label className="block text-sm text-brand-cream/80 mb-1">Message Placeholder</label>
                                         <input
                                             type="text"
                                             value={textContent.contactFormPlaceholders.message}
@@ -1287,7 +1287,7 @@ export default function BackOffice() {
                                     <h4 className="font-medium text-brand-cream mb-3">Response Time</h4>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Label</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.responseTime.label}
@@ -1296,7 +1296,7 @@ export default function BackOffice() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Value</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.responseTime.value}
@@ -1310,7 +1310,7 @@ export default function BackOffice() {
                                     <h4 className="font-medium text-brand-cream mb-3">Location</h4>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Label</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.location.label}
@@ -1319,7 +1319,7 @@ export default function BackOffice() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Value</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.location.value}
@@ -1333,7 +1333,7 @@ export default function BackOffice() {
                                     <h4 className="font-medium text-brand-cream mb-3">Languages</h4>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Label</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.languages.label}
@@ -1342,7 +1342,7 @@ export default function BackOffice() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <label className="block text-sm text-brand-cream/80 mb-1">Value</label>
                                             <input
                                                 type="text"
                                                 value={textContent.contactBottomInfo.languages.value}
