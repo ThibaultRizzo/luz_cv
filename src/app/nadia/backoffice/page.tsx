@@ -586,9 +586,11 @@ export default function BackOffice() {
       }
 
       if (result.success) {
+        // Add timestamp to force browser to reload the image
+        const cacheBustingPath = `${result.data.path}?t=${Date.now()}`;
         setTextContent(prev => ({
           ...prev,
-          heroImage: result.data.path
+          heroImage: cacheBustingPath
         }));
         setImageUploadStatus('Image uploaded successfully!');
       } else {
@@ -722,6 +724,7 @@ export default function BackOffice() {
                 {textContent.heroImage && (
                   <div className="relative w-full max-w-sm">
                     <img
+                      key={textContent.heroImage}
                       src={textContent.heroImage}
                       alt="Hero preview"
                       className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
@@ -2513,9 +2516,13 @@ export default function BackOffice() {
                             </div>
                             <div className="flex justify-center">
                               <img
+                                key={textContent.heroImage}
                                 src={textContent.heroImage || "/nadia.jpg"}
                                 alt="Hero"
                                 className="w-48 h-64 rounded-2xl shadow-2xl object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/nadia.jpg';
+                                }}
                               />
                             </div>
                           </div>
