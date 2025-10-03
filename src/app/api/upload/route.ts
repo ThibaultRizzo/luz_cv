@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
+    const fileType = formData.get('type') as string; // 'cv' or 'image'
 
     if (!file) {
       return NextResponse.json(
@@ -39,18 +40,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file type (PDF only)
-    if (file.type !== 'application/pdf') {
+    let fileName: string;
+    let allowedTypes: string[];
+    let maxSize: number;
+
+    if (fileType === 'image') {
+      // Image upload (for hero section)
+      allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      maxSize = 5 * 1024 * 1024; // 5MB
+      const ext = file.name.split('.').pop() || 'jpg';
+      fileName = `hero.${ext}`;
+    } else {
+      // PDF upload (for CV)
+      allowedTypes = ['application/pdf'];
+      maxSize = 10 * 1024 * 1024; // 10MB
+      fileName = 'cv.pdf';
+    }
+
+    // Validate file type
+    if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { success: false, message: 'Only PDF files are allowed' },
+        { success: false, message: `Only ${fileType === 'image' ? 'image files (JPG, PNG, WebP)' : 'PDF files'} are allowed` },
         { status: 400 }
       );
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
+    // Validate file size
+    if (file.size > maxSize) {
       return NextResponse.json(
-        { success: false, message: 'File size must be less than 10MB' },
+        { success: false, message: `File size must be less than ${maxSize / (1024 * 1024)}MB` },
         { status: 400 }
       );
     }
@@ -62,7 +80,6 @@ export async function POST(request: NextRequest) {
     const uploadsDir = join(process.cwd(), 'public', 'uploads');
     await mkdir(uploadsDir, { recursive: true });
 
-    const fileName = 'cv.pdf'; // Always use same name to overwrite
     const filePath = join(uploadsDir, fileName);
     await writeFile(filePath, buffer);
 

@@ -222,6 +222,8 @@ export default function BackOffice() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [uploadingCv, setUploadingCv] = useState(false);
   const [cvUploadStatus, setCvUploadStatus] = useState<string>("");
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -542,6 +544,64 @@ export default function BackOffice() {
     }));
   };
 
+  // Image Upload handler (for hero section)
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setImageUploadStatus('Only JPG, PNG, or WebP images are allowed');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setImageUploadStatus('File size must be less than 5MB');
+      return;
+    }
+
+    setUploadingImage(true);
+    setImageUploadStatus('');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', 'image');
+
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.status === 401) {
+        await authApi.logout();
+        router.push('/nadia');
+        return;
+      }
+
+      if (result.success) {
+        setTextContent(prev => ({
+          ...prev,
+          heroImage: result.data.path
+        }));
+        setImageUploadStatus('Image uploaded successfully!');
+      } else {
+        setImageUploadStatus(result.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      setImageUploadStatus('Failed to upload image');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   // CV Upload handler
   const handleCvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -563,6 +623,7 @@ export default function BackOffice() {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('type', 'cv');
 
       const token = localStorage.getItem('accessToken');
       const response = await fetch('/api/upload', {
@@ -654,20 +715,61 @@ export default function BackOffice() {
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-cream/90 mb-2">
-                Hero Image URL
+                Hero Image
               </label>
-              <input
-                type="text"
-                value={textContent.heroImage}
-                onChange={(e) =>
-                  handleTextChange("heroImage", e.target.value)
-                }
-                placeholder="/nadia.jpg or https://example.com/image.jpg"
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
-              />
-              <p className="text-xs text-brand-cream/60 mt-2">
-                Enter a path to an image in the public folder (e.g., /image.jpg) or a full URL
-              </p>
+              <div className="space-y-4">
+                {/* Image Preview */}
+                {textContent.heroImage && (
+                  <div className="relative w-full max-w-sm">
+                    <img
+                      src={textContent.heroImage}
+                      alt="Hero preview"
+                      className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/nadia.jpg';
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* File Upload */}
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-gold file:text-brand-deep hover:file:bg-brand-cream disabled:opacity-50"
+                  />
+                  {uploadingImage && (
+                    <p className="text-sm text-brand-gold">Uploading image...</p>
+                  )}
+                  {imageUploadStatus && (
+                    <p className={`text-sm ${imageUploadStatus.includes('success') ? 'text-green-400' : 'text-red-400'}`}>
+                      {imageUploadStatus}
+                    </p>
+                  )}
+                  <p className="text-xs text-brand-cream/60">
+                    Upload an image (JPG, PNG, WebP) - max 5MB. The image will be saved and used for the hero section.
+                  </p>
+                </div>
+
+                {/* Manual URL Input (optional) */}
+                <div className="border-t border-white/20 pt-4">
+                  <label className="block text-xs font-medium text-brand-cream/70 mb-2">
+                    Or enter image URL manually
+                  </label>
+                  <input
+                    type="text"
+                    value={textContent.heroImage}
+                    onChange={(e) =>
+                      handleTextChange("heroImage", e.target.value)
+                    }
+                    placeholder="/nadia.jpg or https://example.com/image.jpg"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent text-sm"
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-cream/90 mb-2">
