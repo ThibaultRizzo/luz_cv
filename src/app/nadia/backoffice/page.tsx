@@ -255,6 +255,15 @@ export default function BackOffice() {
     };
 
     checkAuth();
+
+    // Periodic check for localStorage cleared or token expired
+    const intervalId = setInterval(() => {
+      if (!authApi.isLoggedIn()) {
+        router.push("/nadia");
+      }
+    }, 5000); // Check every 5 seconds
+
+    return () => clearInterval(intervalId);
   }, [router]);
 
   const handleLogout = async () => {
@@ -296,6 +305,14 @@ export default function BackOffice() {
       }
     } catch (error) {
       console.error("Save error:", error);
+
+      // Check if it's an authentication error
+      if (error instanceof Error && (error.message.includes('401') || error.message.includes('Unauthorized'))) {
+        await authApi.logout();
+        router.push('/nadia');
+        return;
+      }
+
       setSaveStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "Network error occurred",
@@ -557,6 +574,13 @@ export default function BackOffice() {
       });
 
       const result = await response.json();
+
+      if (response.status === 401) {
+        // Token expired or invalid - logout and redirect
+        await authApi.logout();
+        router.push('/nadia');
+        return;
+      }
 
       if (result.success) {
         setTextContent(prev => ({
