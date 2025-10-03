@@ -109,6 +109,7 @@ export default function BackOffice() {
     });
     const [activeTab, setActiveTab] = useState('hero');
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const router = useRouter();
 
     useEffect(() => {
@@ -163,20 +164,24 @@ export default function BackOffice() {
 
     const handleSave = async () => {
         setSaveStatus('saving');
+        setErrorMessage('');
         try {
             const response = await contentApi.updateContent(textContent as unknown as Record<string, unknown>);
 
             if (response.success) {
                 setSaveStatus('saved');
-                setTimeout(() => setSaveStatus('idle'), 2000);
+                setTimeout(() => setSaveStatus('idle'), 3000);
             } else {
                 setSaveStatus('error');
-                setTimeout(() => setSaveStatus('idle'), 2000);
+                setErrorMessage(response.message || 'Failed to save changes');
+                console.error('Save failed:', response);
+                setTimeout(() => setSaveStatus('idle'), 5000);
             }
         } catch (error) {
             console.error('Save error:', error);
             setSaveStatus('error');
-            setTimeout(() => setSaveStatus('idle'), 2000);
+            setErrorMessage(error instanceof Error ? error.message : 'Network error occurred');
+            setTimeout(() => setSaveStatus('idle'), 5000);
         }
     };
 
@@ -611,12 +616,12 @@ export default function BackOffice() {
                 </div>
             </header>
 
-            <div className="container mx-auto px-6 py-8">
-                {/* Save Status */}
-                <div className="mb-6">
+            {/* Save Status - Fixed at top */}
+            {saveStatus !== 'idle' && (
+                <div className="fixed top-4 right-4 z-50 animate-fade-in">
                     {saveStatus === 'saving' && (
-                        <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg">
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <div className="flex items-center px-6 py-3 bg-blue-100 text-blue-700 rounded-lg shadow-lg">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
@@ -624,22 +629,30 @@ export default function BackOffice() {
                         </div>
                     )}
                     {saveStatus === 'saved' && (
-                        <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg">
-                            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="flex items-center px-6 py-3 bg-green-100 text-green-700 rounded-lg shadow-lg">
+                            <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
                             Saved successfully!
                         </div>
                     )}
                     {saveStatus === 'error' && (
-                        <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-lg">
-                            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                            </svg>
-                            Error saving changes
+                        <div className="flex flex-col px-6 py-3 bg-red-100 text-red-700 rounded-lg shadow-lg max-w-md">
+                            <div className="flex items-center">
+                                <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                                <span className="font-medium">Error saving changes</span>
+                            </div>
+                            {errorMessage && (
+                                <p className="mt-1 ml-8 text-sm">{errorMessage}</p>
+                            )}
                         </div>
                     )}
                 </div>
+            )}
+
+            <div className="container mx-auto px-6 py-8">
 
                 <div className="grid lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
