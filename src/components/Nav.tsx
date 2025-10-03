@@ -8,24 +8,28 @@ export default function Nav() {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Get all sections
+            // Get all sections with dark backgrounds
             const aboutSection = document.getElementById('about');
             const skillsSection = document.getElementById('skills');
+            const achievementsSection = document.getElementById('achievements');
 
-            if (!aboutSection || !skillsSection) return;
+            if (!aboutSection || !skillsSection || !achievementsSection) return;
 
             const scrollY = window.scrollY + 100; // Header height offset
 
-            // Check if we're in About or Skills sections (dark backgrounds)
+            // Check if we're in About, Skills, or Achievements sections (dark backgrounds)
             const aboutTop = aboutSection.offsetTop;
             const aboutBottom = aboutTop + aboutSection.offsetHeight;
             const skillsTop = skillsSection.offsetTop;
             const skillsBottom = skillsTop + skillsSection.offsetHeight;
+            const achievementsTop = achievementsSection.offsetTop;
+            const achievementsBottom = achievementsTop + achievementsSection.offsetHeight;
 
             const isInAbout = scrollY >= aboutTop && scrollY < aboutBottom;
             const isInSkills = scrollY >= skillsTop && scrollY < skillsBottom;
+            const isInAchievements = scrollY >= achievementsTop && scrollY < achievementsBottom;
 
-            setIsOverDark(isInAbout || isInSkills);
+            setIsOverDark(isInAbout || isInSkills || isInAchievements);
         };
 
         window.addEventListener('scroll', handleScroll);
