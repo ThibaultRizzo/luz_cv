@@ -2883,6 +2883,25 @@ export default function BackOffice() {
                             ))}
                           </div>
 
+                          {/* Soft Skills Section */}
+                          {textContent.softSkills && textContent.softSkills.length > 0 && (
+                            <div className="max-w-4xl mx-auto mb-8">
+                              <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/30">
+                                <h3 className="font-serif text-xl text-brand-gold mb-6 text-center">
+                                  💎 Leadership & Soft Skills
+                                </h3>
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                  {textContent.softSkills.map((item, index) => (
+                                    <div key={index} className="text-center group">
+                                      <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                                      <p className="text-xs text-brand-cream font-medium leading-snug">{item.skill}</p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
                           {/* Certifications & Tools */}
                           <div className="grid md:grid-cols-2 gap-3 mb-6">
                             {/* Certifications */}
@@ -2928,15 +2947,61 @@ export default function BackOffice() {
 
                     {activeTab === "achievements" && (
                       <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px]">
-                        <h2 className="font-serif text-4xl text-center mb-8">{textContent.achievementsTitle}</h2>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                          {textContent.achievements.map((achievement, idx) => (
-                            <div key={idx} className="text-center p-6 border border-brand-gold rounded-lg">
-                              <p className="font-serif text-5xl font-bold text-brand-gold">{achievement.metric}</p>
-                              <p className="mt-4 text-lg">{achievement.description}</p>
+                        {/* Section header */}
+                        <div className="text-center mb-12">
+                          <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4">
+                            <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2"></span>
+                            Key Achievements
+                          </div>
+                          <h2 className="font-serif text-4xl mb-4">{textContent.achievementsTitle}</h2>
+                          <div className="w-16 h-1 bg-brand-gold mx-auto"></div>
+                        </div>
+
+                        {/* Achievements grid - 3 columns max */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                          {textContent.achievements.slice(0, 3).map((achievement, idx) => (
+                            <div
+                              key={idx}
+                              className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300"
+                            >
+                              {/* Icon */}
+                              {achievement.icon && (
+                                <div className="text-4xl mb-4 opacity-80 group-hover:scale-110 transition-transform duration-300">
+                                  {achievement.icon}
+                                </div>
+                              )}
+
+                              {/* Metric */}
+                              <div className="font-serif text-5xl font-bold text-brand-gold mb-4 leading-none">
+                                {achievement.metric}
+                              </div>
+
+                              {/* Description */}
+                              <h3 className="text-base font-semibold text-brand-cream">
+                                {achievement.description}
+                              </h3>
                             </div>
                           ))}
                         </div>
+
+                        {/* Remaining achievements */}
+                        {textContent.achievements.length > 3 && (
+                          <div className="mt-8 flex flex-wrap justify-center gap-4">
+                            {textContent.achievements.slice(3).map((achievement, idx) => (
+                              <div
+                                key={idx + 3}
+                                className="bg-brand-cream/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-brand-gold/20"
+                              >
+                                <div className="text-2xl font-bold text-brand-gold mb-1">
+                                  {achievement.metric}
+                                </div>
+                                <div className="text-sm text-brand-cream/80">
+                                  {achievement.description}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
 
