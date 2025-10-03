@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { authApi, contentApi } from "@/lib/api";
 import EmojiPicker from "@/components/EmojiPicker";
@@ -241,6 +241,18 @@ export default function BackOffice() {
   const [showPreview, setShowPreview] = useState(false); // For mobile toggle
   const router = useRouter();
 
+  // Function to load content from API
+  const loadContent = useCallback(async () => {
+    try {
+      const contentResponse = await contentApi.getContent();
+      if (contentResponse.success && contentResponse.data) {
+        setTextContent(contentResponse.data as unknown as TextContent);
+      }
+    } catch (error) {
+      console.error("Failed to load content:", error);
+    }
+  }, []);
+
   useEffect(() => {
     const checkAuth = async () => {
       if (!authApi.isLoggedIn()) {
@@ -259,10 +271,7 @@ export default function BackOffice() {
         setIsAuthenticated(true);
 
         // Load content from API
-        const contentResponse = await contentApi.getContent();
-        if (contentResponse.success && contentResponse.data) {
-          setTextContent(contentResponse.data as unknown as TextContent);
-        }
+        await loadContent();
       } catch (error) {
         console.error("Auth check failed:", error);
         router.push("/nadia");
@@ -274,14 +283,22 @@ export default function BackOffice() {
     checkAuth();
 
     // Periodic check for localStorage cleared or token expired
-    const intervalId = setInterval(() => {
+    const authCheckInterval = setInterval(() => {
       if (!authApi.isLoggedIn()) {
         router.push("/nadia");
       }
     }, 5000); // Check every 5 seconds
 
-    return () => clearInterval(intervalId);
-  }, [router]);
+    // Periodic content refresh to stay in sync with frontend
+    const contentRefreshInterval = setInterval(() => {
+      loadContent();
+    }, 10000); // Refresh content every 10 seconds
+
+    return () => {
+      clearInterval(authCheckInterval);
+      clearInterval(contentRefreshInterval);
+    };
+  }, [router, loadContent]);
 
   const handleLogout = async () => {
     try {
@@ -312,6 +329,8 @@ export default function BackOffice() {
 
       if (response.success) {
         setSaveStatus("saved");
+        // Reload content from database to ensure we're showing what was actually saved
+        await loadContent();
         setTimeout(() => setSaveStatus("idle"), 3000);
       } else {
         setSaveStatus("error");
