@@ -24,6 +24,7 @@ export const content = pgTable('content', {
   heroStats: jsonb('hero_stats').default([]),
   heroCtaText: text('hero_cta_text'),
   heroScrollText: text('hero_scroll_text'),
+  headerFont: text('header_font').default('playfair'),
 
   // About Section
   aboutTitle: text('about_title'),

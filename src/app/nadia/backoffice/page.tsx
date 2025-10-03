@@ -63,6 +63,7 @@ interface TextContent {
   heroStats: StatItem[];
   heroCtaText: string;
   heroScrollText: string;
+  headerFont: string;
   aboutTitle: string;
   aboutDescription: string;
   aboutMainText: string;
@@ -130,6 +131,7 @@ export default function BackOffice() {
     heroStats: [],
     heroCtaText: "",
     heroScrollText: "",
+    headerFont: "playfair",
     aboutTitle: "Turning vision into reality",
     aboutDescription:
       "Experienced product leader with a passion for luxury retail and fashion technology.",
@@ -700,6 +702,33 @@ export default function BackOffice() {
       case "hero":
         return (
           <div className="space-y-4 sm:space-y-5 md:space-y-6">
+            <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
+              <label className="block text-xs sm:text-sm font-semibold text-brand-gold mb-3">
+                Header Font (NADIA LUNA)
+              </label>
+              <div className="relative">
+                <select
+                  value={textContent.headerFont || 'playfair'}
+                  onChange={(e) =>
+                    handleTextChange("headerFont", e.target.value)
+                  }
+                  className="w-full px-4 py-3.5 text-sm md:text-base bg-brand-deep/40 backdrop-blur-sm border-2 border-brand-gold/40 text-brand-cream rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-gold transition-all duration-300 cursor-pointer hover:border-brand-gold/60 appearance-none"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C7A17A'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                    backgroundSize: '1.5em 1.5em',
+                  }}
+                >
+                  <option value="playfair">Playfair Display — Bold & Dramatic</option>
+                  <option value="cormorant">Cormorant Garamond — Refined & Elegant</option>
+                  <option value="bodoni">Bodoni Moda — Ultra-Luxury</option>
+                </select>
+              </div>
+              <p className="text-xs text-brand-cream/70 mt-3 italic">
+                Choose the luxury font for the header navigation &quot;NADIA LUNA&quot;
+              </p>
+            </div>
             <div>
               <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                 Hero Badge
@@ -2610,56 +2639,120 @@ export default function BackOffice() {
                   <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
                 </div>
                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                  {/* Header Preview - Same as Hero section */}
+                  <div className="sticky top-0 z-50 backdrop-blur-3xl border-b border-white/20 bg-white/80" style={{ backdropFilter: 'blur(20px) saturate(180%)', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
+                    <div className="px-6 py-6 md:py-8 flex justify-between items-center">
+                      <div
+                        className={`text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wider sm:tracking-wider md:tracking-widest ${
+                          textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
+                          textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
+                          'font-serif'
+                        } text-brand-deep`}
+                      >
+                        NADIA LUNA
+                      </div>
+                      <div className="hidden md:flex items-center gap-2">
+                        {['about', 'experience', 'skills', 'achievements', 'contact'].map((item) => (
+                          <div key={item} className="px-3 py-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand-deep"></div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Mobile Menu Button */}
+                      <button className="md:hidden p-2 rounded-lg text-brand-deep">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
                   {/* Preview content will be rendered here based on activeTab */}
                   <div className="transform scale-90 origin-top-left w-[111%]">
                     {activeTab === "hero" && (
-                      <div className="relative min-h-[500px] flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 p-8">
-                        <div className="w-full">
-                          <div className="grid lg:grid-cols-2 gap-8 items-center">
+                      <div className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 pt-20 pb-16">
+                        {/* Background decorative elements */}
+                        <div className="absolute inset-0">
+                          <div className="absolute top-20 right-10 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl"></div>
+                          <div className="absolute bottom-20 left-10 w-96 h-96 bg-brand-deep/5 rounded-full blur-3xl"></div>
+                        </div>
+
+                        <div className="container mx-auto px-6 relative z-10">
+                          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
+                            {/* Left column - Content */}
                             <div>
-                              {textContent.heroBadge && (
-                                <div className="inline-flex items-center px-3 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-4">
-                                  <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-                                  {textContent.heroBadge}
-                                </div>
-                              )}
-                              <h1 className="font-serif text-3xl lg:text-4xl leading-tight text-brand-deep mb-3">
+                              {/* Badge */}
+                              <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6">
+                                <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                                {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
+                              </div>
+
+                              {/* Main headline */}
+                              <h1 className="font-serif text-4xl lg:text-5xl leading-tight text-brand-deep mb-4">
                                 {textContent.heroTitle}
-                                <span className="block text-brand-gold italic">{textContent.heroSubtitle}</span>
+                                <span className="block text-brand-gold italic mt-2">{textContent.heroSubtitle}</span>
                               </h1>
-                              <p className="text-sm lg:text-base text-brand-deep/80 mb-6">
+
+                              {/* Subtitle */}
+                              <p className="text-base lg:text-lg text-brand-deep/80 mb-8 leading-relaxed max-w-full">
                                 {textContent.heroDescription}
                               </p>
 
-                              {/* Hero Stats */}
-                              {textContent.heroStats && textContent.heroStats.length > 0 && (
-                                <div className="flex gap-6 mb-6">
-                                  {textContent.heroStats.map((stat, index) => (
-                                    <div key={index} className="text-center">
-                                      <div className="text-2xl font-bold text-brand-gold">{stat.metric}</div>
-                                      <div className="text-xs text-brand-deep/70 uppercase tracking-wide">{stat.label}</div>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
+                              {/* Stats */}
+                              <div className="grid grid-cols-3 gap-6 lg:gap-8 mb-12">
+                                {(textContent.heroStats && textContent.heroStats.length > 0 ? textContent.heroStats : [
+                                  { metric: '10+', label: 'Years Experience' },
+                                  { metric: '€50M+', label: 'Revenue Impact' },
+                                  { metric: '25+', label: 'Products Launched' }
+                                ]).map((stat, index) => (
+                                  <div key={index} className="text-center">
+                                    <div className="text-3xl lg:text-4xl font-bold text-brand-gold mb-2">{stat.metric}</div>
+                                    <div className="text-xs sm:text-sm text-brand-deep uppercase tracking-wider font-medium">{stat.label}</div>
+                                  </div>
+                                ))}
+                              </div>
 
-                              {textContent.heroCtaText && (
-                                <button className="px-4 py-2 bg-brand-deep text-brand-cream rounded-full text-sm font-medium">
-                                  {textContent.heroCtaText}
+                              {/* CTA Button */}
+                              <div className="flex justify-start">
+                                <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 shadow-lg text-sm sm:text-base">
+                                  {textContent.heroCtaText || "Let's Craft Excellence Together"}
+                                  <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                  </svg>
                                 </button>
-                              )}
+                              </div>
                             </div>
-                            <div className="flex justify-center">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                key={textContent.heroImage}
-                                src={textContent.heroImage || "/nadia.jpg"}
-                                alt="Hero"
-                                className="w-48 h-64 rounded-2xl shadow-2xl object-cover"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = '/nadia.jpg';
-                                }}
-                              />
+
+                            {/* Right column - Image */}
+                            <div className="relative flex justify-center lg:justify-start order-first lg:order-last mt-8 lg:mt-0">
+                              <div className="relative w-full max-w-xs sm:max-w-sm">
+                                {/* Decorative elements behind image */}
+                                <div className="absolute -top-4 -right-4 w-full h-full bg-brand-gold/20 rounded-2xl transform rotate-3"></div>
+                                <div className="absolute -bottom-4 -left-4 w-full h-full bg-brand-deep/10 rounded-2xl transform -rotate-2"></div>
+
+                                {/* Main image */}
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  key={textContent.heroImage}
+                                  src={textContent.heroImage || "/nadia.jpg"}
+                                  alt="Hero"
+                                  className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = '/nadia.jpg';
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Scroll indicator */}
+                        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 hidden md:flex">
+                          <div className="flex flex-col items-center text-brand-deep/60">
+                            <span className="text-xs uppercase tracking-wide mb-2">{textContent.heroScrollText || 'Scroll'}</span>
+                            <div className="w-6 h-10 border-2 border-brand-deep/20 rounded-full flex justify-center">
+                              <div className="w-1 h-3 bg-brand-deep/40 rounded-full mt-2 animate-bounce"></div>
                             </div>
                           </div>
                         </div>

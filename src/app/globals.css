@@ -6,6 +6,7 @@
   --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-family-serif: var(--font-playfair), ui-serif, Georgia, serif;
   --font-family-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-family-bodoni: var(--font-bodoni), ui-serif, Georgia, serif;
 }
 
 /* Smooth scrolling */
@@ -323,6 +324,13 @@ html {
 
 .skip-nav:focus {
   top: 6px;
+}
+
+/* Dropdown option styling for backoffice */
+select option {
+  background-color: var(--color-brand-deep);
+  color: var(--color-brand-cream);
+  padding: 0.75rem 1rem;
 }
 
 /* Custom Scrollbar for Backoffice */
