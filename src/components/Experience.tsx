@@ -109,7 +109,7 @@ export default function Experience() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-8 sm:mt-12 md:mt-16">
+        <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
           <div className="inline-flex flex-row items-center justify-center gap-6 sm:gap-0 sm:space-x-6 bg-brand-deep/5 rounded-2xl py-4 px-6 sm:p-6">
             {(textContent.experienceBottomStats && textContent.experienceBottomStats.length > 0 ? textContent.experienceBottomStats : [
               { metric: '10+', label: 'Years' },
