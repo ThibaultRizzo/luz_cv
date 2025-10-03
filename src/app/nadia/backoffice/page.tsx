@@ -2405,56 +2405,65 @@ export default function BackOffice() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 py-4 max-w-[1800px]">
-        <div className="flex gap-4">
-          {/* Compact Sidebar */}
-          <div className="w-20 flex-shrink-0">
-            <div className="sticky top-4 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3">
-              <div className="mb-4">
-                <button
-                  onClick={handleLogout}
-                  className="w-full p-2 bg-white/20 backdrop-blur-sm text-brand-cream rounded-lg hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 flex items-center justify-center border border-white/30"
-                  title="Logout"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
-                </button>
+      <div className="w-full px-6 py-4">
+        <div className="flex gap-6">
+          {/* Enhanced Sidebar */}
+          <div className="w-64 flex-shrink-0">
+            <div className="sticky top-4 bg-gradient-to-br from-brand-deep to-brand-deep/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-brand-gold/20 p-4">
+              {/* Header */}
+              <div className="mb-6 pb-4 border-b border-brand-gold/20">
+                <h2 className="text-brand-gold font-serif text-xl mb-1">Content Editor</h2>
+                <p className="text-brand-cream/60 text-xs">Manage your portfolio</p>
               </div>
 
-              <nav className="space-y-2">
+              {/* Navigation */}
+              <nav className="space-y-2 mb-6">
                 {[
-                  { id: "hero", label: "Hero Section", icon: "🏠" },
-                  { id: "about", label: "About", icon: "👤" },
-                  { id: "experience", label: "Experience", icon: "💼" },
-                  { id: "skills", label: "Skills", icon: "⚡" },
-                  { id: "achievements", label: "Achievements", icon: "🏆" },
-                  { id: "contact", label: "Contact", icon: "📧" },
+                  { id: "hero", label: "Hero Section", icon: "🏠", desc: "Main banner" },
+                  { id: "about", label: "About", icon: "👤", desc: "Your story" },
+                  { id: "experience", label: "Experience", icon: "💼", desc: "Career path" },
+                  { id: "skills", label: "Skills", icon: "⚡", desc: "Expertise" },
+                  { id: "achievements", label: "Achievements", icon: "🏆", desc: "Milestones" },
+                  { id: "contact", label: "Contact", icon: "📧", desc: "Get in touch" },
                 ].map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full p-3 rounded-lg transition-all duration-300 flex items-center justify-center ${
+                    className={`w-full p-3 rounded-xl transition-all duration-300 flex items-start gap-3 group ${
                       activeTab === tab.id
-                        ? "bg-brand-gold shadow-md"
+                        ? "bg-brand-gold shadow-lg scale-[1.02]"
                         : "hover:bg-white/20 border border-transparent hover:border-white/20"
                     }`}
                     title={tab.label}
                   >
-                    <span className="text-2xl">{tab.icon}</span>
+                    <span className="text-2xl flex-shrink-0">{tab.icon}</span>
+                    <div className="flex-1 text-left">
+                      <div className={`font-medium text-sm ${activeTab === tab.id ? 'text-brand-deep' : 'text-brand-cream'}`}>
+                        {tab.label}
+                      </div>
+                      <div className={`text-xs ${activeTab === tab.id ? 'text-brand-deep/70' : 'text-brand-cream/50'}`}>
+                        {tab.desc}
+                      </div>
+                    </div>
                   </button>
                 ))}
               </nav>
+
+              {/* Logout Button */}
+              <div className="pt-4 border-t border-brand-gold/20">
+                <button
+                  onClick={handleLogout}
+                  className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
+                >
+                  <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <div className="flex-1 text-left">
+                    <div className="font-medium text-sm">Logout</div>
+                    <div className="text-xs text-brand-cream/50 group-hover:text-white/70">Exit dashboard</div>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -2508,6 +2517,19 @@ export default function BackOffice() {
                               <p className="text-sm lg:text-base text-brand-deep/80 mb-6">
                                 {textContent.heroDescription}
                               </p>
+
+                              {/* Hero Stats */}
+                              {textContent.heroStats && textContent.heroStats.length > 0 && (
+                                <div className="flex gap-6 mb-6">
+                                  {textContent.heroStats.map((stat, index) => (
+                                    <div key={index} className="text-center">
+                                      <div className="text-2xl font-bold text-brand-gold">{stat.metric}</div>
+                                      <div className="text-xs text-brand-deep/70 uppercase tracking-wide">{stat.label}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+
                               {textContent.heroCtaText && (
                                 <button className="px-4 py-2 bg-brand-deep text-brand-cream rounded-full text-sm font-medium">
                                   {textContent.heroCtaText}
@@ -2630,7 +2652,7 @@ export default function BackOffice() {
                               <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold transform -translate-x-1/2"></div>
 
                               <div className="space-y-12">
-                                {textContent.experiences.slice(0, 2).map((exp, index) => (
+                                {textContent.experiences.map((exp, index) => (
                                   <div key={index} className="relative flex items-center">
                                     {/* Timeline dot - centered */}
                                     <div className="absolute left-1/2 w-4 h-4 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10 transform -translate-x-1/2"></div>
@@ -2655,7 +2677,7 @@ export default function BackOffice() {
 
                                       {/* Achievements */}
                                       <div className="space-y-2">
-                                        {exp.achievements.slice(0, 2).map((achievement, i) => (
+                                        {exp.achievements.map((achievement, i) => (
                                           <div key={i} className="flex items-start space-x-3">
                                             <div className="w-2 h-2 bg-brand-gold rounded-full mt-2 flex-shrink-0"></div>
                                             <p className="text-brand-deep/80 text-sm leading-relaxed">{achievement}</p>
