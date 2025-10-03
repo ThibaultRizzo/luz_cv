@@ -98,7 +98,7 @@ export default function Contact() {
                                 <legend className="sr-only">Personal Information</legend>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-brand-deep mb-2">
-                                        {textContent.contactFormLabels?.name || 'Full Name'} <span className="text-red-500" aria-label="required">*</span>
+                                        {textContent.contactFormLabels?.name || 'Full Name'} <span className="text-brand-gold" aria-label="required">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -114,7 +114,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-brand-deep mb-2">
-                                        {textContent.contactFormLabels?.email || 'Email Address'} <span className="text-red-500" aria-label="required">*</span>
+                                        {textContent.contactFormLabels?.email || 'Email Address'} <span className="text-brand-gold" aria-label="required">*</span>
                                     </label>
                                     <input
                                         type="email"
@@ -143,7 +143,7 @@ export default function Contact() {
                             </div>
                             <div>
                                 <label htmlFor="message" className="block text-sm font-medium text-brand-deep mb-2">
-                                    {textContent.contactFormLabels?.message || 'Message'} <span className="text-red-500" aria-label="required">*</span>
+                                    {textContent.contactFormLabels?.message || 'Message'} <span className="text-brand-gold" aria-label="required">*</span>
                                 </label>
                                 <textarea
                                     id="message"
