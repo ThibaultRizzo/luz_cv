@@ -71,17 +71,39 @@ export async function initializeDatabase() {
     await sqlClient`
       CREATE TABLE IF NOT EXISTS content (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+
+        -- Hero Section
         hero_title TEXT,
         hero_subtitle TEXT,
         hero_description TEXT,
+        hero_badge TEXT,
+        hero_image TEXT DEFAULT '/nadia.jpg',
+        hero_stats JSONB DEFAULT '[]',
+        hero_cta_text TEXT,
+        hero_scroll_text TEXT,
+
+        -- About Section
         about_title TEXT,
         about_description TEXT,
         about_main_text TEXT,
         about_secondary_text TEXT,
         about_quote TEXT,
+        about_badge TEXT,
+        about_title_suffix TEXT,
+        about_approach_title TEXT,
+        about_approach_items JSONB DEFAULT '[]',
+        about_impact_title TEXT,
+        about_impact_metrics JSONB DEFAULT '[]',
+        about_quote_author TEXT,
+
+        -- Experience Section
         experience_title TEXT,
         experience_subtitle TEXT,
         experiences JSONB DEFAULT '[]',
+        experience_badge TEXT,
+        experience_bottom_stats JSONB DEFAULT '[]',
+
+        -- Skills Section
         skills_title TEXT,
         skills_subtitle TEXT,
         skills_description TEXT,
@@ -89,11 +111,40 @@ export async function initializeDatabase() {
         certifications JSONB DEFAULT '[]',
         tools JSONB DEFAULT '[]',
         skills_quote TEXT,
+        skills_badge TEXT,
+        skills_certifications_title TEXT,
+        skills_tools_title TEXT,
+        skills_quote_author TEXT,
+        soft_skills JSONB DEFAULT '[]',
+
+        -- Achievements
         achievements_title TEXT,
         achievements JSONB DEFAULT '[]',
+
+        -- Contact Section
         contact_title TEXT,
         contact_subtitle TEXT,
         contact_description TEXT,
+        contact_badge TEXT,
+        contact_form_title TEXT,
+        contact_form_labels JSONB DEFAULT '{}',
+        contact_form_placeholders JSONB DEFAULT '{}',
+        contact_submit_button TEXT,
+        contact_success_message TEXT,
+        contact_error_message TEXT,
+        contact_info_title TEXT,
+        contact_email TEXT,
+        contact_linkedin TEXT,
+        contact_phone TEXT,
+        contact_availability_title TEXT,
+        contact_availability_status TEXT,
+        contact_availability_description TEXT,
+        contact_availability_items JSONB DEFAULT '[]',
+        contact_download_text TEXT,
+        contact_cv_path TEXT DEFAULT '/cv.pdf',
+        contact_bottom_info JSONB DEFAULT '{}',
+
+        -- Meta
         version INTEGER DEFAULT 1 NOT NULL,
         is_active BOOLEAN DEFAULT true NOT NULL,
         last_modified_by TEXT REFERENCES users(id),
