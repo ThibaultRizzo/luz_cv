@@ -19,6 +19,10 @@ export const content = pgTable('content', {
   heroTitle: text('hero_title'),
   heroSubtitle: text('hero_subtitle'),
   heroDescription: text('hero_description'),
+  heroBadge: text('hero_badge'),
+  heroStats: jsonb('hero_stats').default([]),
+  heroCtaText: text('hero_cta_text'),
+  heroScrollText: text('hero_scroll_text'),
 
   // About Section
   aboutTitle: text('about_title'),
@@ -26,11 +30,20 @@ export const content = pgTable('content', {
   aboutMainText: text('about_main_text'),
   aboutSecondaryText: text('about_secondary_text'),
   aboutQuote: text('about_quote'),
+  aboutBadge: text('about_badge'),
+  aboutTitleSuffix: text('about_title_suffix'),
+  aboutApproachTitle: text('about_approach_title'),
+  aboutApproachItems: jsonb('about_approach_items').default([]),
+  aboutImpactTitle: text('about_impact_title'),
+  aboutImpactMetrics: jsonb('about_impact_metrics').default([]),
+  aboutQuoteAuthor: text('about_quote_author'),
 
   // Experience Section
   experienceTitle: text('experience_title'),
   experienceSubtitle: text('experience_subtitle'),
   experiences: jsonb('experiences').default([]),
+  experienceBadge: text('experience_badge'),
+  experienceBottomStats: jsonb('experience_bottom_stats').default([]),
 
   // Skills Section
   skillsTitle: text('skills_title'),
@@ -40,6 +53,10 @@ export const content = pgTable('content', {
   certifications: jsonb('certifications').default([]),
   tools: jsonb('tools').default([]),
   skillsQuote: text('skills_quote'),
+  skillsBadge: text('skills_badge'),
+  skillsCertificationsTitle: text('skills_certifications_title'),
+  skillsToolsTitle: text('skills_tools_title'),
+  skillsQuoteAuthor: text('skills_quote_author'),
 
   // Achievements
   achievementsTitle: text('achievements_title'),
@@ -49,6 +66,23 @@ export const content = pgTable('content', {
   contactTitle: text('contact_title'),
   contactSubtitle: text('contact_subtitle'),
   contactDescription: text('contact_description'),
+  contactBadge: text('contact_badge'),
+  contactFormTitle: text('contact_form_title'),
+  contactFormLabels: jsonb('contact_form_labels').default({}),
+  contactFormPlaceholders: jsonb('contact_form_placeholders').default({}),
+  contactSubmitButton: text('contact_submit_button'),
+  contactSuccessMessage: text('contact_success_message'),
+  contactErrorMessage: text('contact_error_message'),
+  contactInfoTitle: text('contact_info_title'),
+  contactEmail: text('contact_email'),
+  contactLinkedin: text('contact_linkedin'),
+  contactPhone: text('contact_phone'),
+  contactAvailabilityTitle: text('contact_availability_title'),
+  contactAvailabilityStatus: text('contact_availability_status'),
+  contactAvailabilityDescription: text('contact_availability_description'),
+  contactAvailabilityItems: jsonb('contact_availability_items').default([]),
+  contactDownloadText: text('contact_download_text'),
+  contactBottomInfo: jsonb('contact_bottom_info').default({}),
 
   // Meta
   version: integer('version').default(1).notNull(),

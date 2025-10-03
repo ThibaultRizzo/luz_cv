@@ -54,7 +54,7 @@ export default function Contact() {
                 <div className="text-center mb-12 sm:mb-16 md:mb-20">
                     <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6">
                         <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-                        Let&apos;s Connect
+                        {textContent.contactBadge || "Let's Connect"}
                     </div>
                     <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-brand-deep mb-4 sm:mb-6">
                         {textContent.contactTitle}
@@ -69,7 +69,7 @@ export default function Contact() {
                 <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
                     {/* Contact Form */}
                     <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-brand-gold/10">
-                        <h3 className="font-serif text-xl sm:text-2xl text-brand-deep mb-4 sm:mb-6">Send a Message</h3>
+                        <h3 className="font-serif text-xl sm:text-2xl text-brand-deep mb-4 sm:mb-6">{textContent.contactFormTitle || 'Send a Message'}</h3>
 
                         {submitStatus === 'success' && (
                             <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl">
@@ -77,7 +77,7 @@ export default function Contact() {
                                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                     </svg>
-                                    Thank you! Your message has been sent successfully.
+                                    {textContent.contactSuccessMessage || 'Thank you! Your message has been sent successfully.'}
                                 </div>
                             </div>
                         )}
@@ -88,7 +88,7 @@ export default function Contact() {
                                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                                     </svg>
-                                    Sorry, there was an error sending your message. Please try again.
+                                    {textContent.contactErrorMessage || 'Sorry, there was an error sending your message. Please try again.'}
                                 </div>
                             </div>
                         )}
@@ -98,7 +98,7 @@ export default function Contact() {
                                 <legend className="sr-only">Personal Information</legend>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-brand-deep mb-2">
-                                        Full Name <span className="text-red-500" aria-label="required">*</span>
+                                        {textContent.contactFormLabels?.name || 'Full Name'} <span className="text-red-500" aria-label="required">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -109,12 +109,12 @@ export default function Contact() {
                                         required
                                         aria-describedby="name-error"
                                         className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300"
-                                        placeholder="Your name"
+                                        placeholder={textContent.contactFormPlaceholders?.name || 'Your name'}
                                     />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-brand-deep mb-2">
-                                        Email Address <span className="text-red-500" aria-label="required">*</span>
+                                        {textContent.contactFormLabels?.email || 'Email Address'} <span className="text-red-500" aria-label="required">*</span>
                                     </label>
                                     <input
                                         type="email"
@@ -125,12 +125,12 @@ export default function Contact() {
                                         required
                                         aria-describedby="email-error"
                                         className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300"
-                                        placeholder="your@email.com"
+                                        placeholder={textContent.contactFormPlaceholders?.email || 'your@email.com'}
                                     />
                                 </div>
                             </fieldset>
                             <div>
-                                <label htmlFor="company" className="block text-sm font-medium text-brand-deep mb-2">Company</label>
+                                <label htmlFor="company" className="block text-sm font-medium text-brand-deep mb-2">{textContent.contactFormLabels?.company || 'Company'}</label>
                                 <input
                                     type="text"
                                     id="company"
@@ -138,12 +138,12 @@ export default function Contact() {
                                     value={formData.company}
                                     onChange={handleInputChange}
                                     className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300"
-                                    placeholder="Your company"
+                                    placeholder={textContent.contactFormPlaceholders?.company || 'Your company'}
                                 />
                             </div>
                             <div>
                                 <label htmlFor="message" className="block text-sm font-medium text-brand-deep mb-2">
-                                    Message <span className="text-red-500" aria-label="required">*</span>
+                                    {textContent.contactFormLabels?.message || 'Message'} <span className="text-red-500" aria-label="required">*</span>
                                 </label>
                                 <textarea
                                     id="message"
@@ -154,7 +154,7 @@ export default function Contact() {
                                     rows={5}
                                     aria-describedby="message-error"
                                     className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300 resize-none"
-                                    placeholder="Tell me about your project or opportunity..."
+                                    placeholder={textContent.contactFormPlaceholders?.message || 'Tell me about your project or opportunity...'}
                                 ></textarea>
                             </div>
                             <button
@@ -171,7 +171,7 @@ export default function Contact() {
                                         Sending...
                                     </>
                                 ) : (
-                                    'Send Message'
+                                    textContent.contactSubmitButton || 'Send Message'
                                 )}
                             </button>
                         </form>
@@ -181,7 +181,7 @@ export default function Contact() {
                     <div className="space-y-6 sm:space-y-8">
                         {/* Direct contact */}
                         <div className="bg-brand-deep rounded-2xl p-6 sm:p-8 border-2 border-brand-gold shadow-lg">
-                            <h3 className="font-serif text-xl sm:text-2xl text-brand-cream mb-4 sm:mb-6">Get in Touch Directly</h3>
+                            <h3 className="font-serif text-xl sm:text-2xl text-brand-cream mb-4 sm:mb-6">{textContent.contactInfoTitle || 'Get in Touch Directly'}</h3>
                             <div className="space-y-4 sm:space-y-6">
                                 <div className="flex items-center space-x-3 sm:space-x-4">
                                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-gold/20 rounded-full flex items-center justify-center">
@@ -189,7 +189,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <div className="font-medium text-brand-cream text-sm sm:text-base">Email</div>
-                                        <a href="mailto:nadia.luna@email.com" className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">nadia.luna@email.com</a>
+                                        <a href={`mailto:${textContent.contactEmail || 'nadia.luna@email.com'}`} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactEmail || 'nadia.luna@email.com'}</a>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3 sm:space-x-4">
@@ -198,7 +198,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <div className="font-medium text-brand-cream text-sm sm:text-base">LinkedIn</div>
-                                        <a href="#" className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">linkedin.com/in/nadialuna</a>
+                                        <a href={textContent.contactLinkedin || '#'} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactLinkedin ? textContent.contactLinkedin.replace('https://', '').replace('http://', '') : 'linkedin.com/in/nadialuna'}</a>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3 sm:space-x-4">
@@ -207,7 +207,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <div className="font-medium text-brand-cream text-sm sm:text-base">Phone</div>
-                                        <a href="tel:+33123456789" className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base font-medium">+33 1 23 45 67 89</a>
+                                        <a href={`tel:${textContent.contactPhone?.replace(/\s/g, '') || '+33123456789'}`} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base font-medium">{textContent.contactPhone || '+33 1 23 45 67 89'}</a>
                                     </div>
                                 </div>
                             </div>
@@ -215,18 +215,22 @@ export default function Contact() {
 
                         {/* Availability */}
                         <div className="bg-brand-gold/10 rounded-2xl p-6 sm:p-8 border border-brand-gold/30">
-                            <h3 className="font-serif text-xl sm:text-2xl text-brand-deep mb-3 sm:mb-4">Current Availability</h3>
+                            <h3 className="font-serif text-xl sm:text-2xl text-brand-deep mb-3 sm:mb-4">{textContent.contactAvailabilityTitle || 'Current Availability'}</h3>
                             <div className="flex items-center space-x-3 mb-3 sm:mb-4">
                                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                <span className="text-brand-deep font-medium text-sm sm:text-base">Available for new opportunities</span>
+                                <span className="text-brand-deep font-medium text-sm sm:text-base">{textContent.contactAvailabilityStatus || 'Available for new opportunities'}</span>
                             </div>
                             <p className="text-brand-deep/80 mb-4 sm:mb-6 text-sm sm:text-base">
-                                I&apos;m currently exploring exciting product leadership roles in luxury retail and fashion tech. Let&apos;s discuss how I can help transform your business.
+                                {textContent.contactAvailabilityDescription || "I'm currently exploring exciting product leadership roles in luxury retail and fashion tech. Let's discuss how I can help transform your business."}
                             </p>
                             <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-brand-deep/70">
-                                <div>• Strategic consulting projects</div>
-                                <div>• Full-time product leadership roles</div>
-                                <div>• Speaking engagements & workshops</div>
+                                {(textContent.contactAvailabilityItems && textContent.contactAvailabilityItems.length > 0 ? textContent.contactAvailabilityItems : [
+                                    'Strategic consulting projects',
+                                    'Full-time product leadership roles',
+                                    'Speaking engagements & workshops'
+                                ]).map((item, index) => (
+                                    <div key={index}>• {item}</div>
+                                ))}
                             </div>
                         </div>
 
@@ -238,7 +242,7 @@ export default function Contact() {
                                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
                             >
                                 <span className="text-lg sm:text-xl mr-2">📄</span>
-                                Download Full Portfolio
+                                {textContent.contactDownloadText || 'Download Full Portfolio'}
                             </a>
                         </div>
                     </div>
@@ -248,18 +252,18 @@ export default function Contact() {
                 <div className="text-center mt-12 sm:mt-16 md:mt-20">
                     <div className="inline-flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 bg-brand-deep/5 rounded-2xl p-4 sm:p-6 max-w-sm sm:max-w-none mx-auto">
                         <div className="text-brand-deep text-center sm:text-left">
-                            <div className="text-sm sm:text-lg font-medium">Response Time</div>
-                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">24h</div>
+                            <div className="text-sm sm:text-lg font-medium">{textContent.contactBottomInfo?.responseTime?.label || 'Response Time'}</div>
+                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">{textContent.contactBottomInfo?.responseTime?.value || '24h'}</div>
                         </div>
                         <div className="hidden sm:block w-px h-12 bg-brand-gold/30"></div>
                         <div className="text-brand-deep text-center sm:text-left">
-                            <div className="text-sm sm:text-lg font-medium">Based in</div>
-                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">Paris</div>
+                            <div className="text-sm sm:text-lg font-medium">{textContent.contactBottomInfo?.location?.label || 'Based in'}</div>
+                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">{textContent.contactBottomInfo?.location?.value || 'Paris'}</div>
                         </div>
                         <div className="hidden sm:block w-px h-12 bg-brand-gold/30"></div>
                         <div className="text-brand-deep text-center sm:text-left">
-                            <div className="text-sm sm:text-lg font-medium">Languages</div>
-                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">EN • FR • ESP   </div>
+                            <div className="text-sm sm:text-lg font-medium">{textContent.contactBottomInfo?.languages?.label || 'Languages'}</div>
+                            <div className="text-lg sm:text-2xl font-bold text-brand-gold">{textContent.contactBottomInfo?.languages?.value || 'EN • FR • ESP'}</div>
                         </div>
                     </div>
                 </div>

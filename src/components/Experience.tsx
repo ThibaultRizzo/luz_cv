@@ -18,7 +18,7 @@ export default function Experience() {
         <div className="text-center mb-20">
           <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6">
             <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-            Career Journey
+            {textContent.experienceBadge || 'Career Journey'}
           </div>
           <h2 className="font-serif text-5xl md:text-7xl leading-tight text-brand-deep mb-6">
             {textContent.experienceTitle}
@@ -77,20 +77,19 @@ export default function Experience() {
         {/* Bottom CTA */}
         <div className="text-center mt-20">
           <div className="inline-flex items-center space-x-4 bg-brand-deep/5 rounded-2xl p-6">
-            <div className="text-brand-deep">
-              <div className="text-2xl font-bold">10+</div>
-              <div className="text-sm uppercase tracking-wide">Years</div>
-            </div>
-            <div className="w-px h-12 bg-brand-gold/30"></div>
-            <div className="text-brand-deep">
-              <div className="text-2xl font-bold">€50M+</div>
-              <div className="text-sm uppercase tracking-wide">Impact</div>
-            </div>
-            <div className="w-px h-12 bg-brand-gold/30"></div>
-            <div className="text-brand-deep">
-              <div className="text-2xl font-bold">25+</div>
-              <div className="text-sm uppercase tracking-wide">Products</div>
-            </div>
+            {(textContent.experienceBottomStats && textContent.experienceBottomStats.length > 0 ? textContent.experienceBottomStats : [
+              { metric: '10+', label: 'Years' },
+              { metric: '€50M+', label: 'Impact' },
+              { metric: '25+', label: 'Products' }
+            ]).map((stat, index) => (
+              <div key={index} className="flex items-center">
+                {index > 0 && <div className="w-px h-12 bg-brand-gold/30 mr-4"></div>}
+                <div className="text-brand-deep">
+                  <div className="text-2xl font-bold">{stat.metric}</div>
+                  <div className="text-sm uppercase tracking-wide">{stat.label}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

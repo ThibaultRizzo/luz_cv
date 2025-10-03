@@ -18,11 +18,11 @@ export default function About() {
                 <div className="text-center mb-20">
                     <div className="inline-flex items-center px-4 py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-sm mb-6">
                         <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-                        About Me
+                        {textContent.aboutBadge || 'About Me'}
                     </div>
                     <h2 className="font-serif text-5xl md:text-7xl leading-tight mb-6">
                         {textContent.aboutTitle}
-                        <span className="block text-brand-gold italic">reality</span>
+                        <span className="block text-brand-gold italic">{textContent.aboutTitleSuffix || 'reality'}</span>
                     </h2>
                     <div className="w-24 h-1 bg-brand-gold mx-auto"></div>
                 </div>
@@ -41,29 +41,21 @@ export default function About() {
 
                         {/* Key principles */}
                         <div className="space-y-4">
-                            <h3 className="text-2xl font-serif text-brand-gold mb-6">My Approach</h3>
+                            <h3 className="text-2xl font-serif text-brand-gold mb-6">{textContent.aboutApproachTitle || 'My Approach'}</h3>
                             <div className="space-y-4">
-                                <div className="flex items-start space-x-4">
-                                    <div className="w-2 h-2 bg-brand-gold rounded-full mt-3 flex-shrink-0"></div>
-                                    <div>
-                                        <h4 className="font-semibold text-brand-cream mb-1">Customer-First Philosophy</h4>
-                                        <p className="text-brand-cream/70">Every decision starts with understanding the customer&apos;s deepest needs and desires</p>
+                                {(textContent.aboutApproachItems && textContent.aboutApproachItems.length > 0 ? textContent.aboutApproachItems : [
+                                    { title: 'Customer-First Philosophy', description: 'Every decision starts with understanding the customer\'s deepest needs and desires' },
+                                    { title: 'Data-Driven Innovation', description: 'Combining intuition with analytics to create breakthrough solutions' },
+                                    { title: 'Cross-Functional Leadership', description: 'Building bridges between teams to deliver cohesive, impactful products' }
+                                ]).map((item, index) => (
+                                    <div key={index} className="flex items-start space-x-4">
+                                        <div className="w-2 h-2 bg-brand-gold rounded-full mt-3 flex-shrink-0"></div>
+                                        <div>
+                                            <h4 className="font-semibold text-brand-cream mb-1">{item.title}</h4>
+                                            <p className="text-brand-cream/70">{item.description}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex items-start space-x-4">
-                                    <div className="w-2 h-2 bg-brand-gold rounded-full mt-3 flex-shrink-0"></div>
-                                    <div>
-                                        <h4 className="font-semibold text-brand-cream mb-1">Data-Driven Innovation</h4>
-                                        <p className="text-brand-cream/70">Combining intuition with analytics to create breakthrough solutions</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start space-x-4">
-                                    <div className="w-2 h-2 bg-brand-gold rounded-full mt-3 flex-shrink-0"></div>
-                                    <div>
-                                        <h4 className="font-semibold text-brand-cream mb-1">Cross-Functional Leadership</h4>
-                                        <p className="text-brand-cream/70">Building bridges between teams to deliver cohesive, impactful products</p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -72,24 +64,19 @@ export default function About() {
                     <div className="space-y-8">
                         {/* Impact metrics */}
                         <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-8 border border-brand-gold/20">
-                            <h3 className="text-2xl font-serif text-brand-gold mb-6">Impact at a Glance</h3>
+                            <h3 className="text-2xl font-serif text-brand-gold mb-6">{textContent.aboutImpactTitle || 'Impact at a Glance'}</h3>
                             <div className="grid grid-cols-2 gap-6">
-                                <div className="text-center">
-                                    <div className="text-3xl font-bold text-brand-cream mb-1">€50M+</div>
-                                    <div className="text-sm text-brand-cream/60 uppercase tracking-wide">Revenue Generated</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-3xl font-bold text-brand-cream mb-1">40%</div>
-                                    <div className="text-sm text-brand-cream/60 uppercase tracking-wide">Avg Growth Rate</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-3xl font-bold text-brand-cream mb-1">25+</div>
-                                    <div className="text-sm text-brand-cream/60 uppercase tracking-wide">Products Launched</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-3xl font-bold text-brand-cream mb-1">15+</div>
-                                    <div className="text-sm text-brand-cream/60 uppercase tracking-wide">Teams Led</div>
-                                </div>
+                                {(textContent.aboutImpactMetrics && textContent.aboutImpactMetrics.length > 0 ? textContent.aboutImpactMetrics : [
+                                    { metric: '€50M+', label: 'Revenue Generated' },
+                                    { metric: '40%', label: 'Avg Growth Rate' },
+                                    { metric: '25+', label: 'Products Launched' },
+                                    { metric: '15+', label: 'Teams Led' }
+                                ]).map((item, index) => (
+                                    <div key={index} className="text-center">
+                                        <div className="text-3xl font-bold text-brand-cream mb-1">{item.metric}</div>
+                                        <div className="text-sm text-brand-cream/60 uppercase tracking-wide">{item.label}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         {/* Quote */}
@@ -98,7 +85,7 @@ export default function About() {
                                 &quot;{textContent.aboutQuote}&quot;
                             </blockquote>
                             <div className="text-center mt-4">
-                                <cite className="text-brand-gold font-medium">— Nadia Luna</cite>
+                                <cite className="text-brand-gold font-medium">{textContent.aboutQuoteAuthor || '— Nadia Luna'}</cite>
                             </div>
                         </div>
                     </div>

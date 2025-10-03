@@ -18,7 +18,7 @@ export default function Skills() {
         <div className="text-center mb-20">
           <div className="inline-flex items-center px-4 py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-sm mb-6">
             <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-            Core Expertise
+            {textContent.skillsBadge || 'Core Expertise'}
           </div>
           <h2 className="font-serif text-5xl md:text-7xl leading-tight mb-6">
             {textContent.skillsTitle}
@@ -64,8 +64,7 @@ export default function Skills() {
           {/* Certifications */}
           <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-8 border border-brand-gold/20">
             <h3 className="font-serif text-2xl text-brand-gold mb-6 flex items-center">
-              <span className="text-3xl mr-3">🏆</span>
-              Certifications
+              {textContent.skillsCertificationsTitle || '🏆 Certifications'}
             </h3>
             <div className="space-y-3">
               {textContent.certifications.map((cert, index) => (
@@ -80,8 +79,7 @@ export default function Skills() {
           {/* Tools & Technologies */}
           <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-8 border border-brand-gold/20">
             <h3 className="font-serif text-2xl text-brand-gold mb-6 flex items-center">
-              <span className="text-3xl mr-3">🛠️</span>
-              Tools & Platforms
+              {textContent.skillsToolsTitle || '🛠️ Tools & Platforms'}
             </h3>
             <div className="grid grid-cols-2 gap-3">
               {textContent.tools.map((tool, index) => (
@@ -98,7 +96,7 @@ export default function Skills() {
           <blockquote className="text-2xl italic text-brand-cream/90 max-w-3xl mx-auto">
             &quot;{textContent.skillsQuote}&quot;
           </blockquote>
-          <cite className="text-brand-gold font-medium mt-4 block">— Nadia Luna</cite>
+          <cite className="text-brand-gold font-medium mt-4 block">{textContent.skillsQuoteAuthor || '— Nadia Luna'}</cite>
         </div>
       </div>
     </section>

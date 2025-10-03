@@ -25,7 +25,7 @@ export default function Hero() {
               className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-8"
             >
               <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
-              Product Owner • Luxury Retail Expert
+              {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
             </motion.div>
 
             {/* Main headline */}
@@ -55,18 +55,16 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20 px-4 sm:px-8 lg:px-12"
           >
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">10+</div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium leading-tight">Years<br className="sm:hidden"/>Experience</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">€50M+</div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">Revenue Impact</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">25+</div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">Products<br className="sm:hidden"/>Launched</div>
-            </div>
+            {(textContent.heroStats && textContent.heroStats.length > 0 ? textContent.heroStats : [
+              { metric: '10+', label: 'Years Experience' },
+              { metric: '€50M+', label: 'Revenue Impact' },
+              { metric: '25+', label: 'Products Launched' }
+            ]).map((stat: any, index: number) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-deep mb-2">{stat.metric}</div>
+                <div className="text-xs sm:text-sm md:text-base lg:text-lg text-brand-deep/70 uppercase tracking-wider font-medium">{stat.label}</div>
+              </div>
+            ))}
           </motion.div>
 
             {/* CTA Button */}
@@ -76,11 +74,11 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="flex justify-start"
             >
-              <a 
-                href="#contact" 
+              <a
+                href="#contact"
                 className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
-                Let&apos;s create something extraordinary
+                {textContent.heroCtaText || "Let's create something extraordinary"}
                 <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -120,7 +118,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <div className="flex flex-col items-center text-brand-deep/60">
-          <span className="text-sm uppercase tracking-wide mb-2">Scroll</span>
+          <span className="text-sm uppercase tracking-wide mb-2">{textContent.heroScrollText || 'Scroll'}</span>
           <div className="w-6 h-10 border-2 border-brand-deep/20 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-brand-deep/40 rounded-full mt-2 animate-bounce"></div>
           </div>

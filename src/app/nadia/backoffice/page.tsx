@@ -24,21 +24,61 @@ interface Achievement {
     description: string;
 }
 
+interface StatItem {
+    metric: string;
+    label: string;
+}
+
+interface ApproachItem {
+    title: string;
+    description: string;
+}
+
+interface ContactFormLabels {
+    name: string;
+    email: string;
+    company: string;
+    message: string;
+}
+
+interface ContactBottomInfo {
+    responseTime: { label: string; value: string };
+    location: { label: string; value: string };
+    languages: { label: string; value: string };
+}
+
 interface TextContent {
     heroTitle: string;
     heroSubtitle: string;
     heroDescription: string;
+    heroBadge: string;
+    heroStats: StatItem[];
+    heroCtaText: string;
+    heroScrollText: string;
     aboutTitle: string;
     aboutDescription: string;
     aboutMainText: string;
     aboutSecondaryText: string;
     aboutQuote: string;
+    aboutBadge: string;
+    aboutTitleSuffix: string;
+    aboutApproachTitle: string;
+    aboutApproachItems: ApproachItem[];
+    aboutImpactTitle: string;
+    aboutImpactMetrics: StatItem[];
+    aboutQuoteAuthor: string;
     experienceTitle: string;
     experienceSubtitle: string;
+    experienceBadge: string;
+    experienceBottomStats: StatItem[];
     experiences: ExperienceItem[];
     skillsTitle: string;
     skillsSubtitle: string;
     skillsDescription: string;
+    skillsBadge: string;
+    skillsCertificationsTitle: string;
+    skillsToolsTitle: string;
+    skillsQuoteAuthor: string;
     skillCategories: SkillCategory[];
     certifications: string[];
     tools: string[];
@@ -48,6 +88,23 @@ interface TextContent {
     contactTitle: string;
     contactSubtitle: string;
     contactDescription: string;
+    contactBadge: string;
+    contactFormTitle: string;
+    contactFormLabels: ContactFormLabels;
+    contactFormPlaceholders: ContactFormLabels;
+    contactSubmitButton: string;
+    contactSuccessMessage: string;
+    contactErrorMessage: string;
+    contactInfoTitle: string;
+    contactEmail: string;
+    contactLinkedin: string;
+    contactPhone: string;
+    contactAvailabilityTitle: string;
+    contactAvailabilityStatus: string;
+    contactAvailabilityDescription: string;
+    contactAvailabilityItems: string[];
+    contactDownloadText: string;
+    contactBottomInfo: ContactBottomInfo;
 }
 
 export default function BackOffice() {
@@ -57,13 +114,26 @@ export default function BackOffice() {
         heroTitle: "Ready to create",
         heroSubtitle: "something extraordinary?",
         heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
+        heroBadge: "",
+        heroStats: [],
+        heroCtaText: "",
+        heroScrollText: "",
         aboutTitle: "Turning vision into reality",
         aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
         aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
         aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
         aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
+        aboutBadge: "",
+        aboutTitleSuffix: "",
+        aboutApproachTitle: "",
+        aboutApproachItems: [],
+        aboutImpactTitle: "",
+        aboutImpactMetrics: [],
+        aboutQuoteAuthor: "",
         experienceTitle: "A decade of",
         experienceSubtitle: "transformation",
+        experienceBadge: "",
+        experienceBottomStats: [],
         experiences: [
             {
                 role: "Senior Product Owner",
@@ -82,6 +152,10 @@ export default function BackOffice() {
         skillsTitle: "Mastery through",
         skillsSubtitle: "experience",
         skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
+        skillsBadge: "",
+        skillsCertificationsTitle: "",
+        skillsToolsTitle: "",
+        skillsQuoteAuthor: "",
         skillCategories: [
             {
                 category: "Product Leadership",
@@ -105,7 +179,28 @@ export default function BackOffice() {
         ],
         contactTitle: "Ready to create",
         contactSubtitle: "something extraordinary?",
-        contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."
+        contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you.",
+        contactBadge: "",
+        contactFormTitle: "",
+        contactFormLabels: { name: "", email: "", company: "", message: "" },
+        contactFormPlaceholders: { name: "", email: "", company: "", message: "" },
+        contactSubmitButton: "",
+        contactSuccessMessage: "",
+        contactErrorMessage: "",
+        contactInfoTitle: "",
+        contactEmail: "",
+        contactLinkedin: "",
+        contactPhone: "",
+        contactAvailabilityTitle: "",
+        contactAvailabilityStatus: "",
+        contactAvailabilityDescription: "",
+        contactAvailabilityItems: [],
+        contactDownloadText: "",
+        contactBottomInfo: {
+            responseTime: { label: "", value: "" },
+            location: { label: "", value: "" },
+            languages: { label: "", value: "" }
+        }
     });
     const [activeTab, setActiveTab] = useState('hero');
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -221,11 +316,84 @@ export default function BackOffice() {
         setTextContent(prev => ({ ...prev, achievements: newAchievements }));
     };
 
+    // Helper functions for StatItem arrays (heroStats, aboutImpactMetrics, experienceBottomStats)
+    const updateStatItem = (field: 'heroStats' | 'aboutImpactMetrics' | 'experienceBottomStats', index: number, key: keyof StatItem, value: string) => {
+        const newStats = [...textContent[field]];
+        newStats[index][key] = value;
+        setTextContent(prev => ({ ...prev, [field]: newStats }));
+    };
+
+    const addStatItem = (field: 'heroStats' | 'aboutImpactMetrics' | 'experienceBottomStats') => {
+        const newStat: StatItem = { metric: "", label: "" };
+        setTextContent(prev => ({ ...prev, [field]: [...prev[field], newStat] }));
+    };
+
+    const removeStatItem = (field: 'heroStats' | 'aboutImpactMetrics' | 'experienceBottomStats', index: number) => {
+        setTextContent(prev => ({
+            ...prev,
+            [field]: prev[field].filter((_, i) => i !== index)
+        }));
+    };
+
+    // Helper functions for ApproachItem array
+    const updateApproachItem = (index: number, key: keyof ApproachItem, value: string) => {
+        const newItems = [...textContent.aboutApproachItems];
+        newItems[index][key] = value;
+        setTextContent(prev => ({ ...prev, aboutApproachItems: newItems }));
+    };
+
+    const addApproachItem = () => {
+        const newItem: ApproachItem = { title: "", description: "" };
+        setTextContent(prev => ({ ...prev, aboutApproachItems: [...prev.aboutApproachItems, newItem] }));
+    };
+
+    const removeApproachItem = (index: number) => {
+        setTextContent(prev => ({
+            ...prev,
+            aboutApproachItems: prev.aboutApproachItems.filter((_, i) => i !== index)
+        }));
+    };
+
+    // Helper functions for ContactFormLabels
+    const updateContactFormLabels = (key: keyof ContactFormLabels, value: string) => {
+        setTextContent(prev => ({
+            ...prev,
+            contactFormLabels: { ...prev.contactFormLabels, [key]: value }
+        }));
+    };
+
+    const updateContactFormPlaceholders = (key: keyof ContactFormLabels, value: string) => {
+        setTextContent(prev => ({
+            ...prev,
+            contactFormPlaceholders: { ...prev.contactFormPlaceholders, [key]: value }
+        }));
+    };
+
+    // Helper functions for ContactBottomInfo
+    const updateContactBottomInfo = (section: keyof ContactBottomInfo, key: 'label' | 'value', value: string) => {
+        setTextContent(prev => ({
+            ...prev,
+            contactBottomInfo: {
+                ...prev.contactBottomInfo,
+                [section]: { ...prev.contactBottomInfo[section], [key]: value }
+            }
+        }));
+    };
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'hero':
                 return (
                     <div className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Hero Badge</label>
+                            <input
+                                type="text"
+                                value={textContent.heroBadge}
+                                onChange={(e) => handleTextChange('heroBadge', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
                         <div>
                             <label className="block text-sm font-medium text-brand-deep mb-2">Hero Title</label>
                             <input
@@ -253,19 +421,104 @@ export default function BackOffice() {
                                 className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                             />
                         </div>
+                        <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Hero CTA Text</label>
+                            <input
+                                type="text"
+                                value={textContent.heroCtaText}
+                                onChange={(e) => handleTextChange('heroCtaText', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Hero Scroll Text</label>
+                            <input
+                                type="text"
+                                value={textContent.heroScrollText}
+                                onChange={(e) => handleTextChange('heroScrollText', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-serif text-lg text-brand-deep">Hero Stats</h3>
+                                <button
+                                    onClick={() => addStatItem('heroStats')}
+                                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                                >
+                                    Add Stat
+                                </button>
+                            </div>
+                            <div className="space-y-4">
+                                {textContent.heroStats.map((stat, index) => (
+                                    <div key={index} className="bg-brand-cream/30 p-4 rounded-xl border border-brand-deep/10">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h4 className="font-medium text-brand-deep">Stat {index + 1}</h4>
+                                            <button
+                                                onClick={() => removeStatItem('heroStats', index)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Metric</label>
+                                                <input
+                                                    type="text"
+                                                    value={stat.metric}
+                                                    onChange={(e) => updateStatItem('heroStats', index, 'metric', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Label</label>
+                                                <input
+                                                    type="text"
+                                                    value={stat.label}
+                                                    onChange={(e) => updateStatItem('heroStats', index, 'label', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 );
             case 'about':
                 return (
                     <div className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-brand-deep mb-2">About Title</label>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">About Badge</label>
                             <input
                                 type="text"
-                                value={textContent.aboutTitle}
-                                onChange={(e) => handleTextChange('aboutTitle', e.target.value)}
+                                value={textContent.aboutBadge}
+                                onChange={(e) => handleTextChange('aboutBadge', e.target.value)}
                                 className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                             />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">About Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.aboutTitle}
+                                    onChange={(e) => handleTextChange('aboutTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">About Title Suffix</label>
+                                <input
+                                    type="text"
+                                    value={textContent.aboutTitleSuffix}
+                                    onChange={(e) => handleTextChange('aboutTitleSuffix', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-brand-deep mb-2">About Description</label>
@@ -294,20 +547,153 @@ export default function BackOffice() {
                                 className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-brand-deep mb-2">Quote</label>
-                            <textarea
-                                value={textContent.aboutQuote}
-                                onChange={(e) => handleTextChange('aboutQuote', e.target.value)}
-                                rows={3}
-                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
-                            />
+
+                        <div className="border-t pt-6">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Approach Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.aboutApproachTitle}
+                                    onChange={(e) => handleTextChange('aboutApproachTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div className="flex justify-between items-center mb-4 mt-4">
+                                <h3 className="font-serif text-lg text-brand-deep">Approach Items</h3>
+                                <button
+                                    onClick={addApproachItem}
+                                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                                >
+                                    Add Item
+                                </button>
+                            </div>
+                            <div className="space-y-4">
+                                {textContent.aboutApproachItems.map((item, index) => (
+                                    <div key={index} className="bg-brand-cream/30 p-4 rounded-xl border border-brand-deep/10">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h4 className="font-medium text-brand-deep">Item {index + 1}</h4>
+                                            <button
+                                                onClick={() => removeApproachItem(index)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Title</label>
+                                                <input
+                                                    type="text"
+                                                    value={item.title}
+                                                    onChange={(e) => updateApproachItem(index, 'title', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Description</label>
+                                                <textarea
+                                                    value={item.description}
+                                                    onChange={(e) => updateApproachItem(index, 'description', e.target.value)}
+                                                    rows={2}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm resize-none"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Impact Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.aboutImpactTitle}
+                                    onChange={(e) => handleTextChange('aboutImpactTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div className="flex justify-between items-center mb-4 mt-4">
+                                <h3 className="font-serif text-lg text-brand-deep">Impact Metrics</h3>
+                                <button
+                                    onClick={() => addStatItem('aboutImpactMetrics')}
+                                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                                >
+                                    Add Metric
+                                </button>
+                            </div>
+                            <div className="space-y-4">
+                                {textContent.aboutImpactMetrics.map((metric, index) => (
+                                    <div key={index} className="bg-brand-cream/30 p-4 rounded-xl border border-brand-deep/10">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h4 className="font-medium text-brand-deep">Metric {index + 1}</h4>
+                                            <button
+                                                onClick={() => removeStatItem('aboutImpactMetrics', index)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Metric</label>
+                                                <input
+                                                    type="text"
+                                                    value={metric.metric}
+                                                    onChange={(e) => updateStatItem('aboutImpactMetrics', index, 'metric', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Label</label>
+                                                <input
+                                                    type="text"
+                                                    value={metric.label}
+                                                    onChange={(e) => updateStatItem('aboutImpactMetrics', index, 'label', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Quote</label>
+                                <textarea
+                                    value={textContent.aboutQuote}
+                                    onChange={(e) => handleTextChange('aboutQuote', e.target.value)}
+                                    rows={3}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                                />
+                            </div>
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Quote Author</label>
+                                <input
+                                    type="text"
+                                    value={textContent.aboutQuoteAuthor}
+                                    onChange={(e) => handleTextChange('aboutQuoteAuthor', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
                         </div>
                     </div>
                 );
             case 'experience':
                 return (
                     <div className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Experience Badge</label>
+                            <input
+                                type="text"
+                                value={textContent.experienceBadge}
+                                onChange={(e) => handleTextChange('experienceBadge', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-brand-deep mb-2">Experience Title</label>
@@ -326,6 +712,53 @@ export default function BackOffice() {
                                     onChange={(e) => handleTextChange('experienceSubtitle', e.target.value)}
                                     className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                                 />
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-serif text-lg text-brand-deep">Bottom Stats</h3>
+                                <button
+                                    onClick={() => addStatItem('experienceBottomStats')}
+                                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                                >
+                                    Add Stat
+                                </button>
+                            </div>
+                            <div className="space-y-4">
+                                {textContent.experienceBottomStats.map((stat, index) => (
+                                    <div key={index} className="bg-brand-cream/30 p-4 rounded-xl border border-brand-deep/10">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h4 className="font-medium text-brand-deep">Stat {index + 1}</h4>
+                                            <button
+                                                onClick={() => removeStatItem('experienceBottomStats', index)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Metric</label>
+                                                <input
+                                                    type="text"
+                                                    value={stat.metric}
+                                                    onChange={(e) => updateStatItem('experienceBottomStats', index, 'metric', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-deep mb-1">Label</label>
+                                                <input
+                                                    type="text"
+                                                    value={stat.label}
+                                                    onChange={(e) => updateStatItem('experienceBottomStats', index, 'label', e.target.value)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
@@ -416,6 +849,15 @@ export default function BackOffice() {
             case 'skills':
                 return (
                     <div className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Skills Badge</label>
+                            <input
+                                type="text"
+                                value={textContent.skillsBadge}
+                                onChange={(e) => handleTextChange('skillsBadge', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-brand-deep mb-2">Skills Title</label>
@@ -475,14 +917,45 @@ export default function BackOffice() {
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-brand-deep mb-2">Skills Quote</label>
-                            <textarea
-                                value={textContent.skillsQuote}
-                                onChange={(e) => handleTextChange('skillsQuote', e.target.value)}
-                                rows={2}
-                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
-                            />
+                        <div className="border-t pt-6">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Skills Quote</label>
+                                <textarea
+                                    value={textContent.skillsQuote}
+                                    onChange={(e) => handleTextChange('skillsQuote', e.target.value)}
+                                    rows={2}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                                />
+                            </div>
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Quote Author</label>
+                                <input
+                                    type="text"
+                                    value={textContent.skillsQuoteAuthor}
+                                    onChange={(e) => handleTextChange('skillsQuoteAuthor', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Certifications Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.skillsCertificationsTitle}
+                                    onChange={(e) => handleTextChange('skillsCertificationsTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Tools Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.skillsToolsTitle}
+                                    onChange={(e) => handleTextChange('skillsToolsTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -554,6 +1027,15 @@ export default function BackOffice() {
                 return (
                     <div className="space-y-6">
                         <div>
+                            <label className="block text-sm font-medium text-brand-deep mb-2">Contact Badge</label>
+                            <input
+                                type="text"
+                                value={textContent.contactBadge}
+                                onChange={(e) => handleTextChange('contactBadge', e.target.value)}
+                                className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                            />
+                        </div>
+                        <div>
                             <label className="block text-sm font-medium text-brand-deep mb-2">Contact Title</label>
                             <input
                                 type="text"
@@ -579,6 +1061,298 @@ export default function BackOffice() {
                                 rows={4}
                                 className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
                             />
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <h3 className="font-serif text-lg text-brand-deep mb-4">Contact Form</h3>
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Form Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.contactFormTitle}
+                                    onChange={(e) => handleTextChange('contactFormTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div className="mt-4 bg-brand-cream/30 p-4 rounded-xl">
+                                <h4 className="font-medium text-brand-deep mb-3">Form Labels</h4>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Name Label</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormLabels.name}
+                                            onChange={(e) => updateContactFormLabels('name', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Email Label</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormLabels.email}
+                                            onChange={(e) => updateContactFormLabels('email', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Company Label</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormLabels.company}
+                                            onChange={(e) => updateContactFormLabels('company', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Message Label</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormLabels.message}
+                                            onChange={(e) => updateContactFormLabels('message', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4 bg-brand-cream/30 p-4 rounded-xl">
+                                <h4 className="font-medium text-brand-deep mb-3">Form Placeholders</h4>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Name Placeholder</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormPlaceholders.name}
+                                            onChange={(e) => updateContactFormPlaceholders('name', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Email Placeholder</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormPlaceholders.email}
+                                            onChange={(e) => updateContactFormPlaceholders('email', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Company Placeholder</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormPlaceholders.company}
+                                            onChange={(e) => updateContactFormPlaceholders('company', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm text-brand-deep mb-1">Message Placeholder</label>
+                                        <input
+                                            type="text"
+                                            value={textContent.contactFormPlaceholders.message}
+                                            onChange={(e) => updateContactFormPlaceholders('message', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4 grid grid-cols-3 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Submit Button Text</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactSubmitButton}
+                                        onChange={(e) => handleTextChange('contactSubmitButton', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Success Message</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactSuccessMessage}
+                                        onChange={(e) => handleTextChange('contactSuccessMessage', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Error Message</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactErrorMessage}
+                                        onChange={(e) => handleTextChange('contactErrorMessage', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <h3 className="font-serif text-lg text-brand-deep mb-4">Contact Information</h3>
+                            <div>
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Info Title</label>
+                                <input
+                                    type="text"
+                                    value={textContent.contactInfoTitle}
+                                    onChange={(e) => handleTextChange('contactInfoTitle', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                            <div className="grid grid-cols-3 gap-4 mt-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Email</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactEmail}
+                                        onChange={(e) => handleTextChange('contactEmail', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">LinkedIn</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactLinkedin}
+                                        onChange={(e) => handleTextChange('contactLinkedin', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Phone</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactPhone}
+                                        onChange={(e) => handleTextChange('contactPhone', e.target.value)}
+                                        className="w-full px-3 py-2 bg-brand-cream/50 border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Download Resume Text</label>
+                                <input
+                                    type="text"
+                                    value={textContent.contactDownloadText}
+                                    onChange={(e) => handleTextChange('contactDownloadText', e.target.value)}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <h3 className="font-serif text-lg text-brand-deep mb-4">Availability</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Availability Title</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactAvailabilityTitle}
+                                        onChange={(e) => handleTextChange('contactAvailabilityTitle', e.target.value)}
+                                        className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-deep mb-2">Availability Status</label>
+                                    <input
+                                        type="text"
+                                        value={textContent.contactAvailabilityStatus}
+                                        onChange={(e) => handleTextChange('contactAvailabilityStatus', e.target.value)}
+                                        className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Availability Description</label>
+                                <textarea
+                                    value={textContent.contactAvailabilityDescription}
+                                    onChange={(e) => handleTextChange('contactAvailabilityDescription', e.target.value)}
+                                    rows={3}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                                />
+                            </div>
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-brand-deep mb-2">Availability Items (one per line)</label>
+                                <textarea
+                                    value={textContent.contactAvailabilityItems.join('\n')}
+                                    onChange={(e) => handleTextChange('contactAvailabilityItems', e.target.value.split('\n').filter(line => line.trim()))}
+                                    rows={4}
+                                    className="w-full px-4 py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="border-t pt-6">
+                            <h3 className="font-serif text-lg text-brand-deep mb-4">Bottom Info</h3>
+                            <div className="space-y-4">
+                                <div className="bg-brand-cream/30 p-4 rounded-xl">
+                                    <h4 className="font-medium text-brand-deep mb-3">Response Time</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.responseTime.label}
+                                                onChange={(e) => updateContactBottomInfo('responseTime', 'label', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.responseTime.value}
+                                                onChange={(e) => updateContactBottomInfo('responseTime', 'value', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-brand-cream/30 p-4 rounded-xl">
+                                    <h4 className="font-medium text-brand-deep mb-3">Location</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.location.label}
+                                                onChange={(e) => updateContactBottomInfo('location', 'label', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.location.value}
+                                                onChange={(e) => updateContactBottomInfo('location', 'value', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-brand-cream/30 p-4 rounded-xl">
+                                    <h4 className="font-medium text-brand-deep mb-3">Languages</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Label</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.languages.label}
+                                                onChange={(e) => updateContactBottomInfo('languages', 'label', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-brand-deep mb-1">Value</label>
+                                            <input
+                                                type="text"
+                                                value={textContent.contactBottomInfo.languages.value}
+                                                onChange={(e) => updateContactBottomInfo('languages', 'value', e.target.value)}
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
