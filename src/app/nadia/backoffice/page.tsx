@@ -547,7 +547,7 @@ export default function BackOffice() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await fetch('/api/upload', {
         method: 'POST',
         headers: {
