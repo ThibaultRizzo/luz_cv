@@ -96,7 +96,7 @@ export default function NadiaLogin() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-brand-deep text-brand-cream font-medium py-3 px-6 rounded-xl hover:bg-brand-gold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        className="w-full bg-brand-deep text-brand-cream font-medium py-3 px-6 rounded-xl hover:bg-brand-gold hover:text-brand-deep disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                     >
                         {isLoading ? (
                             <div className="flex items-center justify-center">

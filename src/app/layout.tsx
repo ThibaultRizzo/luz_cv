@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display, Cormorant_Garamond, Bodoni_Moda } from "next/font/google";
 import "./globals.css";
 import { TextContentProvider } from "@/lib/TextContentContext";
+import StructuredData from "@/components/StructuredData";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,11 +30,19 @@ const bodoni = Bodoni_Moda({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nadialuna.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
   description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
-  keywords: "Product Owner, Luxury Retail, Digital Transformation, Product Strategy, UX Design",
+  keywords: "Product Owner, Luxury Retail, Digital Transformation, Product Strategy, UX Design, Agile, Product Management",
   authors: [{ name: "Nadia Luna" }],
+  creator: "Nadia Luna",
+  publisher: "Nadia Luna",
+  alternates: {
+    canonical: siteUrl,
+  },
   icons: {
     icon: [
       {
@@ -43,16 +52,48 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
-    description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
     type: "website",
     locale: "en_US",
+    url: siteUrl,
+    siteName: "Nadia Luna Portfolio",
+    title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
+    description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
+    images: [
+      {
+        url: `${siteUrl}/nadia.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Nadia Luna - Product Owner",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Nadia Luna — Product Owner",
     description: "Product Owner with 10+ years of leadership in luxury retail",
+    images: [`${siteUrl}/nadia.jpg`],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#FAF7F2' },
+    { media: '(prefers-color-scheme: dark)', color: '#0B132B' },
+  ],
 };
 export default function RootLayout({
   children,
@@ -66,6 +107,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-brand-cream text-brand-deep antialiased">
         <TextContentProvider>
+          <StructuredData />
           {children}
         </TextContentProvider>
       </body>

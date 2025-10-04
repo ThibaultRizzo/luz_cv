@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useTextContent } from '@/lib/TextContentContext';
 
 export default function Hero() {
@@ -22,7 +23,7 @@ export default function Hero() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8 hover:bg-brand-gold/20 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group"
+              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8 hover:bg-brand-gold/30 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group"
             >
               <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-125 transition-transform duration-300"></span>
               {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
@@ -100,10 +101,12 @@ export default function Hero() {
               <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-full h-full bg-brand-deep/10 rounded-2xl transform -rotate-2"></div>
 
               {/* Main image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={textContent.heroImage || "/nadia.jpg"}
                 alt="Nadia Luna - Product Owner and Luxury Retail Expert"
+                width={600}
+                height={800}
+                priority
                 className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
               />
 

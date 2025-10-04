@@ -160,7 +160,7 @@ export default function Contact() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-brand-deep text-brand-cream font-medium py-3 sm:py-4 px-6 rounded-xl hover:bg-brand-gold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base flex items-center justify-center"
+                                className="w-full bg-brand-deep text-brand-cream font-medium py-3 sm:py-4 px-6 rounded-xl hover:bg-brand-gold hover:text-brand-deep disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base flex items-center justify-center"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -239,7 +239,7 @@ export default function Contact() {
                             <a
                                 href={textContent.contactCvPath || "/cv.pdf"}
                                 download
-                                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base"
                             >
                                 <span className="text-lg sm:text-xl mr-2">📄</span>
                                 {textContent.contactDownloadText || 'Download Full Portfolio'}

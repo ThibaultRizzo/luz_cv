@@ -871,7 +871,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("heroStats")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Stat
                 </button>
@@ -1040,7 +1040,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addApproachItem}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Item
                 </button>
@@ -1120,7 +1120,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("aboutImpactMetrics")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Metric
                 </button>
@@ -1270,7 +1270,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("experienceBottomStats")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Stat
                 </button>
@@ -1345,7 +1345,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addExperience}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Experience
                 </button>
@@ -1526,7 +1526,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addSkillCategory}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Category
                 </button>
@@ -1591,7 +1591,7 @@ export default function BackOffice() {
                         </h5>
                         <button
                           onClick={() => addSkill(categoryIndex)}
-                          className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg hover:bg-brand-gold transition-colors"
+                          className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg hover:bg-brand-gold transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                         >
                           Add Skill
                         </button>
@@ -1827,7 +1827,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addAchievement}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-colors"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
                 >
                   Add Achievement
                 </button>
@@ -2572,7 +2572,7 @@ export default function BackOffice() {
               <div className="pt-4 border-t border-brand-gold/20">
                 <button
                   onClick={handleLogout}
-                  className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
+                  className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
                 >
                   <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -2622,7 +2622,7 @@ export default function BackOffice() {
                   <button
                     onClick={handleSave}
                     disabled={saveStatus === "saving"}
-                    className="hidden md:block px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm"
+                    className="hidden md:block px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium text-sm"
                   >
                     {saveStatus === "saving" ? "Saving..." : "Save"}
                   </button>
@@ -2715,7 +2715,7 @@ export default function BackOffice() {
 
                               {/* CTA Button */}
                               <div className="flex justify-start">
-                                <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-300 shadow-lg text-sm sm:text-base">
+                                <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base">
                                   {textContent.heroCtaText || "Let's Craft Excellence Together"}
                                   <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -3297,7 +3297,7 @@ export default function BackOffice() {
           <button
             onClick={handleSave}
             disabled={saveStatus === "saving"}
-            className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-medium shadow-lg text-sm flex items-center justify-center gap-2"
+            className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium text-sm flex items-center justify-center gap-2"
           >
             {saveStatus === "saving" ? (
               <>
@@ -3315,7 +3315,7 @@ export default function BackOffice() {
           </button>
           <button
             onClick={handleLogout}
-            className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
+            className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
           >
             🚪 Logout
           </button>
