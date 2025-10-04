@@ -51,7 +51,7 @@ export default function EmojiPicker({ value, onChange, placeholder = "🎯" }: E
         <button
           type="button"
           onClick={() => setShowPicker(!showPicker)}
-          className="px-4 py-2 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/30 rounded-lg text-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm font-medium"
+          className="px-4 py-2 bg-brand-gold/20 border border-brand-gold/30 rounded-lg text-brand-cream transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.3)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm font-medium relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/40 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
         >
           {showPicker ? "✕" : "😀"}
         </button>

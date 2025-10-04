@@ -24,8 +24,9 @@ export default function Skills() {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs sm:text-sm mb-4 sm:mb-6 hover:bg-brand-gold/30 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group">
-            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-125 transition-transform duration-300"></span>
+          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs sm:text-sm mb-4 sm:mb-6 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
             {textContent.skillsBadge || 'Core Expertise'}
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-4 sm:mb-6">

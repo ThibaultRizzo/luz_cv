@@ -96,7 +96,7 @@ export default function NadiaLogin() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-brand-deep text-brand-cream font-medium py-3 px-6 rounded-xl hover:bg-brand-gold hover:text-brand-deep disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                        className="w-full bg-brand-deep text-brand-cream font-medium py-3 px-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700 group"
                     >
                         {isLoading ? (
                             <div className="flex items-center justify-center">
@@ -107,7 +107,7 @@ export default function NadiaLogin() {
                                 Authenticating...
                             </div>
                         ) : (
-                            'Login'
+                            <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">Login</span>
                         )}
                     </button>
                 </form>

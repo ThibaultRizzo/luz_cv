@@ -52,7 +52,8 @@ export default function Contact() {
             <div className="container mx-auto px-6 relative z-10">
                 {/* Section header */}
                 <div className="text-center mb-12 sm:mb-16 md:mb-20">
-                    <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6">
+                    <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
                         <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
                         {textContent.contactBadge || "Let's Connect"}
                     </div>
@@ -160,7 +161,7 @@ export default function Contact() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-brand-deep text-brand-cream font-medium py-3 sm:py-4 px-6 rounded-xl hover:bg-brand-gold hover:text-brand-deep disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base flex items-center justify-center"
+                                className="w-full bg-brand-deep text-brand-cream font-medium py-3 sm:py-4 px-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm sm:text-base flex items-center justify-center relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700 group"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -171,7 +172,7 @@ export default function Contact() {
                                         Sending...
                                     </>
                                 ) : (
-                                    textContent.contactSubmitButton || 'Send Message'
+                                    <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.contactSubmitButton || 'Send Message'}</span>
                                 )}
                             </button>
                         </form>
@@ -239,10 +240,10 @@ export default function Contact() {
                             <a
                                 href={textContent.contactCvPath || "/cv.pdf"}
                                 download
-                                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base"
+                                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm sm:text-base relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                             >
-                                <span className="text-lg sm:text-xl mr-2">📄</span>
-                                {textContent.contactDownloadText || 'Download Full Portfolio'}
+                                <span className="text-lg sm:text-xl mr-2 relative z-10">📄</span>
+                                <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.contactDownloadText || 'Download Full Portfolio'}</span>
                             </a>
                         </div>
                     </div>

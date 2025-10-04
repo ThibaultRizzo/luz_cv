@@ -871,7 +871,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("heroStats")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Stat
                 </button>
@@ -1040,7 +1040,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addApproachItem}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Item
                 </button>
@@ -1120,7 +1120,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("aboutImpactMetrics")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Metric
                 </button>
@@ -1270,7 +1270,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={() => addStatItem("experienceBottomStats")}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Stat
                 </button>
@@ -1345,7 +1345,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addExperience}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Experience
                 </button>
@@ -1526,7 +1526,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addSkillCategory}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Category
                 </button>
@@ -1591,7 +1591,7 @@ export default function BackOffice() {
                         </h5>
                         <button
                           onClick={() => addSkill(categoryIndex)}
-                          className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg hover:bg-brand-gold transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                          className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                         >
                           Add Skill
                         </button>
@@ -1827,7 +1827,7 @@ export default function BackOffice() {
                 </h3>
                 <button
                   onClick={addAchievement}
-                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-cream transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                 >
                   Add Achievement
                 </button>
@@ -2572,7 +2572,7 @@ export default function BackOffice() {
               <div className="pt-4 border-t border-brand-gold/20">
                 <button
                   onClick={handleLogout}
-                  className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
+                  className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 shadow-[0_4px_14px_0_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.5)] hover:-translate-y-0.5 flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
                 >
                   <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -2622,7 +2622,7 @@ export default function BackOffice() {
                   <button
                     onClick={handleSave}
                     disabled={saveStatus === "saving"}
-                    className="hidden md:block px-4 py-2 bg-brand-gold text-brand-deep rounded-lg hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium text-sm"
+                    className="hidden md:block px-4 py-2 bg-brand-gold text-brand-deep rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 font-medium text-sm relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                   >
                     {saveStatus === "saving" ? "Saving..." : "Save"}
                   </button>
@@ -2683,8 +2683,9 @@ export default function BackOffice() {
                             {/* Left column - Content */}
                             <div>
                               {/* Badge */}
-                              <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6">
-                                <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                              <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                                <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                                 {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
                               </div>
 
@@ -2715,9 +2716,9 @@ export default function BackOffice() {
 
                               {/* CTA Button */}
                               <div className="flex justify-start">
-                                <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base">
-                                  {textContent.heroCtaText || "Let's Craft Excellence Together"}
-                                  <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm sm:text-base relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700">
+                                  <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.heroCtaText || "Let's Craft Excellence Together"}</span>
+                                  <svg className="ml-2 w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                   </svg>
                                 </button>
@@ -2763,8 +2764,9 @@ export default function BackOffice() {
                       <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px]">
                         <div className="text-center mb-12">
                           {textContent.aboutBadge && (
-                            <div className="inline-flex items-center px-3 py-1 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4">
-                              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                            <div className="inline-flex items-center px-3 py-1 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                               {textContent.aboutBadge}
                             </div>
                           )}
@@ -2841,8 +2843,9 @@ export default function BackOffice() {
                         <div className="relative z-10">
                           {/* Section header */}
                           <div className="text-center mb-12">
-                            <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6">
-                              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                            <div className="inline-flex items-center px-4 py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-sm mb-6 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                               {textContent.experienceBadge || 'Career Journey'}
                             </div>
                             <h2 className="font-serif text-4xl leading-tight text-brand-deep mb-6">
@@ -2932,8 +2935,9 @@ export default function BackOffice() {
                           {/* Section header */}
                           <div className="text-center mb-8">
                             {textContent.skillsBadge && (
-                              <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3">
-                                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2"></span>
+                              <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                                 {textContent.skillsBadge}
                               </div>
                             )}
@@ -3043,8 +3047,9 @@ export default function BackOffice() {
                       <div className="bg-brand-deep text-brand-cream p-4 sm:p-6 md:p-8 min-h-[500px]">
                         {/* Section header */}
                         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-                          <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3 sm:mb-4">
-                            <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2"></span>
+                          <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3 sm:mb-4 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                            <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                             Key Achievements
                           </div>
                           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">{textContent.achievementsTitle}</h2>
@@ -3095,8 +3100,9 @@ export default function BackOffice() {
                           {/* Section header */}
                           <div className="text-center mb-6">
                             {textContent.contactBadge && (
-                              <div className="inline-flex items-center px-2 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-2">
-                                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2"></span>
+                              <div className="inline-flex items-center px-2 py-1 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs mb-2 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
                                 {textContent.contactBadge}
                               </div>
                             )}
@@ -3220,7 +3226,7 @@ export default function BackOffice() {
                               {/* Download CV */}
                               <div className="text-center">
                                 <button
-                                  className="inline-flex items-center justify-center px-4 py-2 bg-brand-deep text-brand-cream font-medium rounded-full text-xs shadow-lg"
+                                  className="group inline-flex items-center justify-center px-4 py-2 bg-brand-deep text-brand-cream font-medium rounded-full text-xs transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                                   disabled
                                 >
                                   <span className="text-sm mr-1.5">📄</span>
@@ -3297,7 +3303,7 @@ export default function BackOffice() {
           <button
             onClick={handleSave}
             disabled={saveStatus === "saving"}
-            className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium text-sm flex items-center justify-center gap-2"
+            className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 font-medium text-sm flex items-center justify-center gap-2 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
           >
             {saveStatus === "saving" ? (
               <>
@@ -3315,7 +3321,7 @@ export default function BackOffice() {
           </button>
           <button
             onClick={handleLogout}
-            className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
+            className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 shadow-[0_4px_14px_0_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.5)] hover:-translate-y-0.5 font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
           >
             🚪 Logout
           </button>

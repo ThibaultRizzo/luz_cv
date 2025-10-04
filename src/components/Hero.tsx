@@ -23,9 +23,10 @@ export default function Hero() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8 hover:bg-brand-gold/30 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-default group"
+              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-brand-deep/10 rounded-full text-brand-deep font-medium text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden"
             >
-              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-125 transition-transform duration-300"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+              <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
               {textContent.heroBadge || 'Product Owner • Luxury Retail Expert'}
             </motion.div>
 
@@ -77,11 +78,10 @@ export default function Hero() {
             >
               <a
                 href="#contact"
-                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl text-sm sm:text-base overflow-hidden"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm sm:text-base overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-brand-gold/0 via-brand-gold/30 to-brand-gold/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></span>
-                <span className="relative">{textContent.heroCtaText || "Let's Craft Excellence Together"}</span>
-                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.heroCtaText || "Let's Craft Excellence Together"}</span>
+                <svg className="ml-2 w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
