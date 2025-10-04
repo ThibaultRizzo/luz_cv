@@ -119,29 +119,36 @@ export default function LoadingScreen() {
               </p>
             </motion.div>
 
-            {/* Shimmer effect overlay - elegant passing sweep */}
+            {/* Shimmer effect overlay - dual color for text contrast */}
+            {/* Golden shimmer for dark text (NADIA) */}
             <motion.div
-              initial={{ x: '-150%', opacity: 0 }}
-              animate={{
-                x: '250%',
-                opacity: [0, 1, 1, 0]
-              }}
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
               transition={{
-                x: {
-                  duration: 1.2,
-                  delay: 1.2,
-                  ease: [0.25, 0.1, 0.25, 1]
-                },
-                opacity: {
-                  duration: 1.2,
-                  delay: 1.2,
-                  times: [0, 0.2, 0.8, 1],
-                  ease: "easeInOut"
-                }
+                duration: 1.2,
+                delay: 1.2,
+                ease: [0.25, 0.1, 0.25, 1],
+                repeat: 0
               }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent pointer-events-none"
-              style={{ width: '30%' }}
-            />
+              className="absolute top-0 left-0 right-0 h-1/2 pointer-events-none overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent" style={{ width: '40%', height: '100%' }} />
+            </motion.div>
+
+            {/* Dark shimmer for golden text (LUNA) */}
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
+              transition={{
+                duration: 1.2,
+                delay: 1.2,
+                ease: [0.25, 0.1, 0.25, 1],
+                repeat: 0
+              }}
+              className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-deep/40 to-transparent" style={{ width: '40%', height: '100%' }} />
+            </motion.div>
 
             {/* Loading bar */}
             <motion.div
