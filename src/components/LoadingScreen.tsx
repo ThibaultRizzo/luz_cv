@@ -121,12 +121,16 @@ export default function LoadingScreen() {
 
             {/* Shimmer effect overlay */}
             <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: '200%' }}
+              initial={{ x: '-100%', opacity: 1 }}
+              animate={{ x: '200%', opacity: [0, 1, 1, 0] }}
               transition={{
                 duration: 1.5,
                 delay: 1.2,
-                ease: "easeInOut"
+                ease: "easeInOut",
+                opacity: {
+                  times: [0, 0.1, 0.9, 1],
+                  duration: 1.5
+                }
               }}
               className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent pointer-events-none"
               style={{ width: '50%' }}
