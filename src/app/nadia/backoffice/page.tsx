@@ -116,6 +116,9 @@ interface TextContent {
     contactDownloadText: string;
     contactCvPath: string;
     contactBottomInfo: ContactBottomInfo;
+    loadingScreenFirstName: string;
+    loadingScreenLastName: string;
+    loadingScreenTagline: string;
 }
 
 export default function BackOffice() {
@@ -230,6 +233,9 @@ export default function BackOffice() {
             location: { label: "", value: "" },
             languages: { label: "", value: "" },
         },
+        loadingScreenFirstName: "NADIA",
+        loadingScreenLastName: "LUNA",
+        loadingScreenTagline: "Product Owner • Luxury Retail",
     });
     const [activeTab, setActiveTab] = useState("hero");
     const [saveStatus, setSaveStatus] = useState<
@@ -2438,6 +2444,50 @@ export default function BackOffice() {
                         </div>
                     </div>
                 );
+            case "loading":
+                return (
+                    <div className="space-y-4 sm:space-y-5 md:space-y-6">
+                        <div>
+                            <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
+                                First Name <span className="text-brand-gold">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={textContent.loadingScreenFirstName}
+                                onChange={(e) => handleTextChange("loadingScreenFirstName", e.target.value)}
+                                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                placeholder="NADIA"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
+                                Last Name <span className="text-brand-gold">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={textContent.loadingScreenLastName}
+                                onChange={(e) => handleTextChange("loadingScreenLastName", e.target.value)}
+                                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                placeholder="LUNA"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
+                                Tagline
+                            </label>
+                            <input
+                                type="text"
+                                value={textContent.loadingScreenTagline}
+                                onChange={(e) => handleTextChange("loadingScreenTagline", e.target.value)}
+                                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                placeholder="Product Owner • Luxury Retail"
+                            />
+                            <p className="text-xs text-brand-cream/60 mt-2">
+                                This appears below your name in the loading screen
+                            </p>
+                        </div>
+                    </div>
+                );
             default:
                 return null;
         }
@@ -2544,13 +2594,14 @@ export default function BackOffice() {
                                     { id: "skills", label: "Skills", icon: "⚡", desc: "Expertise" },
                                     { id: "achievements", label: "Achievements", icon: "🏆", desc: "Milestones" },
                                     { id: "contact", label: "Contact", icon: "📧", desc: "Get in touch" },
+                                    { id: "loading", label: "Loading Screen", icon: "✨", desc: "Opening animation" },
                                 ].map((tab) => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full p-3 rounded-xl transition-all duration-300 flex items-start gap-3 group backdrop-blur-sm border ${activeTab === tab.id
-                                                ? "bg-brand-gold/90 shadow-lg scale-[1.02] border-brand-gold"
-                                                : "bg-brand-gold/10 border-brand-gold/20 hover:bg-brand-gold/20 hover:border-brand-gold/40"
+                                            ? "bg-brand-gold/90 shadow-lg scale-[1.02] border-brand-gold"
+                                            : "bg-brand-gold/10 border-brand-gold/20 hover:bg-brand-gold/20 hover:border-brand-gold/40"
                                             }`}
                                         title={tab.label}
                                     >
@@ -2592,8 +2643,8 @@ export default function BackOffice() {
                             <button
                                 onClick={() => setShowPreview(false)}
                                 className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${!showPreview
-                                        ? 'bg-brand-gold text-brand-deep shadow-lg'
-                                        : 'bg-white/10 text-brand-cream border border-white/20'
+                                    ? 'bg-brand-gold text-brand-deep shadow-lg'
+                                    : 'bg-white/10 text-brand-cream border border-white/20'
                                     }`}
                             >
                                 ✏️ Edit
@@ -2601,8 +2652,8 @@ export default function BackOffice() {
                             <button
                                 onClick={() => setShowPreview(true)}
                                 className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${showPreview
-                                        ? 'bg-brand-gold text-brand-deep shadow-lg'
-                                        : 'bg-white/10 text-brand-cream border border-white/20'
+                                    ? 'bg-brand-gold text-brand-deep shadow-lg'
+                                    : 'bg-white/10 text-brand-cream border border-white/20'
                                     }`}
                             >
                                 👁️ Preview
@@ -2641,8 +2692,8 @@ export default function BackOffice() {
                                         <div className="px-6 py-6 md:py-8 flex justify-between items-center">
                                             <div
                                                 className={`text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wider sm:tracking-wider md:tracking-widest ${textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
-                                                        textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
-                                                            'font-serif'
+                                                    textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
+                                                        'font-serif'
                                                     } text-brand-deep`}
                                             >
                                                 NADIA LUNA
@@ -3254,6 +3305,36 @@ export default function BackOffice() {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {activeTab === "loading" && (
+                                            <div className="bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 min-h-screen flex items-center justify-center relative overflow-hidden">
+                                                {/* Background decorative elements */}
+                                                <div className="absolute inset-0">
+                                                    <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl"></div>
+                                                    <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-brand-deep/5 rounded-full blur-3xl"></div>
+                                                </div>
+
+                                                {/* Loading screen preview */}
+                                                <div className="relative z-10 text-center">
+                                                    <div className="overflow-hidden">
+                                                        <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-2">
+                                                            <span className="text-brand-deep">{textContent.loadingScreenFirstName || "NADIA"}</span>
+                                                        </h1>
+                                                    </div>
+                                                    <div className="overflow-hidden mt-2">
+                                                        <h2 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold italic tracking-wider">
+                                                            <span className="text-brand-gold">{textContent.loadingScreenLastName || "LUNA"}</span>
+                                                        </h2>
+                                                    </div>
+                                                    <div className="mt-8 md:mt-12">
+                                                        <p className="text-brand-deep/70 text-sm md:text-base tracking-[0.3em] uppercase font-medium">
+                                                            {textContent.loadingScreenTagline || "Product Owner • Luxury Retail"}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
                                     </div>
                                 </div>
                             </div>
@@ -3273,6 +3354,7 @@ export default function BackOffice() {
                         { id: "skills", label: "Skills", icon: "⚡" },
                         { id: "achievements", label: "Achievements", icon: "🏆" },
                         { id: "contact", label: "Contact", icon: "📧" },
+                        { id: "loading", label: "Loading", icon: "✨" },
                     ].map((tab) => (
                         <button
                             key={tab.id}
@@ -3281,8 +3363,8 @@ export default function BackOffice() {
                                 setShowPreview(false); // Switch to edit view when changing tabs
                             }}
                             className={`flex-shrink-0 flex flex-col items-center justify-center px-3 py-2 min-w-[60px] transition-all duration-300 snap-center ${activeTab === tab.id
-                                    ? 'bg-brand-gold/20 border-t-2 border-brand-gold'
-                                    : 'border-t-2 border-transparent'
+                                ? 'bg-brand-gold/20 border-t-2 border-brand-gold'
+                                : 'border-t-2 border-transparent'
                                 }`}
                         >
                             <span className="text-lg mb-0.5">{tab.icon}</span>

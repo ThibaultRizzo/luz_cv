@@ -1,8 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTextContent } from '@/lib/TextContentContext';
 
 export default function LoadingScreen() {
+    const { textContent } = useTextContent();
     return (
         <motion.div
             initial={{ opacity: 1 }}
@@ -62,7 +64,7 @@ export default function LoadingScreen() {
                                     color: '#0B132B'
                                 }}
                             >
-                                NADIA
+                                {textContent.loadingScreenFirstName || "NADIA"}
                             </motion.span>
                         </h1>
                     </motion.div>
@@ -95,7 +97,7 @@ export default function LoadingScreen() {
                                     color: '#C7A17A'
                                 }}
                             >
-                                LUNA
+                                {textContent.loadingScreenLastName || "LUNA"}
                             </motion.span>
                         </h2>
                     </motion.div>
@@ -109,7 +111,7 @@ export default function LoadingScreen() {
                     className="mt-8 md:mt-12"
                 >
                     <p className="text-brand-deep/70 text-sm md:text-base tracking-[0.3em] uppercase font-medium">
-                        Product Owner • Luxury Retail
+                        {textContent.loadingScreenTagline || "Product Owner • Luxury Retail"}
                     </p>
                 </motion.div>
 
