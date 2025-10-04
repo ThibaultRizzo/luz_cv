@@ -172,7 +172,7 @@ export default function Contact() {
                                         Sending...
                                     </>
                                 ) : (
-                                    <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.contactSubmitButton || 'Send Message'}</span>
+                                    <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-gold">{textContent.contactSubmitButton || 'Send Message'}</span>
                                 )}
                             </button>
                         </form>
@@ -243,7 +243,7 @@ export default function Contact() {
                                 className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-brand-deep text-brand-cream font-medium rounded-full transition-all duration-500 shadow-[0_4px_14px_0_rgba(11,19,43,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm sm:text-base relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-gold/0 before:via-brand-gold/90 before:to-brand-gold/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                             >
                                 <span className="text-lg sm:text-xl mr-2 relative z-10">📄</span>
-                                <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">{textContent.contactDownloadText || 'Download Full Portfolio'}</span>
+                                <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-gold">{textContent.contactDownloadText || 'Download Full Portfolio'}</span>
                             </a>
                         </div>
                     </div>

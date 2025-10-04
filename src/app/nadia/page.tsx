@@ -107,7 +107,7 @@ export default function NadiaLogin() {
                                 Authenticating...
                             </div>
                         ) : (
-                            <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-deep">Login</span>
+                            <span className="relative z-10 transition-colors duration-500 group-hover:text-brand-gold">Login</span>
                         )}
                     </button>
                 </form>
