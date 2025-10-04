@@ -119,21 +119,28 @@ export default function LoadingScreen() {
               </p>
             </motion.div>
 
-            {/* Shimmer effect overlay */}
+            {/* Shimmer effect overlay - elegant passing sweep */}
             <motion.div
-              initial={{ x: '-100%', opacity: 1 }}
-              animate={{ x: '200%', opacity: [0, 1, 1, 0] }}
+              initial={{ x: '-150%', opacity: 0 }}
+              animate={{
+                x: '250%',
+                opacity: [0, 1, 1, 0]
+              }}
               transition={{
-                duration: 1.5,
-                delay: 1.2,
-                ease: "easeInOut",
+                x: {
+                  duration: 1.2,
+                  delay: 1.2,
+                  ease: [0.25, 0.1, 0.25, 1]
+                },
                 opacity: {
-                  times: [0, 0.1, 0.9, 1],
-                  duration: 1.5
+                  duration: 1.2,
+                  delay: 1.2,
+                  times: [0, 0.2, 0.8, 1],
+                  ease: "easeInOut"
                 }
               }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent pointer-events-none"
-              style={{ width: '50%' }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent pointer-events-none"
+              style={{ width: '30%' }}
             />
 
             {/* Loading bar */}
