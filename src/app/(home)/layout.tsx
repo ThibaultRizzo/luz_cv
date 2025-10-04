@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -20,7 +21,7 @@ export default function HomeLayout({
         // Hide loading screen after animation
         const timer = setTimeout(() => {
             setShowLoading(false);
-        }, 3200);
+        }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
@@ -43,17 +44,21 @@ export default function HomeLayout({
 
     return (
         <>
-            {showLoading && <LoadingScreen />}
-            <div className="home-layout">
-                <a href="#main-content" className="skip-nav">
-                    Skip to main content
-                </a>
-                <Nav />
-                <main id="main-content">
-                    {children}
-                </main>
-                <Footer />
-            </div>
+            <AnimatePresence mode="wait">
+                {showLoading && <LoadingScreen />}
+            </AnimatePresence>
+            {!showLoading && (
+                <div className="home-layout">
+                    <a href="#main-content" className="skip-nav">
+                        Skip to main content
+                    </a>
+                    <Nav />
+                    <main id="main-content">
+                        {children}
+                    </main>
+                    <Footer />
+                </div>
+            )}
         </>
     );
 }

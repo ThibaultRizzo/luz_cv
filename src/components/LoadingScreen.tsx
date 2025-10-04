@@ -1,15 +1,21 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LoadingScreen() {
     return (
         <motion.div
             initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10"
+            transition={{
+                duration: 1.2,
+                ease: [0.4, 0.0, 0.2, 1]
+            }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/20"
         >
+            {/* Solid background layer to ensure complete coverage */}
+            <div className="absolute inset-0 bg-brand-cream/95"></div>
             {/* Decorative background elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <motion.div
@@ -28,35 +34,36 @@ export default function LoadingScreen() {
 
             {/* Main content */}
             <div className="relative z-10 text-center">
-                {/* Nadia Luna text with staggered animation */}
+                {/* Elegant NADIA LUNA with unified shining effect */}
                 <div className="overflow-hidden">
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
+                        transition={{ duration: 0.8, delay: 0.3, ease: [0.6, 0.05, 0.01, 0.9] }}
                     >
                         <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-2">
-                            {/* Nadia with letter animation */}
-                            <span className="inline-block">
-                                {['N', 'A', 'D', 'I', 'A'].map((letter, index) => (
-                                    <motion.span
-                                        key={index}
-                                        initial={{ opacity: 0, y: 50 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: 0.3 + index * 0.1,
-                                            ease: [0.6, 0.05, 0.01, 0.9]
-                                        }}
-                                        className="inline-block text-brand-deep"
-                                        style={{
-                                            textShadow: '0 0 40px rgba(199, 161, 122, 0.3)'
-                                        }}
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                ))}
-                            </span>
+                            <motion.span
+                                initial={{ backgroundPosition: '-500%' }}
+                                animate={{ backgroundPosition: '500%' }}
+                                transition={{
+                                    duration: 3.0,
+                                    delay: 1.3,
+                                    ease: 'linear',
+                                    repeat: 0
+                                }}
+                                className="inline-block"
+                                style={{
+                                    background: 'linear-gradient(90deg, transparent, #C7A17A, #F4E4BC, #C7A17A, transparent)',
+                                    backgroundSize: '80%',
+                                    backgroundRepeat: 'no-repeat',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    color: '#0B132B'
+                                }}
+                            >
+                                NADIA
+                            </motion.span>
                         </h1>
                     </motion.div>
                 </div>
@@ -65,39 +72,40 @@ export default function LoadingScreen() {
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.4, ease: [0.6, 0.05, 0.01, 0.9] }}
+                        transition={{ duration: 0.8, delay: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
                     >
                         <h2 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold italic tracking-wider">
-                            {/* Luna with letter animation */}
-                            <span className="inline-block">
-                                {['L', 'U', 'N', 'A'].map((letter, index) => (
-                                    <motion.span
-                                        key={index}
-                                        initial={{ opacity: 0, y: 50 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: 0.8 + index * 0.1,
-                                            ease: [0.6, 0.05, 0.01, 0.9]
-                                        }}
-                                        className="inline-block text-brand-gold"
-                                        style={{
-                                            textShadow: '0 0 40px rgba(199, 161, 122, 0.5)'
-                                        }}
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                ))}
-                            </span>
+                            <motion.span
+                                initial={{ backgroundPosition: '-500%' }}
+                                animate={{ backgroundPosition: '500%' }}
+                                transition={{
+                                    duration: 3.0,
+                                    delay: 1.3,
+                                    ease: 'linear',
+                                    repeat: 0
+                                }}
+                                className="inline-block"
+                                style={{
+                                    background: 'linear-gradient(90deg, transparent, #0B132B, #2A3B5C, #0B132B, transparent)',
+                                    backgroundSize: '80%',
+                                    backgroundRepeat: 'no-repeat',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    color: '#C7A17A'
+                                }}
+                            >
+                                LUNA
+                            </motion.span>
                         </h2>
                     </motion.div>
                 </div>
 
-                {/* Tagline */}
+                {/* Elegant tagline */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 1.4 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1.1 }}
                     className="mt-8 md:mt-12"
                 >
                     <p className="text-brand-deep/70 text-sm md:text-base tracking-[0.3em] uppercase font-medium">
@@ -105,42 +113,11 @@ export default function LoadingScreen() {
                     </p>
                 </motion.div>
 
-                {/* Shimmer effect overlay - dual color for text contrast */}
-                {/* Golden shimmer for dark text (NADIA) */}
-                <motion.div
-                    initial={{ x: '-100%' }}
-                    animate={{ x: '100%' }}
-                    transition={{
-                        duration: 1.2,
-                        delay: 1.2,
-                        ease: [0.25, 0.1, 0.25, 1],
-                        repeat: 0
-                    }}
-                    className="absolute top-0 left-0 right-0 h-1/2 pointer-events-none overflow-hidden"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent" style={{ width: '40%', height: '100%' }} />
-                </motion.div>
-
-                {/* Dark shimmer for golden text (LUNA) */}
-                <motion.div
-                    initial={{ x: '-100%' }}
-                    animate={{ x: '100%' }}
-                    transition={{
-                        duration: 1.2,
-                        delay: 1.2,
-                        ease: [0.25, 0.1, 0.25, 1],
-                        repeat: 0
-                    }}
-                    className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none overflow-hidden"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-deep/40 to-transparent" style={{ width: '40%', height: '100%' }} />
-                </motion.div>
-
                 {/* Loading bar */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.6 }}
+                    transition={{ duration: 0.5, delay: 1.3 }}
                     className="mt-12 md:mt-16 flex justify-center"
                 >
                     <div className="w-32 md:w-48 h-1 bg-brand-deep/10 rounded-full overflow-hidden">
@@ -148,8 +125,8 @@ export default function LoadingScreen() {
                             initial={{ width: '0%' }}
                             animate={{ width: '100%' }}
                             transition={{
-                                duration: 1.2,
-                                delay: 1.7,
+                                duration: 2.0,
+                                delay: 1.5,
                                 ease: "easeInOut"
                             }}
                             className="h-full bg-gradient-to-r from-brand-gold to-brand-deep rounded-full"
@@ -161,7 +138,7 @@ export default function LoadingScreen() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 2 }}
+                    transition={{ duration: 0.5, delay: 1.5 }}
                     className="mt-6 flex justify-center gap-2"
                 >
                     {[0, 1, 2].map((index) => (
@@ -171,7 +148,7 @@ export default function LoadingScreen() {
                             animate={{ scale: [0, 1, 0] }}
                             transition={{
                                 duration: 1.5,
-                                delay: 2.2 + index * 0.2,
+                                delay: 1.7 + index * 0.2,
                                 repeat: Infinity,
                                 repeatDelay: 0.5
                             }}
