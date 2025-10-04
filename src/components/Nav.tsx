@@ -8,15 +8,19 @@ export default function Nav() {
     const [isOverDark, setIsOverDark] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+    const [currentSection, setCurrentSection] = useState<string>('Home');
 
     useEffect(() => {
         const handleScroll = () => {
-            // Get all sections with dark backgrounds
+            // Get all sections
+            const heroSection = document.getElementById('hero');
             const aboutSection = document.getElementById('about');
+            const experienceSection = document.getElementById('experience');
             const skillsSection = document.getElementById('skills');
             const achievementsSection = document.getElementById('achievements');
+            const contactSection = document.getElementById('contact');
 
-            if (!aboutSection || !skillsSection || !achievementsSection) return;
+            if (!heroSection || !aboutSection || !experienceSection || !skillsSection || !achievementsSection || !contactSection) return;
 
             const scrollY = window.scrollY + 100; // Header height offset
 
@@ -33,6 +37,32 @@ export default function Nav() {
             const isInAchievements = scrollY >= achievementsTop && scrollY < achievementsBottom;
 
             setIsOverDark(isInAbout || isInSkills || isInAchievements);
+
+            // Determine current section based on scroll position
+            const heroTop = heroSection.offsetTop;
+            const heroBottom = heroTop + heroSection.offsetHeight;
+            const experienceTop = experienceSection.offsetTop;
+            const experienceBottom = experienceTop + experienceSection.offsetHeight;
+            const contactTop = contactSection.offsetTop;
+            const contactBottom = contactTop + contactSection.offsetHeight;
+
+            let newCurrentSection = 'Home';
+
+            if (scrollY >= heroTop && scrollY < heroBottom) {
+                newCurrentSection = 'Home';
+            } else if (scrollY >= aboutTop && scrollY < aboutBottom) {
+                newCurrentSection = 'About';
+            } else if (scrollY >= experienceTop && scrollY < experienceBottom) {
+                newCurrentSection = 'Experience';
+            } else if (scrollY >= skillsTop && scrollY < skillsBottom) {
+                newCurrentSection = 'Skills';
+            } else if (scrollY >= achievementsTop && scrollY < achievementsBottom) {
+                newCurrentSection = 'Achievements';
+            } else if (scrollY >= contactTop) {
+                newCurrentSection = 'Contact';
+            }
+
+            setCurrentSection(newCurrentSection);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -64,39 +94,38 @@ export default function Nav() {
                 <div className="flex items-center gap-4">
                     <a
                         href="#hero"
-                        className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wide sm:tracking-wider md:tracking-widest ${
-                            textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
+                        className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wide sm:tracking-wider md:tracking-widest ${textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
                             textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
-                            'font-serif'
-                        } ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'}`}
+                                'font-serif'
+                            } ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'}`}
                     >
                         NADIA LUNA
                     </a>
 
-                    {/* Section name that appears on hover */}
+                    {/* Section name that appears on hover or shows current section */}
                     <div
-                        className={`hidden md:block overflow-hidden transition-[max-width] duration-700 ease-in-out ${hoveredSection ? 'max-w-xs' : 'max-w-0'}`}
+                        className={`hidden md:block overflow-hidden transition-[max-width] duration-300 ease-in-out ${(hoveredSection || currentSection !== 'Home') ? 'max-w-xs' : 'max-w-0'}`}
                         style={{
-                            transitionDelay: hoveredSection ? '0ms' : '0ms'
+                            transitionDelay: (hoveredSection || currentSection !== 'Home') ? '0ms' : '0ms'
                         }}
                     >
                         <div className="flex items-center gap-3 whitespace-nowrap">
                             <div
                                 className={`w-px h-8 ${isOverDark ? 'bg-brand-gold' : 'bg-brand-deep'}`}
                                 style={{
-                                    transition: 'background-color 500ms ease-in-out, opacity 700ms ease-in-out',
-                                    opacity: hoveredSection ? 1 : 0
+                                    transition: 'background-color 500ms ease-in-out, opacity 300ms ease-in-out',
+                                    opacity: (hoveredSection || currentSection !== 'Home') ? 1 : 0
                                 }}
                             ></div>
                             <span
                                 className={`text-base sm:text-lg md:text-xl font-medium italic ${isOverDark ? 'text-brand-gold' : 'text-brand-deep/70'}`}
                                 style={{
-                                    transition: 'opacity 700ms ease-in-out, transform 700ms ease-in-out, color 500ms ease-in-out',
-                                    opacity: hoveredSection ? 1 : 0,
-                                    transform: hoveredSection ? 'translateX(0)' : 'translateX(-1rem)'
+                                    transition: 'opacity 300ms ease-in-out, transform 300ms ease-in-out, color 500ms ease-in-out',
+                                    opacity: (hoveredSection || currentSection !== 'Home') ? 1 : 0,
+                                    transform: (hoveredSection || currentSection !== 'Home') ? 'translateX(0)' : 'translateX(-1rem)'
                                 }}
                             >
-                                {hoveredSection || '\u00A0'}
+                                {hoveredSection || (currentSection !== 'Home' ? currentSection : '\u00A0')}
                             </span>
                         </div>
                     </div>
@@ -114,15 +143,13 @@ export default function Nav() {
                             aria-label={`Navigate to ${item.label}`}
                         >
                             <div className="flex items-center gap-2.5">
-                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                    isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
-                                } group-hover:scale-125`}></div>
+                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
+                                    } group-hover:scale-125`}></div>
 
                                 {/* Label that appears on hover */}
                                 <span
-                                    className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
-                                        isOverDark ? 'text-brand-gold' : 'text-brand-deep'
-                                    }`}
+                                    className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'
+                                        }`}
                                     style={{
                                         maxWidth: hoveredSection === item.label ? '200px' : '0px',
                                         opacity: hoveredSection === item.label ? 1 : 0
