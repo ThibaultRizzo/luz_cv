@@ -206,7 +206,7 @@ Access your site at: `https://your-domain.vercel.app`
 - **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Complete deployment guide
 - **[Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Complete technical documentation
 - **[API Reference](./docs/API_REFERENCE.md)** - API endpoint documentation
-- **[Vercel Postgres Setup](./VERCEL_POSTGRES_SETUP.md)** - Database migration guide
+- **[Code Audit Report](./CODE_AUDIT_REPORT.md)** - Security & quality audit
 
 ## 🎨 Customization
 
