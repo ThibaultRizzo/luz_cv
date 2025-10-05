@@ -113,6 +113,7 @@ interface TextContent {
 interface TextContentContextType {
     textContent: TextContent;
     updateTextContent: (content: Partial<TextContent>) => void;
+    refreshContent: () => Promise<void>;
 }
 
 const defaultTextContent: TextContent = {
@@ -322,22 +323,26 @@ export function TextContentProvider({
     const [textContent, setTextContent] =
         useState<TextContent>(defaultTextContent);
 
+    const loadContent = async () => {
+        try {
+            const response = await contentApi.getContent();
+            if (response.success && response.data) {
+                setTextContent(response.data as unknown as TextContent);
+            }
+        } catch (error) {
+            console.error("Error loading content:", error);
+            // Fall back to default content if API fails
+        }
+    };
+
     useEffect(() => {
         // Load content from API on mount
-        const loadContent = async () => {
-            try {
-                const response = await contentApi.getContent();
-                if (response.success && response.data) {
-                    setTextContent(response.data as unknown as TextContent);
-                }
-            } catch (error) {
-                console.error("Error loading content:", error);
-                // Fall back to default content if API fails
-            }
-        };
-
         loadContent();
     }, []);
+
+    const refreshContent = async () => {
+        await loadContent();
+    };
 
     const updateTextContent = async (newContent: Partial<TextContent>) => {
         // Optimistically update UI
@@ -360,7 +365,7 @@ export function TextContentProvider({
     };
 
     return (
-        <TextContentContext.Provider value={{ textContent, updateTextContent }}>
+        <TextContentContext.Provider value={{ textContent, updateTextContent, refreshContent }}>
             {children}
         </TextContentContext.Provider>
     );
