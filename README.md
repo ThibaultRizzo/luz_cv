@@ -204,6 +204,7 @@ Access your site at: `https://your-domain.vercel.app`
 - **[Quick Start Guide](./docs/QUICK_START.md)** - Get started in 5 minutes
 - **[Credentials Setup](./CREDENTIALS_SETUP.md)** - Configure database & admin credentials
 - **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Complete deployment guide
+- **[Testing Guide](./TESTING.md)** - E2E testing with Playwright
 - **[Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Complete technical documentation
 - **[API Reference](./docs/API_REFERENCE.md)** - API endpoint documentation
 - **[Code Audit Report](./CODE_AUDIT_REPORT.md)** - Security & quality audit
