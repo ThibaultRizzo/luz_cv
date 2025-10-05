@@ -247,19 +247,26 @@ export default function BackOffice() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false); // For mobile toggle
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false); // Track unsaved changes
     const router = useRouter();
 
     // Function to load content from API
-    const loadContent = useCallback(async () => {
+    const loadContent = useCallback(async (force = false) => {
+        // Don't reload if there are unsaved changes unless forced
+        if (hasUnsavedChanges && !force) {
+            return;
+        }
+
         try {
             const contentResponse = await contentApi.getContent();
             if (contentResponse.success && contentResponse.data) {
                 setTextContent(contentResponse.data as unknown as TextContent);
+                setHasUnsavedChanges(false);
             }
         } catch (error) {
             console.error("Failed to load content:", error);
         }
-    }, []);
+    }, [hasUnsavedChanges]);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -325,6 +332,7 @@ export default function BackOffice() {
             ...prev,
             [field]: value,
         }));
+        setHasUnsavedChanges(true);
     };
 
     const handleSave = async () => {
@@ -337,8 +345,9 @@ export default function BackOffice() {
 
             if (response.success) {
                 setSaveStatus("saved");
+                setHasUnsavedChanges(false);
                 // Reload content from database to ensure we're showing what was actually saved
-                await loadContent();
+                await loadContent(true); // Force reload
                 setTimeout(() => setSaveStatus("idle"), 3000);
             } else {
                 setSaveStatus("error");
