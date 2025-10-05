@@ -58,7 +58,7 @@ export default function EmojiPicker({ value, onChange, placeholder = "🎯" }: E
       </div>
 
       {showPicker && (
-        <div className="fixed md:absolute z-[9999] mt-2 left-0 md:left-auto top-1/2 md:top-auto -translate-y-1/2 md:translate-y-0 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 shadow-2xl">
+        <div className="fixed z-[9999] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-2xl">
           <Picker
             onEmojiClick={handleEmojiClick}
             theme={Theme.DARK}
