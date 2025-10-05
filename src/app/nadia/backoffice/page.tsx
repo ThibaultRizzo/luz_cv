@@ -247,26 +247,19 @@ export default function BackOffice() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false); // For mobile toggle
-    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false); // Track unsaved changes
     const router = useRouter();
 
     // Function to load content from API
-    const loadContent = useCallback(async (force = false) => {
-        // Don't reload if there are unsaved changes unless forced
-        if (hasUnsavedChanges && !force) {
-            return;
-        }
-
+    const loadContent = useCallback(async () => {
         try {
             const contentResponse = await contentApi.getContent();
             if (contentResponse.success && contentResponse.data) {
                 setTextContent(contentResponse.data as unknown as TextContent);
-                setHasUnsavedChanges(false);
             }
         } catch (error) {
             console.error("Failed to load content:", error);
         }
-    }, [hasUnsavedChanges]);
+    }, []);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -296,23 +289,6 @@ export default function BackOffice() {
         };
 
         checkAuth();
-
-        // Periodic check for localStorage cleared or token expired
-        const authCheckInterval = setInterval(() => {
-            if (!authApi.isLoggedIn()) {
-                router.push("/nadia");
-            }
-        }, 5000); // Check every 5 seconds
-
-        // Periodic content refresh to stay in sync with frontend
-        const contentRefreshInterval = setInterval(() => {
-            loadContent();
-        }, 10000); // Refresh content every 10 seconds
-
-        return () => {
-            clearInterval(authCheckInterval);
-            clearInterval(contentRefreshInterval);
-        };
     }, [router, loadContent]);
 
     const handleLogout = async () => {
@@ -332,7 +308,6 @@ export default function BackOffice() {
             ...prev,
             [field]: value,
         }));
-        setHasUnsavedChanges(true);
     };
 
     const handleSave = async () => {
@@ -345,9 +320,8 @@ export default function BackOffice() {
 
             if (response.success) {
                 setSaveStatus("saved");
-                setHasUnsavedChanges(false);
                 // Reload content from database to ensure we're showing what was actually saved
-                await loadContent(true); // Force reload
+                await loadContent();
                 setTimeout(() => setSaveStatus("idle"), 3000);
             } else {
                 setSaveStatus("error");
