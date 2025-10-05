@@ -326,6 +326,8 @@ export default function BackOffice() {
                 setSaveStatus("saved");
                 // Reload content from database to ensure we're showing what was actually saved
                 await loadContent();
+                // Also refresh the TextContentContext so front office shows updated content
+                await refreshContent();
                 setTimeout(() => setSaveStatus("idle"), 3000);
             } else {
                 setSaveStatus("error");
