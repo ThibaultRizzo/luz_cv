@@ -71,6 +71,7 @@ interface TextContent {
     skillsToolsTitle: string;
     skillsQuoteAuthor: string;
     softSkills: SoftSkill[];
+    skillsSoftSkillsTitle: string;
     achievementsTitle: string;
     achievements: Achievement[];
     contactTitle: string;
@@ -241,6 +242,7 @@ const defaultTextContent: TextContent = {
         { skill: 'Luxury Customer Psychology', icon: '✨' },
         { skill: 'Change Management', icon: '🔄' }
     ],
+    skillsSoftSkillsTitle: "Leadership & Soft Skills",
     achievementsTitle: "Achievements",
     achievements: [
         { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },

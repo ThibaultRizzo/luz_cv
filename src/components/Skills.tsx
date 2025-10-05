@@ -74,7 +74,7 @@ export default function Skills() {
             <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 border border-brand-gold/30">
               <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-gold mb-6 sm:mb-8 text-center flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
                 <span className="text-3xl sm:text-4xl">💎</span>
-                <span>Leadership & Soft Skills</span>
+                <span>{textContent.skillsSoftSkillsTitle || 'Leadership & Soft Skills'}</span>
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {softSkills.map((item, index) => (

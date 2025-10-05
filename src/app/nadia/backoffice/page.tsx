@@ -94,6 +94,7 @@ interface TextContent {
     tools: string[];
     skillsQuote: string;
     softSkills: SoftSkill[];
+    skillsSoftSkillsTitle: string;
     achievementsTitle: string;
     achievements: Achievement[];
     contactTitle: string;
@@ -204,6 +205,7 @@ export default function BackOffice() {
             { skill: 'Luxury Customer Psychology', icon: '✨' },
             { skill: 'Change Management', icon: '🔄' }
         ],
+        skillsSoftSkillsTitle: "Leadership & Soft Skills",
         achievementsTitle: "Achievements",
         achievements: [
             { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
@@ -1690,16 +1692,30 @@ export default function BackOffice() {
                         </div>
                         {/* Soft Skills Section */}
                         <div className="border-t border-white/10 pt-6">
+                            <div className="mb-4">
+                                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
+                                    💎 Soft Skills & Leadership Title
+                                </label>
+                                <input
+                                    type="text"
+                                    value={textContent.skillsSoftSkillsTitle}
+                                    onChange={(e) =>
+                                        handleTextChange("skillsSoftSkillsTitle", e.target.value)
+                                    }
+                                    placeholder="Leadership & Soft Skills"
+                                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+                                />
+                            </div>
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-serif text-lg text-brand-cream">
-                                    Soft Skills & Leadership
+                                    Soft Skills Items
                                 </h3>
                                 <button
                                     onClick={() => {
                                         const updated = [...textContent.softSkills, { skill: '', icon: '🤝' }];
                                         handleTextChange("softSkills", updated);
                                     }}
-                                    className="px-4 py-2 bg-brand-gold/20 border border-brand-gold/30 rounded-lg text-brand-cream transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.3)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm font-medium"
+                                    className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                                 >
                                     Add Soft Skill
                                 </button>
