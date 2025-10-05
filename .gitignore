@@ -12,6 +12,12 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/e2e/fixtures/*.png
+/e2e/fixtures/*.jpg
+/e2e/fixtures/*.jpeg
 
 # next.js
 /.next/
