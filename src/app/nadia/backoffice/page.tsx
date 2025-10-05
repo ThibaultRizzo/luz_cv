@@ -979,19 +979,6 @@ export default function BackOffice() {
                         </div>
                         <div>
                             <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                About Description
-                            </label>
-                            <textarea
-                                value={textContent.aboutDescription}
-                                onChange={(e) =>
-                                    handleTextChange("aboutDescription", e.target.value)
-                                }
-                                rows={3}
-                                className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
                                 Main Text
                             </label>
                             <textarea
@@ -2840,72 +2827,86 @@ export default function BackOffice() {
                                         )}
 
                                         {activeTab === "about" && (
-                                            <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px]">
-                                                <div className="text-center mb-12">
-                                                    {textContent.aboutBadge && (
-                                                        <div className="inline-flex items-center px-3 py-1 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
-                                                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
-                                                            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
-                                                            {textContent.aboutBadge}
-                                                        </div>
-                                                    )}
-                                                    <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-4">
-                                                        {textContent.aboutTitle}
-                                                        <span className="block text-brand-gold italic">{textContent.aboutTitleSuffix}</span>
-                                                    </h2>
-                                                    <div className="w-12 h-0.5 bg-brand-gold mx-auto"></div>
+                                            <div className="bg-brand-deep text-brand-cream p-8 min-h-[500px] relative overflow-hidden">
+                                                {/* Background elements */}
+                                                <div className="absolute inset-0">
+                                                    <div className="absolute top-0 left-1/4 w-48 h-48 bg-brand-gold/5 rounded-full blur-3xl"></div>
+                                                    <div className="absolute bottom-0 right-1/4 w-40 h-40 bg-brand-cream/5 rounded-full blur-3xl"></div>
                                                 </div>
 
-                                                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                                                    <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                                                        <p className="text-sm md:text-base leading-relaxed text-brand-cream/90">{textContent.aboutMainText}</p>
-                                                        <p className="text-sm leading-relaxed text-brand-cream/80">{textContent.aboutSecondaryText}</p>
-
-                                                        {textContent.aboutApproachTitle && (
-                                                            <div className="space-y-3">
-                                                                <h3 className="text-lg font-serif text-brand-gold mb-3">{textContent.aboutApproachTitle}</h3>
-                                                                <div className="space-y-2">
-                                                                    {textContent.aboutApproachItems?.slice(0, 3).map((item, index) => (
-                                                                        <div key={index} className="flex items-start space-x-2">
-                                                                            <div className="w-1.5 h-1.5 bg-brand-gold rounded-full mt-2 flex-shrink-0"></div>
-                                                                            <div>
-                                                                                <h4 className="font-semibold text-brand-cream text-sm">{item.title}</h4>
-                                                                                <p className="text-brand-cream/70 text-xs">{item.description}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        )}
+                                                <div className="relative z-10">
+                                                    {/* Section header */}
+                                                    <div className="text-center mb-12">
+                                                        <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
+                                                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                                                            <span className="w-2 h-2 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
+                                                            {textContent.aboutBadge || 'About Me'}
+                                                        </div>
+                                                        <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-4">
+                                                            {textContent.aboutTitle}
+                                                            <span className="block text-brand-gold italic mt-1">{textContent.aboutTitleSuffix || 'reality'}</span>
+                                                        </h2>
+                                                        <div className="w-16 h-1 bg-brand-gold mx-auto"></div>
                                                     </div>
 
-                                                    <div className="space-y-4">
-                                                        {textContent.aboutImpactTitle && (
-                                                            <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
-                                                                <h3 className="text-lg font-serif text-brand-gold mb-3">{textContent.aboutImpactTitle}</h3>
-                                                                <div className="grid grid-cols-2 gap-3">
-                                                                    {textContent.aboutImpactMetrics?.map((item, index) => (
-                                                                        <div key={index} className="text-center">
-                                                                            <div className="text-xl font-bold text-brand-cream mb-0.5">{item.metric}</div>
-                                                                            <div className="text-xs text-brand-cream/60 uppercase tracking-wide">{item.label}</div>
+                                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-5xl mx-auto">
+                                                        {/* Left column - Main content */}
+                                                        <div className="space-y-6">
+                                                            <div className="space-y-4">
+                                                                <p className="text-sm md:text-base leading-relaxed text-brand-cream/90">{textContent.aboutMainText}</p>
+                                                                <p className="text-xs md:text-sm leading-relaxed text-brand-cream/80">{textContent.aboutSecondaryText}</p>
+                                                            </div>
+
+                                                            {/* Key principles */}
+                                                            <div className="space-y-4">
+                                                                <h3 className="text-lg font-serif text-brand-gold mb-4">{textContent.aboutApproachTitle || 'My Approach'}</h3>
+                                                                <div className="space-y-4">
+                                                                    {(textContent.aboutApproachItems && textContent.aboutApproachItems.length > 0 ? textContent.aboutApproachItems : [
+                                                                        { title: 'Customer-First Philosophy', description: 'Every decision starts with understanding the customer\'s deepest needs and desires' },
+                                                                        { title: 'Data-Driven Innovation', description: 'Combining intuition with analytics to create breakthrough solutions' },
+                                                                        { title: 'Cross-Functional Leadership', description: 'Building bridges between teams to deliver cohesive, impactful products' }
+                                                                    ]).map((item, index) => (
+                                                                        <div key={index} className="bg-brand-cream/5 rounded-xl p-4 border-l-4 border-brand-gold">
+                                                                            <h4 className="font-semibold text-brand-cream mb-2 text-sm">{item.title}</h4>
+                                                                            <p className="text-brand-cream/70 text-xs leading-relaxed">{item.description}</p>
                                                                         </div>
                                                                     ))}
                                                                 </div>
                                                             </div>
-                                                        )}
+                                                        </div>
 
-                                                        {textContent.aboutQuote && (
-                                                            <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
-                                                                <blockquote className="text-sm italic text-brand-cream/90 text-center">
-                                                                    &quot;{textContent.aboutQuote}&quot;
-                                                                </blockquote>
-                                                                {textContent.aboutQuoteAuthor && (
-                                                                    <div className="text-center mt-2">
-                                                                        <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor}</cite>
-                                                                    </div>
-                                                                )}
+                                                        {/* Right column - Stats & highlights */}
+                                                        <div className="space-y-6">
+                                                            {/* Impact metrics */}
+                                                            <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 border border-brand-gold/20">
+                                                                <h3 className="text-lg font-serif text-brand-gold mb-4">{textContent.aboutImpactTitle || 'Impact at a Glance'}</h3>
+                                                                <div className="grid grid-cols-2 gap-4">
+                                                                    {(textContent.aboutImpactMetrics && textContent.aboutImpactMetrics.length > 0 ? textContent.aboutImpactMetrics : [
+                                                                        { metric: '€50M+', label: 'Revenue Generated' },
+                                                                        { metric: '40%', label: 'Avg Growth Rate' },
+                                                                        { metric: '25+', label: 'Products Launched' },
+                                                                        { metric: '15+', label: 'Teams Led' }
+                                                                    ]).map((item, index) => (
+                                                                        <div key={index} className="text-center bg-brand-gold/10 rounded-xl p-4">
+                                                                            <div className="text-2xl font-bold text-brand-gold mb-2">{item.metric}</div>
+                                                                            <div className="text-xs text-brand-cream uppercase tracking-wide">{item.label}</div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
                                                             </div>
-                                                        )}
+
+                                                            {/* Quote */}
+                                                            {textContent.aboutQuote && (
+                                                                <div className="relative bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 border border-brand-gold/20">
+                                                                    <blockquote className="text-sm italic text-brand-cream/90 text-center">
+                                                                        &quot;{textContent.aboutQuote}&quot;
+                                                                    </blockquote>
+                                                                    <div className="text-center mt-3">
+                                                                        <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor || '— Nadia Luna'}</cite>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
