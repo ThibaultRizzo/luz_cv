@@ -2704,8 +2704,8 @@ export default function BackOffice() {
                                     <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
                                 </div>
                                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                                    {/* Header Preview - Same as Hero section (hidden for loading screen) */}
-                                    {activeTab !== "loading" && (
+                                    {/* Header Preview - Only shown for Hero section */}
+                                    {activeTab === "hero" && (
                                         <div className="sticky top-0 z-50 backdrop-blur-3xl border-b border-white/20 bg-white/80" style={{ backdropFilter: 'blur(20px) saturate(180%)', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
                                             <div className="px-6 py-6 md:py-8 flex justify-between items-center">
                                                 <div

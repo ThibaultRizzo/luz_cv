@@ -54,6 +54,8 @@ openssl rand -base64 32
 # Or use online generator
 ```
 
+> **💡 Need detailed help?** See [Credentials Setup Guide](../CREDENTIALS_SETUP.md) for complete instructions on setting up database and admin credentials.
+
 ### 3. Start Development Server
 
 ```bash

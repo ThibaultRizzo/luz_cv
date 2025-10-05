@@ -1,234 +1,509 @@
-# Vercel Deployment Guide - MongoDB Atlas Integration
+# Vercel Deployment Guide
 
-## 🚀 Quick Migration to Vercel with MongoDB Atlas
+Complete guide to deploying your CV website with CMS to Vercel with Vercel Postgres.
 
-This guide shows how to deploy your existing Node.js back office to Vercel with minimal code changes.
+## 🎯 Overview
 
-## Step 1: Create MongoDB Atlas Account
+This application is built with:
+- **Next.js 15** - React framework with App Router
+- **Vercel Postgres** - Managed PostgreSQL database
+- **Drizzle ORM** - Type-safe database operations
+- **TypeScript** - Type safety throughout
+- **Serverless Functions** - Auto-scaling API routes
 
-1. Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Create free account (no credit card required)
-3. Create new cluster (select free M0 tier)
-4. **Important**: Choose region closest to your users
+## 🚀 Deployment Steps
 
-## Step 2: Set Up Database Access
+### Step 1: Create Vercel Account
 
-1. **Create Database User**:
-   - Username: `alelunapaint-admin`
-   - Password: Generate strong password (save it!)
-   - Roles: Read and write to any database
+1. Go to [vercel.com](https://vercel.com)
+2. Sign up with GitHub (recommended)
+3. Verify your email
 
-2. **Configure Network Access**:
-   - Add IP: `0.0.0.0/0` (allows access from anywhere - Vercel needs this)
-   - Or use Vercel's IP ranges for better security
+### Step 2: Create Vercel Postgres Database
 
-3. **Get Connection String**:
+1. **Navigate to Storage**:
+   - Login to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click **Storage** in the top navigation
+   - Click **Create Database**
+
+2. **Select Postgres**:
+   - Choose **Postgres** from the options
+   - Name it: `alelunapaint-db` (or your preferred name)
+   - Select region closest to your users
+   - Click **Create**
+
+3. **Get Connection Details**:
+   Vercel automatically provides these environment variables:
+   ```env
+   POSTGRES_URL=postgres://...
+   POSTGRES_PRISMA_URL=postgres://...
+   POSTGRES_URL_NON_POOLING=postgres://...
+   POSTGRES_USER=...
+   POSTGRES_HOST=...
+   POSTGRES_PASSWORD=...
+   POSTGRES_DATABASE=...
    ```
-   mongodb+srv://alelunapaint-admin:<password>@cluster0.xxxxx.mongodb.net/alelunapaint?retryWrites=true&w=majority
+
+### Step 3: Deploy Application
+
+#### Option A: GitHub Integration (Recommended)
+
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Prepare for deployment"
+   git push origin main
    ```
 
-## Step 3: Update Project for Vercel
+2. **Import Repository**:
+   - Go to Vercel Dashboard
+   - Click **Add New** → **Project**
+   - Select your GitHub repository
+   - Click **Import**
 
-### Create `vercel.json`
-```json
-{
-  "functions": {
-    "backend/src/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/backend/src/server.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
-```
+3. **Configure Project**:
+   - Framework: Next.js (auto-detected)
+   - Root Directory: `./` (default)
+   - Build Command: `npm run build` (default)
+   - Output Directory: `.next` (default)
 
-### Update `backend/package.json`
-```json
-{
-  "scripts": {
-    "start": "node src/server.js",
-    "dev": "bun --watch src/server.js",
-    "init-db": "node src/scripts/initDatabase.js",
-    "vercel-build": "echo 'Build complete'"
-  }
-}
-```
+4. **Connect Database**:
+   - In project settings, go to **Storage**
+   - Click **Connect Store**
+   - Select your Postgres database
+   - Environment variables will auto-populate
 
-### Create `backend/api/index.js` (Vercel entry point)
-```javascript
-// This file makes the backend work with Vercel Functions
-const app = require('../src/server.js');
+5. **Deploy**:
+   - Click **Deploy**
+   - Wait for build to complete (~2-3 minutes)
 
-module.exports = app;
-```
+#### Option B: Vercel CLI
 
-## Step 4: Environment Variables for Vercel
+1. **Install Vercel CLI**:
+   ```bash
+   npm i -g vercel
+   ```
 
-In Vercel Dashboard → Settings → Environment Variables:
+2. **Login**:
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy**:
+   ```bash
+   # Deploy to preview
+   vercel
+
+   # Deploy to production
+   vercel --prod
+   ```
+
+### Step 4: Configure Environment Variables
+
+In Vercel Dashboard → Your Project → Settings → Environment Variables:
+
+#### Required Variables
 
 ```env
-# Database (MongoDB Atlas)
-MONGODB_URI=mongodb+srv://alelunapaint-admin:<password>@cluster0.xxxxx.mongodb.net/alelunapaint?retryWrites=true&w=majority
+# Database (auto-filled when you connect Vercel Postgres)
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
 
-# Authentication (CHANGE THESE FOR PRODUCTION!)
-JWT_SECRET=your-super-secure-production-jwt-secret-key-2024
-REFRESH_TOKEN_SECRET=your-super-secure-production-refresh-token-secret-2024
+# Authentication - CHANGE THESE!
+JWT_SECRET=your-production-jwt-secret
+REFRESH_TOKEN_SECRET=your-production-refresh-secret
 JWT_EXPIRE=24h
 REFRESH_TOKEN_EXPIRE=7d
 
-# Admin Credentials (CHANGE THESE!)
-ADMIN_USERNAME=your-secure-admin-username
-ADMIN_PASSWORD=your-secure-admin-password
+# Admin Credentials - CHANGE THESE!
+ADMIN_USERNAME=your-admin-username
+ADMIN_PASSWORD=your-secure-password
 
 # Security
 BCRYPT_ROUNDS=12
 NODE_ENV=production
 
-# CORS (UPDATE WITH YOUR DOMAIN)
-FRONTEND_URL=https://your-domain.vercel.app
-ALLOWED_ORIGINS=https://your-domain.vercel.app
-
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
+# Site URL (auto-filled by Vercel)
+NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
 ```
 
-## Step 5: Deploy to Vercel
-
-### Option A: Vercel CLI
-```bash
-npm i -g vercel
-vercel --prod
-```
-
-### Option B: GitHub Integration
-1. Push to GitHub
-2. Connect repository in Vercel dashboard
-3. Auto-deploys on every push
-
-## Step 6: Initialize Production Database
-
-After deployment, initialize your database:
+#### Generate Secure Secrets
 
 ```bash
-# Using Vercel CLI
-vercel env pull .env.production
-node backend/src/scripts/initDatabase.js
+# Linux/Mac
+openssl rand -base64 32
+
+# Or use online generator
+# https://generate-secret.now.sh/32
 ```
 
-## 🔧 Code Changes Required
+**Important**:
+- Set environment variables for **Production**, **Preview**, and **Development**
+- Use strong, unique secrets for production
+- Never commit secrets to git
 
-### Update `backend/src/server.js`
-```javascript
-// Add this at the end for Vercel compatibility
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+### Step 5: Initialize Database
 
-// Export for Vercel
-module.exports = app;
-```
+After deployment completes:
 
-### Update Frontend API URL
-Update `.env.local` (for development) and Vercel env (for production):
-```env
-# Development
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+1. **Visit initialization endpoint**:
+   ```
+   https://your-domain.vercel.app/api/init-db
+   ```
 
-# Production (Vercel env var)
-NEXT_PUBLIC_API_URL=https://your-domain.vercel.app/api
-```
+2. **Verify success**:
+   You should see:
+   ```json
+   {
+     "success": true,
+     "message": "Database initialized successfully",
+     "tables": ["users", "content", "content_backups"]
+   }
+   ```
 
-## 🎯 Testing Production Deployment
+### Step 6: Test Your Deployment
 
-1. **Test API endpoints**:
-   ```bash
-   curl https://your-domain.vercel.app/api/content
+1. **Visit homepage**:
+   ```
+   https://your-domain.vercel.app
    ```
 
 2. **Test admin login**:
-   ```bash
-   curl -X POST https://your-domain.vercel.app/api/auth/login \
-     -H "Content-Type: application/json" \
-     -d '{"username":"your-admin","password":"your-password"}'
+   ```
+   https://your-domain.vercel.app/nadia
    ```
 
-3. **Test back office**: `https://your-domain.vercel.app/nadia`
+3. **Access back office**:
+   ```
+   https://your-domain.vercel.app/nadia/backoffice
+   ```
 
-## 🚨 Security Checklist for Production
+4. **Make a content change**:
+   - Login to back office
+   - Edit any section
+   - Click "Save Changes"
+   - Verify changes appear on homepage
 
-- [ ] Change all default passwords
-- [ ] Use strong JWT secrets (32+ characters)
-- [ ] Update CORS origins to your domain only
-- [ ] Enable MongoDB Atlas IP whitelist (optional)
-- [ ] Review rate limiting settings
-- [ ] Test admin access from production URL
+## 🔧 Custom Domain Setup
 
-## 🔄 Development vs Production
+### Add Custom Domain
 
-### Development (Current)
-- Docker MongoDB
-- Local environment variables
-- `bun run dev`
+1. **In Vercel Dashboard**:
+   - Go to Project Settings → Domains
+   - Click **Add Domain**
+   - Enter your domain: `www.yourdomain.com`
 
-### Production (Vercel)
-- MongoDB Atlas
-- Vercel environment variables
-- Serverless functions
+2. **Configure DNS**:
+   Vercel provides DNS records to add:
+   ```
+   Type: CNAME
+   Name: www
+   Value: cname.vercel-dns.com
+   ```
 
-### Hybrid Workflow
+3. **Update Environment Variable**:
+   ```env
+   NEXT_PUBLIC_SITE_URL=https://www.yourdomain.com
+   ```
+
+4. **Redeploy**:
+   - Trigger new deployment
+   - Or: `vercel --prod`
+
+## 📊 Vercel Analytics (Optional)
+
+### Enable Analytics
+
+1. **In Vercel Dashboard**:
+   - Go to Project → Analytics
+   - Click **Enable Analytics**
+
+2. **View Metrics**:
+   - Pageviews
+   - Unique visitors
+   - Top pages
+   - Device breakdown
+
+## 🔒 Security Best Practices
+
+### Production Checklist
+
+- [ ] **Change default credentials**
+  - Set strong admin username
+  - Set strong admin password (16+ characters)
+
+- [ ] **Generate strong secrets**
+  - JWT_SECRET (32+ characters)
+  - REFRESH_TOKEN_SECRET (32+ characters)
+
+- [ ] **Environment variables**
+  - All secrets in Vercel env vars
+  - Never commit .env files to git
+  - Use different secrets for dev/prod
+
+- [ ] **Database security**
+  - Vercel Postgres has built-in security
+  - Connection pooling enabled
+  - SSL connections enforced
+
+- [ ] **Application security**
+  - CORS configured for production domain
+  - JWT tokens expire after 24h
+  - Refresh tokens expire after 7d
+  - Passwords hashed with bcrypt (12 rounds)
+
+## 🔄 Continuous Deployment
+
+### Auto-Deploy on Git Push
+
+When using GitHub integration:
+
+1. **Push to main branch**:
+   ```bash
+   git push origin main
+   ```
+
+2. **Vercel auto-deploys**:
+   - Runs `npm run build`
+   - Runs tests (if configured)
+   - Deploys to production
+
+3. **Preview deployments**:
+   - Every pull request gets a preview URL
+   - Test changes before merging
+   - Automatic cleanup after merge
+
+### Manual Deployment
+
 ```bash
-# Development
-docker-compose up -d  # Local MongoDB
-bun run dev          # Backend + Frontend
+# Deploy current directory
+vercel --prod
 
-# Production
-vercel --prod        # Deploy to Vercel with Atlas
+# Deploy with environment
+vercel --prod --env NODE_ENV=production
 ```
 
-## 📊 Cost Considerations
+## 📈 Monitoring & Logs
 
-- **MongoDB Atlas**: Free M0 tier (512MB storage)
-- **Vercel**: Free tier includes serverless functions
-- **Total monthly cost**: $0 for small-medium traffic
+### View Logs
+
+```bash
+# Vercel CLI
+vercel logs
+
+# Filter by function
+vercel logs --filter="/api/content"
+
+# Follow logs in real-time
+vercel logs --follow
+```
+
+### View in Dashboard
+
+1. Go to Project → Deployments
+2. Click on a deployment
+3. View **Function Logs** tab
+4. See real-time serverless function execution
+
+### Error Monitoring
+
+Errors are automatically logged:
+- Function errors
+- Build errors
+- Runtime errors
+
+Access via:
+- Vercel Dashboard → Project → Logs
+- Real-time monitoring in deployment view
+
+## 🧪 Testing Production
+
+### API Endpoints
+
+```bash
+# Test content endpoint
+curl https://your-domain.vercel.app/api/content
+
+# Test login
+curl -X POST https://your-domain.vercel.app/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"your-admin","password":"your-password"}'
+
+# Test authenticated endpoint
+curl https://your-domain.vercel.app/api/auth/me \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Load Testing
+
+```bash
+# Install Apache Bench
+sudo apt-get install apache2-utils
+
+# Test with 100 requests, 10 concurrent
+ab -n 100 -c 10 https://your-domain.vercel.app/
+```
 
 ## 🆘 Troubleshooting
 
-### Common Issues:
+### Common Issues
 
-1. **Function timeout**: Increase timeout in `vercel.json`
-2. **Cold starts**: Consider upgrading Vercel plan for faster functions
-3. **Database connection**: Ensure Atlas IP whitelist includes `0.0.0.0/0`
-4. **CORS errors**: Update `ALLOWED_ORIGINS` with production domain
+#### 1. "Database connection failed"
 
-### Debug Commands:
+**Causes**:
+- Database not created
+- Connection string incorrect
+- Environment variables not set
+
+**Fix**:
 ```bash
-# Check Vercel function logs
-vercel logs
+# Check Vercel dashboard
+# Storage → Postgres → Check status
 
-# Test locally with production env
-vercel dev
+# Verify env vars are set
+vercel env ls
+
+# Redeploy
+vercel --prod
 ```
 
-## ✅ Success Criteria
+#### 2. "Build fails"
 
-When deployment is successful:
-- [ ] Website loads at your Vercel domain
-- [ ] Admin login works at `/nadia`
-- [ ] Back office loads at `/nadia/backoffice`
-- [ ] Content updates persist in MongoDB Atlas
-- [ ] API endpoints respond correctly
+**Causes**:
+- TypeScript errors
+- Missing dependencies
+- Environment variables missing
+
+**Fix**:
+```bash
+# Test build locally
+npm run build
+
+# Check build logs
+vercel logs --filter="build"
+
+# Ensure all env vars are set
+```
+
+#### 3. "401 Unauthorized"
+
+**Causes**:
+- Token expired
+- JWT secret mismatch
+- Database not initialized
+
+**Fix**:
+```bash
+# Initialize database
+curl https://your-domain.vercel.app/api/init-db
+
+# Clear localStorage
+# Login again
+```
+
+#### 4. "Function timeout"
+
+**Causes**:
+- Database query too slow
+- Function processing too long
+- Cold start delay
+
+**Fix**:
+- Optimize database queries
+- Add indexes to database
+- Upgrade Vercel plan for longer timeouts
+
+### Debug Mode
+
+Enable verbose logging:
+
+```env
+# Add to Vercel env vars
+DEBUG=*
+LOG_LEVEL=debug
+```
+
+## 💰 Cost & Limits
+
+### Vercel Hobby Plan (Free)
+
+- ✅ Unlimited personal projects
+- ✅ Automatic HTTPS
+- ✅ Serverless functions
+- ✅ 100GB bandwidth/month
+- ⚠️ Commercial use: upgrade to Pro
+
+### Vercel Postgres (Free Tier)
+
+- ✅ 256 MB storage
+- ✅ 60 hours compute/month
+- ✅ Connection pooling
+- ⚠️ Need more: upgrade to paid tier
+
+### Upgrade Triggers
+
+Consider upgrading when:
+- Site has commercial traffic
+- Need >256MB database
+- Need >60 hours compute/month
+- Need team collaboration
+- Need advanced analytics
+
+## 📚 Additional Resources
+
+- [Vercel Documentation](https://vercel.com/docs)
+- [Next.js Deployment](https://nextjs.org/docs/deployment)
+- [Vercel Postgres Docs](https://vercel.com/docs/storage/vercel-postgres)
+- [Drizzle ORM Docs](https://orm.drizzle.team)
+
+## ✅ Success Checklist
+
+After deployment, verify:
+
+- [ ] Homepage loads at production URL
+- [ ] Admin login works (`/nadia`)
+- [ ] Back office accessible (`/nadia/backoffice`)
+- [ ] Content edits persist
+- [ ] Image uploads work
+- [ ] All sections display correctly
+- [ ] Mobile responsive
+- [ ] SEO meta tags correct
+- [ ] Favicon displays
+- [ ] No console errors
+
+## 🎉 Next Steps
+
+1. **Customize Content**:
+   - Login to back office
+   - Update all sections
+   - Upload profile photo
+   - Test all features
+
+2. **Configure Domain**:
+   - Add custom domain
+   - Configure DNS
+   - Enable HTTPS (automatic)
+
+3. **Monitor Performance**:
+   - Enable Vercel Analytics
+   - Check Lighthouse scores
+   - Monitor function logs
+
+4. **Share Your Site**:
+   - Add to LinkedIn
+   - Update resume
+   - Share on social media
 
 ---
 
-**Result**: Full-featured Node.js back office running on Vercel with managed MongoDB Atlas database! 🎉
+**Deployment Time**: ~10 minutes
+**Difficulty**: Beginner-friendly
+**Cost**: Free (Hobby plan)
+**Status**: Production-ready ✅
+
+**Last Updated**: 2025-10-05
