@@ -1690,15 +1690,39 @@ export default function BackOffice() {
                         </div>
                         {/* Soft Skills Section */}
                         <div className="border-t border-white/10 pt-6">
-                            <h3 className="font-serif text-lg text-brand-cream mb-4">
-                                Soft Skills
-                            </h3>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-serif text-lg text-brand-cream">
+                                    Soft Skills & Leadership
+                                </h3>
+                                <button
+                                    onClick={() => {
+                                        const updated = [...textContent.softSkills, { skill: '', icon: '🤝' }];
+                                        handleTextChange("softSkills", updated);
+                                    }}
+                                    className="px-4 py-2 bg-brand-gold/20 border border-brand-gold/30 rounded-lg text-brand-cream transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.3)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 text-sm font-medium"
+                                >
+                                    Add Soft Skill
+                                </button>
+                            </div>
                             <div className="space-y-4">
                                 {textContent.softSkills.map((softSkill, index) => (
                                     <div key={index} className="bg-brand-cream/30 p-4 rounded-xl">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h4 className="font-medium text-brand-deep">Soft Skill {index + 1}</h4>
+                                            <button
+                                                onClick={() => {
+                                                    const updated = textContent.softSkills.filter((_, i) => i !== index);
+                                                    handleTextChange("softSkills", updated);
+                                                }}
+                                                className="text-red-500 hover:text-red-700 text-lg"
+                                                title="Remove"
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                <label className="block text-sm font-medium text-brand-deep/80 mb-1">
                                                     Skill Name
                                                 </label>
                                                 <input
@@ -1709,11 +1733,12 @@ export default function BackOffice() {
                                                         updated[index].skill = e.target.value;
                                                         handleTextChange("softSkills", updated);
                                                     }}
+                                                    placeholder="e.g., Executive Stakeholder Management, Leadership"
                                                     className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                <label className="block text-sm font-medium text-brand-deep/80 mb-1">
                                                     Icon (emoji)
                                                 </label>
                                                 <EmojiPicker
