@@ -29,10 +29,6 @@ export async function POST() {
         password: hashedPassword,
         role: 'admin',
       });
-
-      console.log(`✅ Admin user '${adminUsername}' created`);
-    } else {
-      console.log(`ℹ️ Admin user '${adminUsername}' already exists`);
     }
 
     // Check if content exists
@@ -252,9 +248,6 @@ export async function POST() {
         isActive: true,
       });
 
-      console.log('✅ Initial content created');
-    } else {
-      console.log('ℹ️ Content already exists');
     }
 
     return NextResponse.json({

@@ -43,7 +43,6 @@ export async function testConnection() {
   try {
     const sqlClient = getSql();
     await sqlClient`SELECT 1`;
-    console.log('✅ Database connection successful');
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error);
@@ -170,7 +169,6 @@ export async function initializeDatabase() {
       )
     `;
 
-    console.log('✅ Database tables initialized');
     return true;
   } catch (error) {
     console.error('❌ Database initialization failed:', error);

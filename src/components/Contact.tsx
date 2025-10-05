@@ -32,7 +32,6 @@ export default function Contact() {
             await new Promise(resolve => setTimeout(resolve, 2000));
 
             // For now, we'll just show a success message
-            console.log('Form submitted:', formData);
             setSubmitStatus('success');
             setFormData({ name: '', email: '', company: '', message: '' });
         } catch {

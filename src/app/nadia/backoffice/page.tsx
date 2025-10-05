@@ -253,12 +253,9 @@ export default function BackOffice() {
 
     // Function to load content from API
     const loadContent = useCallback(async () => {
-        console.log('[loadContent] Loading content from API...');
         try {
             const contentResponse = await contentApi.getContent();
-            console.log('[loadContent] Response:', contentResponse);
             if (contentResponse.success && contentResponse.data) {
-                console.log('[loadContent] Setting textContent to:', contentResponse.data);
                 setTextContent(contentResponse.data as unknown as TextContent);
             }
         } catch (error) {
@@ -311,7 +308,6 @@ export default function BackOffice() {
         field: keyof TextContent,
         value: string | string[] | SoftSkill[] | Achievement[],
     ) => {
-        console.log(`[handleTextChange] ${field}:`, value);
         setTextContent((prev) => ({
             ...prev,
             [field]: value,
@@ -319,7 +315,6 @@ export default function BackOffice() {
     };
 
     const handleSave = async () => {
-        console.log('[handleSave] Saving content:', textContent);
         setSaveStatus("saving");
         setErrorMessage("");
         try {
@@ -327,14 +322,10 @@ export default function BackOffice() {
                 textContent as unknown as Record<string, unknown>,
             );
 
-            console.log('[handleSave] Save response:', response);
-
             if (response.success) {
                 setSaveStatus("saved");
-                console.log('[handleSave] Reloading content from database...');
                 // Reload content from database to ensure we're showing what was actually saved
                 await loadContent();
-                console.log('[handleSave] Content reloaded successfully');
                 setTimeout(() => setSaveStatus("idle"), 3000);
             } else {
                 setSaveStatus("error");
