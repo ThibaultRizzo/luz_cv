@@ -39,6 +39,9 @@ interface TextContent {
     heroCtaText: string;
     heroScrollText: string;
     headerFont: string;
+    loadingScreenFirstName: string;
+    loadingScreenLastName: string;
+    loadingScreenTagline: string;
     aboutTitle: string;
     aboutDescription: string;
     aboutMainText: string;
@@ -118,6 +121,9 @@ const defaultTextContent: TextContent = {
     heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
     heroImage: "/nadia.jpg",
     headerFont: "playfair",
+    loadingScreenFirstName: "NADIA",
+    loadingScreenLastName: "LUNA",
+    loadingScreenTagline: "Product Owner • Luxury Retail",
     aboutTitle: "Turning vision into reality",
     aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
     aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",

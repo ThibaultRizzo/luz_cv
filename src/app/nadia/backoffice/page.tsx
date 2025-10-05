@@ -2687,33 +2687,35 @@ export default function BackOffice() {
                                     <h3 className="font-serif text-lg text-brand-cream">Live Preview</h3>
                                 </div>
                                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                                    {/* Header Preview - Same as Hero section */}
-                                    <div className="sticky top-0 z-50 backdrop-blur-3xl border-b border-white/20 bg-white/80" style={{ backdropFilter: 'blur(20px) saturate(180%)', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
-                                        <div className="px-6 py-6 md:py-8 flex justify-between items-center">
-                                            <div
-                                                className={`text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wider sm:tracking-wider md:tracking-widest ${textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
-                                                    textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
-                                                        'font-serif'
-                                                    } text-brand-deep`}
-                                            >
-                                                NADIA LUNA
-                                            </div>
-                                            <div className="hidden md:flex items-center gap-2">
-                                                {['about', 'experience', 'skills', 'achievements', 'contact'].map((item) => (
-                                                    <div key={item} className="px-3 py-2">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-deep"></div>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                    {/* Header Preview - Same as Hero section (hidden for loading screen) */}
+                                    {activeTab !== "loading" && (
+                                        <div className="sticky top-0 z-50 backdrop-blur-3xl border-b border-white/20 bg-white/80" style={{ backdropFilter: 'blur(20px) saturate(180%)', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
+                                            <div className="px-6 py-6 md:py-8 flex justify-between items-center">
+                                                <div
+                                                    className={`text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold transition-colors duration-500 tracking-wider sm:tracking-wider md:tracking-widest ${textContent.headerFont === 'cormorant' ? 'font-[family-name:var(--font-cormorant)]' :
+                                                        textContent.headerFont === 'bodoni' ? 'font-[family-name:var(--font-bodoni)]' :
+                                                            'font-serif'
+                                                        } text-brand-deep`}
+                                                >
+                                                    NADIA LUNA
+                                                </div>
+                                                <div className="hidden md:flex items-center gap-2">
+                                                    {['about', 'experience', 'skills', 'achievements', 'contact'].map((item) => (
+                                                        <div key={item} className="px-3 py-2">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-brand-deep"></div>
+                                                        </div>
+                                                    ))}
+                                                </div>
 
-                                            {/* Mobile Menu Button */}
-                                            <button className="md:hidden p-2 rounded-lg text-brand-deep">
-                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                                </svg>
-                                            </button>
+                                                {/* Mobile Menu Button */}
+                                                <button className="md:hidden p-2 rounded-lg text-brand-deep">
+                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     {/* Preview content will be rendered here based on activeTab */}
                                     <div className="transform scale-90 origin-top-left w-[111%]">

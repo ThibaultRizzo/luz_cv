@@ -81,6 +81,12 @@ export async function initializeDatabase() {
         hero_stats JSONB DEFAULT '[]',
         hero_cta_text TEXT,
         hero_scroll_text TEXT,
+        header_font TEXT DEFAULT 'playfair',
+
+        -- Loading Screen
+        loading_screen_first_name TEXT DEFAULT 'NADIA',
+        loading_screen_last_name TEXT DEFAULT 'LUNA',
+        loading_screen_tagline TEXT DEFAULT 'Product Owner • Luxury Retail',
 
         -- About Section
         about_title TEXT,

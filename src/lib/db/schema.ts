@@ -26,6 +26,11 @@ export const content = pgTable('content', {
   heroScrollText: text('hero_scroll_text'),
   headerFont: text('header_font').default('playfair'),
 
+  // Loading Screen
+  loadingScreenFirstName: text('loading_screen_first_name').default('NADIA'),
+  loadingScreenLastName: text('loading_screen_last_name').default('LUNA'),
+  loadingScreenTagline: text('loading_screen_tagline').default('Product Owner • Luxury Retail'),
+
   // About Section
   aboutTitle: text('about_title'),
   aboutDescription: text('about_description'),
