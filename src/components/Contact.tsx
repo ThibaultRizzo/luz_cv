@@ -11,8 +11,10 @@ export default function Contact() {
         company: '',
         message: ''
     });
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -20,22 +22,89 @@ export default function Contact() {
             ...prev,
             [name]: value
         }));
+        // Clear error for this field when user starts typing
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
+    };
+
+    const validateForm = (): boolean => {
+        const newErrors: { [key: string]: string } = {};
+
+        // Name validation
+        if (!formData.name.trim()) {
+            newErrors.name = 'Name is required';
+        } else if (formData.name.trim().length < 2) {
+            newErrors.name = 'Name must be at least 2 characters';
+        } else if (formData.name.trim().length > 100) {
+            newErrors.name = 'Name must be less than 100 characters';
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email is required';
+        } else if (!emailRegex.test(formData.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+
+        // Message validation
+        if (!formData.message.trim()) {
+            newErrors.message = 'Message is required';
+        } else if (formData.message.trim().length < 10) {
+            newErrors.message = 'Message must be at least 10 characters';
+        } else if (formData.message.trim().length > 5000) {
+            newErrors.message = 'Message must be less than 5000 characters';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
         setSubmitStatus('idle');
+        setErrorMessage('');
+
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+
+        setIsSubmitting(true);
 
         try {
-            // Simulate form submission (replace with actual API call)
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-            // For now, we'll just show a success message
-            setSubmitStatus('success');
-            setFormData({ name: '', email: '', company: '', message: '' });
-        } catch {
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setSubmitStatus('success');
+                setFormData({ name: '', email: '', company: '', message: '' });
+                setErrors({});
+
+                // Auto-hide success message after 5 seconds
+                setTimeout(() => {
+                    setSubmitStatus('idle');
+                }, 5000);
+            } else {
+                setSubmitStatus('error');
+                setErrorMessage(data.message || 'Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Contact form error:', error);
             setSubmitStatus('error');
+            setErrorMessage('Network error. Please check your connection and try again.');
         } finally {
             setIsSubmitting(false);
         }
@@ -72,7 +141,7 @@ export default function Contact() {
                         <h3 className="font-serif text-xl sm:text-2xl text-brand-deep mb-4 sm:mb-6">{textContent.contactFormTitle || 'Send a Message'}</h3>
 
                         {submitStatus === 'success' && (
-                            <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl">
+                            <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl animate-fade-in">
                                 <div className="flex items-center">
                                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -83,12 +152,12 @@ export default function Contact() {
                         )}
 
                         {submitStatus === 'error' && (
-                            <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl">
+                            <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl animate-fade-in">
                                 <div className="flex items-center">
                                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                                     </svg>
-                                    {textContent.contactErrorMessage || 'Sorry, there was an error sending your message. Please try again.'}
+                                    {errorMessage || textContent.contactErrorMessage || 'Sorry, there was an error sending your message. Please try again.'}
                                 </div>
                             </div>
                         )}
@@ -107,10 +176,18 @@ export default function Contact() {
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         required
-                                        aria-describedby="name-error"
-                                        className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300"
+                                        aria-invalid={!!errors.name}
+                                        aria-describedby={errors.name ? "name-error" : undefined}
+                                        className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 ${
+                                            errors.name
+                                                ? 'border-red-500 focus:ring-red-500'
+                                                : 'border-brand-deep/20 focus:ring-brand-gold focus:border-transparent'
+                                        }`}
                                         placeholder={textContent.contactFormPlaceholders?.name || 'Your name'}
                                     />
+                                    {errors.name && (
+                                        <p id="name-error" className="mt-1 text-sm text-red-600" role="alert">{errors.name}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-brand-deep mb-2">
@@ -123,10 +200,18 @@ export default function Contact() {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         required
-                                        aria-describedby="email-error"
-                                        className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300"
+                                        aria-invalid={!!errors.email}
+                                        aria-describedby={errors.email ? "email-error" : undefined}
+                                        className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 ${
+                                            errors.email
+                                                ? 'border-red-500 focus:ring-red-500'
+                                                : 'border-brand-deep/20 focus:ring-brand-gold focus:border-transparent'
+                                        }`}
                                         placeholder={textContent.contactFormPlaceholders?.email || 'your@email.com'}
                                     />
+                                    {errors.email && (
+                                        <p id="email-error" className="mt-1 text-sm text-red-600" role="alert">{errors.email}</p>
+                                    )}
                                 </div>
                             </fieldset>
                             <div>
@@ -152,10 +237,18 @@ export default function Contact() {
                                     onChange={handleInputChange}
                                     required
                                     rows={5}
-                                    aria-describedby="message-error"
-                                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border border-brand-deep/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all duration-300 resize-none"
+                                    aria-invalid={!!errors.message}
+                                    aria-describedby={errors.message ? "message-error" : undefined}
+                                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-brand-cream/50 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 resize-none ${
+                                        errors.message
+                                            ? 'border-red-500 focus:ring-red-500'
+                                            : 'border-brand-deep/20 focus:ring-brand-gold focus:border-transparent'
+                                    }`}
                                     placeholder={textContent.contactFormPlaceholders?.message || 'Tell me about your project or opportunity...'}
                                 ></textarea>
+                                {errors.message && (
+                                    <p id="message-error" className="mt-1 text-sm text-red-600" role="alert">{errors.message}</p>
+                                )}
                             </div>
                             <button
                                 type="submit"
