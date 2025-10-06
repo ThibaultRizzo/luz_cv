@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend lazily to avoid build-time errors
+let resend: Resend | null = null;
+
+function getResendClient(): Resend {
+  if (!resend && process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend as Resend;
+}
 
 // In-memory rate limiting (for production, use Redis or a proper rate limiter)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -141,7 +148,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResendClient().emails.send({
       from: process.env.CONTACT_EMAIL_FROM || 'Contact Form <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL_TO,
       replyTo: email,
