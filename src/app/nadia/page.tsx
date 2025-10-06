@@ -70,6 +70,7 @@ export default function NadiaLogin() {
                         <input
                             type="text"
                             id="username"
+                            name="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -85,6 +86,7 @@ export default function NadiaLogin() {
                         <input
                             type="password"
                             id="password"
+                            name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required

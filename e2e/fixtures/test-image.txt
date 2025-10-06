@@ -1,2 +1,0 @@
-This is a placeholder for a test image.
-In actual tests, Playwright can generate test images programmatically.

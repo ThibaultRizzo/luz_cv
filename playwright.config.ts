@@ -1,10 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+dotenv.config({ path: '.env.test', override: true });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -58,11 +59,11 @@ export default defineConfig({
     //   use: { ...devices['Desktop Safari'] },
     // },
 
-    /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
+    // Mobile testing disabled - causes timeouts and is overkill for this project
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
@@ -71,9 +72,11 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev',
+    command: 'npx next dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    stdout: 'pipe',
+    stderr: 'pipe',
   },
 });

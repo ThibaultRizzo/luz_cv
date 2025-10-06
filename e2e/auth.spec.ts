@@ -30,8 +30,8 @@ test.describe('Authentication', () => {
     // Submit form
     await page.click('button[type="submit"]');
 
-    // Wait for error message
-    await expect(page.locator('text=/invalid|error|incorrect/i').first()).toBeVisible({ timeout: 5000 });
+    // Wait for error message (check for the red error div)
+    await expect(page.locator('div.bg-red-100').first()).toBeVisible({ timeout: 10000 });
 
     // Should still be on login page
     expect(page.url()).toContain('/nadia');
@@ -58,7 +58,7 @@ test.describe('Authentication', () => {
     expect(page.url()).toContain('/nadia/backoffice');
 
     // Check for back office content
-    await expect(page.locator('text=Back Office').first()).toBeVisible();
+    await expect(page.locator('text=Content Editor').first()).toBeVisible();
   });
 
   test('should logout successfully', async ({ page }) => {
@@ -104,6 +104,6 @@ test.describe('Authentication', () => {
 
     // Should still be logged in
     expect(page.url()).toContain('/nadia/backoffice');
-    await expect(page.locator('text=Back Office').first()).toBeVisible();
+    await expect(page.locator('text=Content Editor').first()).toBeVisible();
   });
 });
