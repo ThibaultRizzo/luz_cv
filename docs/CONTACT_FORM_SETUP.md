@@ -1,8 +1,23 @@
 # Contact Form Setup Guide
 
+Configure Resend email service for the working contact form.
+
+---
+
+## Prerequisites
+
+**Before starting:**
+- Complete [Getting Started](./GETTING_STARTED.md) - Local setup
+- Resend account (free) - [Sign up here](https://resend.com)
+- Basic understanding of environment variables
+
+**Note**: This setup is **optional**. Skip if you don't need email functionality.
+
+---
+
 ## Overview
 
-The contact form now uses **Resend** to send emails securely with proper validation and rate limiting.
+The contact form uses **Resend** to send emails securely with proper validation and rate limiting.
 
 ## Features ✨
 
@@ -216,5 +231,15 @@ For issues or questions:
 
 ---
 
-**Last Updated:** 2025-01-06
+**Last Updated:** 2025-10-07
 **Resend Version:** 6.1.2
+**Status**: Optional but recommended ✅
+
+---
+
+**Navigation**: [← Getting Started](./GETTING_STARTED.md) | [Documentation Index](./README.md) | [Vercel Deployment →](./VERCEL_DEPLOYMENT.md)
+
+**Related Guides**:
+- [Getting Started](./GETTING_STARTED.md) - Local setup
+- [Credentials Setup](./CREDENTIALS_SETUP.md) - Database & admin credentials
+- [Vercel Deployment](./VERCEL_DEPLOYMENT.md) - Production deployment

@@ -2,14 +2,19 @@
 
 Quick reference for running E2E tests on the Nadia Luna CV website.
 
+---
+
+## Prerequisites
+
+**Before testing:**
+✅ **Complete**: [Getting Started](./GETTING_STARTED.md) - Local setup
+✅ **Have**: Node.js 18+ installed
+✅ **Have**: `.env.local` configured with admin credentials
+✅ **Done**: Database initialized (`http://localhost:3000/api/init-db`)
+
+---
+
 ## 🚀 Quick Start
-
-### 1. Prerequisites
-
-Ensure you have:
-- Node.js 18+ installed
-- `.env.local` configured with admin credentials
-- Database initialized (`http://localhost:3000/api/init-db`)
 
 ### 2. Run Tests
 
@@ -121,10 +126,15 @@ npm run dev
 
 All tests passing: ✅
 
-Last run: 2025-10-05
+Last run: 2025-10-07
 Total tests: 19+
 Success rate: 100%
 
 ---
 
-For complete testing documentation, see [e2e/README.md](./e2e/README.md)
+**Navigation**: [← Getting Started](./GETTING_STARTED.md) | [Documentation Index](./README.md) | [Developer Guide →](./DEVELOPER_GUIDE.md)
+
+**Related Guides**:
+- [Getting Started](./GETTING_STARTED.md) - Local setup
+- [Developer Guide](./DEVELOPER_GUIDE.md) - Architecture & development
+- [Vercel Deployment](./VERCEL_DEPLOYMENT.md) - Production deployment

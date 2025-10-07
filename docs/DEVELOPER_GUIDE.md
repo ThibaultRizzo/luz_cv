@@ -1,4 +1,8 @@
-# Developer Guide - Alelunapaint CV Website
+# Developer Guide
+
+Complete technical documentation for the Alelunapaint CV Website.
+
+---
 
 ## Overview
 
@@ -13,53 +17,12 @@ A professional CV website with a full-featured CMS back office. Built with Next.
 
 ---
 
-## Quick Start
+## Prerequisites
 
-### Prerequisites
-- Node.js 18+ or Bun runtime
-- Git
+Before diving into development:
 
-### Installation
-
-1. **Clone and install dependencies:**
-```bash
-git clone <repository-url>
-cd alelunapaint
-bun install  # or npm install
-```
-
-2. **Set up environment variables:**
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local` with your values:
-```env
-# Required for production
-POSTGRES_URL=<your-vercel-postgres-url>
-
-# JWT Secrets (change these!)
-JWT_SECRET=your-super-secure-jwt-secret-key-2024
-REFRESH_TOKEN_SECRET=your-super-secure-refresh-token-secret-2024
-
-# Admin Credentials
-ADMIN_USERNAME=your-admin-username
-ADMIN_PASSWORD=your-secure-password
-
-# Site URL
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-
-3. **Initialize the database:**
-```bash
-# Visit this URL in your browser after starting the dev server
-http://localhost:3000/api/init-db
-```
-
-4. **Start development server:**
-```bash
-bun run dev  # or npm run dev
-```
+✅ **Complete first**: [Getting Started](./GETTING_STARTED.md) - Local setup
+✅ **Recommended**: Basic knowledge of Next.js, React, and TypeScript
 
 ---
 
@@ -126,7 +89,7 @@ alelunapaint/
 - Experience (jobs, achievements, highlights)
 - Skills (categories, skill levels, certifications, tools)
 - Achievements (metrics and milestones)
-- Contact (form, email, social, availability)
+- Contact (working form with Resend, email, social, availability)
 
 ### Authentication Flow
 
@@ -279,90 +242,43 @@ UPDATE content SET hero_new_field = 'Default value' WHERE hero_new_field IS NULL
 
 ---
 
-## Deployment (Vercel)
+## Deployment
 
-### Setup
-
-1. **Create Vercel Postgres database:**
-   - Go to Vercel dashboard → Storage → Create Database
-   - Select Postgres
-   - Copy connection strings
-
-2. **Set environment variables in Vercel:**
-```env
-POSTGRES_URL=<from-vercel-postgres>
-POSTGRES_PRISMA_URL=<from-vercel-postgres>
-POSTGRES_URL_NON_POOLING=<from-vercel-postgres>
-POSTGRES_USER=<from-vercel-postgres>
-POSTGRES_HOST=<from-vercel-postgres>
-POSTGRES_PASSWORD=<from-vercel-postgres>
-POSTGRES_DATABASE=<from-vercel-postgres>
-
-JWT_SECRET=<generate-secure-secret>
-REFRESH_TOKEN_SECRET=<generate-secure-secret>
-JWT_EXPIRE=24h
-REFRESH_TOKEN_EXPIRE=7d
-
-ADMIN_USERNAME=<your-admin-username>
-ADMIN_PASSWORD=<your-secure-password>
-
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
-
-NODE_ENV=production
-BCRYPT_ROUNDS=12
-```
-
-3. **Deploy:**
-```bash
-# Via Vercel CLI
-vercel --prod
-
-# Or connect GitHub repo in Vercel dashboard
-```
-
-4. **Initialize production database:**
-Visit: `https://your-domain.vercel.app/api/init-db`
-
-### Post-Deployment
-
-- Test login at `/nadia`
-- Verify content loads on homepage
-- Test back office content editing
-- Check image uploads work
-- Verify SEO (sitemap, robots.txt)
+For production deployment instructions, see:
+→ **[Vercel Deployment Guide](./VERCEL_DEPLOYMENT.md)** - Complete production deployment guide
 
 ---
 
 ## Customization
 
-### Styling & Branding
+**Want to customize your site?** See the comprehensive **[Customization Guide](./CUSTOMIZATION.md)** for:
+
+- 🎨 **Change Admin Route** - Change `/nadia` to `/yourname`
+- 🔐 **Change Credentials** - Update username/password
+- 🌈 **Change Colors** - Brand colors and theme
+- ✏️ **Change Fonts** - Typography customization
+- 📝 **Change Content** - SEO, titles, metadata
+
+### Quick Customizations
 
 **Brand colors** (`tailwind.config.js`):
 ```javascript
 colors: {
   brand: {
-    cream: '#F8F6F3',
-    deep: '#2C3539',
-    gold: '#D4AF37',
+    cream: '#F8F6F3',  // Background
+    deep: '#2C3539',   // Text
+    gold: '#D4AF37',   // Accent
   }
 }
 ```
 
-**Fonts** (`src/app/layout.tsx`):
-- Playfair Display (default header)
-- Cormorant Garamond (alternative)
-- Bodoni Moda (alternative)
+**Admin credentials** (`.env.local`):
+```env
+ADMIN_USERNAME=your-username
+ADMIN_PASSWORD=your-password
+```
 
-### Content Defaults
-
-Edit `src/lib/TextContentContext.tsx` to change default values shown before database content loads.
-
-### Loading Screen Animation
-
-Customize in `src/components/LoadingScreen.tsx`:
-- Animation duration
-- Shimmer effect colors
-- Fade-out timing
+**Full guide**: [Customization Guide](./CUSTOMIZATION.md)
 
 ---
 
@@ -520,4 +436,14 @@ For issues or questions:
 
 **Project Status:** Production-ready ✅
 
-**Last Updated:** 2025-10-05
+**Last Updated:** 2025-10-07
+
+---
+
+**Navigation**: [← Getting Started](./GETTING_STARTED.md) | [Documentation Index](./README.md) | [API Reference →](./API_REFERENCE.md)
+
+**Related Guides**:
+- [Getting Started](./GETTING_STARTED.md) - Local setup
+- [Vercel Deployment](./VERCEL_DEPLOYMENT.md) - Production deployment
+- [API Reference](./API_REFERENCE.md) - API documentation
+- [Testing Guide](./TESTING.md) - E2E testing

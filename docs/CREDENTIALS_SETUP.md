@@ -2,9 +2,23 @@
 
 Complete guide to configuring database and back office credentials for your CV website.
 
-## 🔐 Overview
+---
 
-This application uses two types of credentials:
+## Prerequisites
+
+**Before starting:**
+- Have a Vercel account (free)
+- Basic understanding of environment variables
+- Text editor to edit `.env.local`
+
+**New to the project?**
+→ Start with **[Getting Started](./GETTING_STARTED.md)** first
+
+---
+
+## Overview
+
+This application uses three types of credentials:
 
 1. **Database Credentials** - For PostgreSQL database connection (managed by Vercel)
 2. **Admin Credentials** - For back office login (set by you)
@@ -502,5 +516,14 @@ Before deploying to production:
 ---
 
 **Status**: Complete guide ✅
-**Last Updated**: 2025-10-05
+**Last Updated**: 2025-10-07
 **Security Level**: Production-ready 🔒
+
+---
+
+**Navigation**: [← Main README](../README.md) | [Documentation Index](./README.md) | [Vercel Deployment →](./VERCEL_DEPLOYMENT.md)
+
+**Related Guides**:
+- [Getting Started](./GETTING_STARTED.md) - Local setup
+- [Contact Form Setup](./CONTACT_FORM_SETUP.md) - Email configuration
+- [Vercel Deployment](./VERCEL_DEPLOYMENT.md) - Production deployment

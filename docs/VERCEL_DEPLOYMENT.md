@@ -2,6 +2,17 @@
 
 Complete guide to deploying your CV website with CMS to Vercel with Vercel Postgres.
 
+---
+
+## Prerequisites
+
+**Before deploying:**
+✅ **Complete**: [Getting Started](./GETTING_STARTED.md) - Local setup working
+✅ **Have**: Vercel account (free) - [Sign up here](https://vercel.com)
+✅ **Have**: GitHub account (for continuous deployment)
+
+---
+
 ## 🎯 Overview
 
 This application is built with:
@@ -124,6 +135,11 @@ REFRESH_TOKEN_EXPIRE=7d
 ADMIN_USERNAME=your-admin-username
 ADMIN_PASSWORD=your-secure-password
 
+# Contact Form - Resend (Optional but recommended)
+RESEND_API_KEY=re_your_api_key_here
+CONTACT_EMAIL_FROM=Contact Form <contact@yourdomain.com>
+CONTACT_EMAIL_TO=your-email@example.com
+
 # Security
 BCRYPT_ROUNDS=12
 NODE_ENV=production
@@ -166,7 +182,39 @@ After deployment completes:
    }
    ```
 
-### Step 6: Test Your Deployment
+### Step 6: Configure Contact Form (Optional)
+
+To enable the working contact form with Resend:
+
+1. **Get Resend API Key**:
+   - Go to [resend.com](https://resend.com)
+   - Sign up for free account
+   - Create API key from dashboard
+   - Copy the key (starts with `re_`)
+
+2. **Add to Vercel Environment Variables**:
+   ```env
+   RESEND_API_KEY=re_your_actual_api_key
+   CONTACT_EMAIL_FROM=Contact Form <onboarding@resend.dev>
+   CONTACT_EMAIL_TO=your-email@example.com
+   ```
+
+3. **For Production - Verify Domain** (Recommended):
+   - In Resend dashboard → Domains
+   - Add your domain
+   - Add DNS records to your domain provider
+   - Update `CONTACT_EMAIL_FROM` to use your domain:
+     ```
+     CONTACT_EMAIL_FROM=Contact Form <contact@yourdomain.com>
+     ```
+
+4. **Redeploy** to apply new environment variables
+
+**Note:** Without Resend configured, the contact form will show an error message to visitors. If you don't need a contact form, you can remove it from the Contact component.
+
+> **📖 See [Contact Form Setup Guide](./CONTACT_FORM_SETUP.md) for detailed instructions.**
+
+### Step 7: Test Your Deployment
 
 1. **Visit homepage**:
    ```
@@ -470,6 +518,7 @@ After deployment, verify:
 - [ ] Back office accessible (`/nadia/backoffice`)
 - [ ] Content edits persist
 - [ ] Image uploads work
+- [ ] Contact form sends emails (if Resend configured)
 - [ ] All sections display correctly
 - [ ] Mobile responsive
 - [ ] SEO meta tags correct
@@ -501,9 +550,18 @@ After deployment, verify:
 
 ---
 
-**Deployment Time**: ~10 minutes
+**Deployment Time**: ~20 minutes
 **Difficulty**: Beginner-friendly
 **Cost**: Free (Hobby plan)
 **Status**: Production-ready ✅
 
-**Last Updated**: 2025-10-05
+**Last Updated**: 2025-10-07
+
+---
+
+**Navigation**: [← Getting Started](./GETTING_STARTED.md) | [Documentation Index](./README.md) | [Developer Guide →](./DEVELOPER_GUIDE.md)
+
+**Related Guides**:
+- [Getting Started](./GETTING_STARTED.md) - Local setup
+- [Credentials Setup](./CREDENTIALS_SETUP.md) - Database & admin credentials
+- [Contact Form Setup](./CONTACT_FORM_SETUP.md) - Email configuration (optional)

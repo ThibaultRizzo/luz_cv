@@ -1,8 +1,24 @@
 # Nadia Luna - Professional CV Website with CMS
 
-A modern, production-ready CV website with a powerful Content Management System (CMS) back office built with Next.js 15, TypeScript, Vercel Postgres, and Drizzle ORM.
+A modern, production-ready CV website with a powerful Content Management System (CMS) built with Next.js 15, TypeScript, Vercel Postgres, and Drizzle ORM.
 
-## 🎯 Features
+[![Production Ready](https://img.shields.io/badge/status-production%20ready-brightgreen)]() [![Next.js 15](https://img.shields.io/badge/Next.js-15-black)]() [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)]()
+
+---
+
+## 🚀 Quick Start
+
+**New to this project? Start here:**
+
+1. **[Getting Started Guide](./docs/GETTING_STARTED.md)** ← **Start here for local setup (10 minutes)**
+2. **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Deploy to production
+3. **[Documentation Index](./docs/README.md)** - All guides and references
+
+**Estimated time to first run**: 10 minutes
+
+---
+
+## ✨ Features
 
 ### Content Management System
 - **Full-featured Back Office** at `/nadia/backoffice`
@@ -12,6 +28,7 @@ A modern, production-ready CV website with a powerful Content Management System 
 - **Experience Management**: Add/edit/remove positions with achievements
 - **Skills Management**: Categories, proficiency levels, soft skills, certifications
 - **Contact Section**: Professional details, social links, availability
+- **Contact Form**: Working email form with Resend integration, spam protection
 - **Image Upload**: Profile photos and CV/resume upload
 - **Loading Screen**: Customizable name and tagline
 
@@ -25,340 +42,181 @@ A modern, production-ready CV website with a powerful Content Management System 
 - 🔒 **Secure** - Password hashing, token-based auth, protected routes
 - ⚡ **Fast** - Optimized performance with Next.js 15
 
-## 🏗️ Architecture
+---
 
-### Tech Stack
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Database**: Vercel Postgres (PostgreSQL)
-- **ORM**: Drizzle ORM
-- **Styling**: Tailwind CSS v4
-- **Animation**: Framer Motion
-- **Authentication**: JWT with bcrypt
-- **Deployment**: Vercel (serverless)
+## 🏗️ Tech Stack
 
-### Project Structure
+**Frontend**: Next.js 15, TypeScript, Tailwind CSS v4, Framer Motion
+**Backend**: Vercel Postgres (PostgreSQL), Drizzle ORM
+**Authentication**: JWT with bcrypt
+**Email**: Resend (optional)
+**Deployment**: Vercel (serverless)
+
+---
+
+## 📖 Documentation
+
+### Getting Started
+- **[Getting Started](./docs/GETTING_STARTED.md)** - **Start here!** 10-minute local setup
+- **[Credentials Setup](./docs/CREDENTIALS_SETUP.md)** - Database & admin credentials
+- **[Contact Form Setup](./docs/CONTACT_FORM_SETUP.md)** - Resend email service (optional)
+
+### Deployment
+- **[Vercel Deployment](./docs/VERCEL_DEPLOYMENT.md)** - Complete production deployment guide
+
+### Development
+- **[Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Architecture & development
+- **[Customization Guide](./docs/CUSTOMIZATION.md)** - Change admin route, colors, fonts
+- **[API Reference](./docs/API_REFERENCE.md)** - API endpoints documentation
+- **[Testing Guide](./docs/TESTING.md)** - E2E testing with Playwright
+
+### Reference
+- **[Documentation Index](./docs/README.md)** - Full documentation map
+- **[Code Audit Report](./docs/CODE_AUDIT_REPORT.md)** - Security & quality audit
+
+---
+
+## 🎯 Project Structure
+
 ```
 alelunapaint/
 ├── src/
 │   ├── app/
 │   │   ├── api/              # API routes (serverless functions)
-│   │   │   ├── auth/         # Login, logout, token refresh
-│   │   │   ├── content/      # Content CRUD operations
-│   │   │   ├── upload/       # Image/file uploads
-│   │   │   └── init-db/      # Database initialization
-│   │   ├── nadia/            # Admin routes
-│   │   │   ├── page.tsx      # Login page
-│   │   │   └── backoffice/   # CMS dashboard
+│   │   ├── nadia/            # Admin routes & back office
 │   │   └── layout.tsx        # Root layout with SEO
 │   ├── components/           # React components
-│   │   ├── Hero.tsx
-│   │   ├── About.tsx
-│   │   ├── Experience.tsx
-│   │   ├── Skills.tsx
-│   │   └── Contact.tsx
 │   └── lib/
-│       ├── db/
-│       │   ├── connection.ts # Database client
-│       │   └── schema.ts     # Drizzle schema
-│       ├── api.ts            # API client functions
-│       └── TextContentContext.tsx  # Global content state
+│       ├── db/               # Database schema & connection
+│       └── api.ts            # API client functions
+├── docs/                     # Documentation
 ├── public/                   # Static assets
-├── migrations/               # SQL migration scripts
-└── scripts/                  # Utility scripts
+└── migrations/               # SQL migration scripts
 ```
 
-## 🚀 Quick Start
+---
 
-### Prerequisites
-- **Node.js 18+** or **Bun** runtime
-- **Git**
-- **Vercel account** (for database and deployment)
+## 🎨 Key Features Showcase
 
-### Local Development
+### Content Management
+Edit everything through an intuitive back office interface:
+- Hero section with stats and CTAs
+- About section with impact metrics
+- Experience timeline with achievements
+- Skills with proficiency levels
+- Contact form with real email integration
+- Image uploads for profile photos
 
-1. **Clone repository**:
-   ```bash
-   git clone <repository-url>
-   cd alelunapaint
-   ```
+### Security
+- JWT authentication with refresh tokens (24h/7d expiry)
+- Bcrypt password hashing (12 rounds)
+- Protected API routes
+- Environment-based secrets
+- SQL injection protection via Drizzle ORM
 
-2. **Install dependencies**:
-   ```bash
-   bun install
-   # or: npm install
-   ```
+### Performance
+- Lighthouse score: 95+ (Performance, Accessibility, Best Practices, SEO)
+- Vercel Edge Network for global CDN
+- Serverless functions with auto-scaling
+- Optimized PostgreSQL queries with connection pooling
 
-3. **Set up environment**:
-   ```bash
-   cp .env.example .env.local
-   ```
-
-   Edit `.env.local` with your values:
-   ```env
-   # Vercel Postgres connection string
-   POSTGRES_URL=your-postgres-url
-
-   # JWT Secrets (generate with: openssl rand -base64 32)
-   JWT_SECRET=your-secure-jwt-secret
-   REFRESH_TOKEN_SECRET=your-secure-refresh-secret
-
-   # Admin credentials
-   ADMIN_USERNAME=admin
-   ADMIN_PASSWORD=your-password
-
-   # Site URL
-   NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   ```
-
-   **Need help?** See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for detailed instructions.
-
-4. **Start development server**:
-   ```bash
-   bun run dev
-   # or: npm run dev
-   ```
-
-5. **Initialize database**:
-   Open in browser: `http://localhost:3000/api/init-db`
-
-6. **Access the site**:
-   - **Homepage**: http://localhost:3000
-   - **Admin Login**: http://localhost:3000/nadia
-   - **Back Office**: http://localhost:3000/nadia/backoffice (after login)
-
-## 📦 Deployment to Vercel
-
-### 1. Create Vercel Postgres Database
-
-1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
-2. Navigate to **Storage** → **Create Database**
-3. Select **Postgres**
-4. Name it `alelunapaint-db`
-5. Copy all connection strings
-
-### 2. Deploy Application
-
-**Option A: GitHub (Recommended)**
-1. Push code to GitHub
-2. Import repository in Vercel
-3. Add environment variables (see step 3)
-4. Deploy automatically
-
-**Option B: Vercel CLI**
-```bash
-npm i -g vercel
-vercel
-vercel --prod
-```
-
-### 3. Configure Environment Variables
-
-In Vercel Dashboard → Settings → Environment Variables:
-
-```env
-# Database (auto-filled when you connect Vercel Postgres)
-POSTGRES_URL=
-POSTGRES_PRISMA_URL=
-POSTGRES_URL_NON_POOLING=
-POSTGRES_USER=
-POSTGRES_HOST=
-POSTGRES_PASSWORD=
-POSTGRES_DATABASE=
-
-# Authentication (CHANGE THESE!)
-JWT_SECRET=your-production-jwt-secret
-REFRESH_TOKEN_SECRET=your-production-refresh-secret
-JWT_EXPIRE=24h
-REFRESH_TOKEN_EXPIRE=7d
-
-# Admin Credentials (CHANGE THESE!)
-ADMIN_USERNAME=your-admin-username
-ADMIN_PASSWORD=your-secure-password
-
-# Settings
-BCRYPT_ROUNDS=12
-NODE_ENV=production
-
-# Site URL (update with your domain)
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
-```
-
-### 4. Initialize Production Database
-
-Visit: `https://your-domain.vercel.app/api/init-db`
-
-### 5. Done! 🎉
-
-Access your site at: `https://your-domain.vercel.app`
+---
 
 ## 🔐 Default Credentials
 
-⚠️ **Change these in production!**
+⚠️ **Configure these via environment variables:**
 
 - **Username**: Set via `ADMIN_USERNAME` env var
 - **Password**: Set via `ADMIN_PASSWORD` env var
 
-## 📖 Documentation
+See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for details.
 
-- **[Quick Start Guide](./docs/QUICK_START.md)** - Get started in 5 minutes
-- **[Credentials Setup](./CREDENTIALS_SETUP.md)** - Configure database & admin credentials
-- **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Complete deployment guide
-- **[Testing Guide](./TESTING.md)** - E2E testing with Playwright
-- **[Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Complete technical documentation
-- **[API Reference](./docs/API_REFERENCE.md)** - API endpoint documentation
-- **[Code Audit Report](./CODE_AUDIT_REPORT.md)** - Security & quality audit
+---
 
-## 🎨 Customization
+## 🆘 Common Issues
 
-### Update Colors
+### Database connection failed
+→ Check `POSTGRES_URL` in `.env.local`
+→ See [Getting Started](./docs/GETTING_STARTED.md#troubleshooting)
 
-Edit `tailwind.config.js`:
-```javascript
-colors: {
-  brand: {
-    cream: '#F8F6F3',  // Background
-    deep: '#2C3539',   // Text
-    gold: '#D4AF37',   // Accent
-  }
-}
-```
+### Cannot login
+→ Visit `/api/init-db` to initialize database
+→ Check credentials in `.env.local`
 
-### Update SEO
+### Build fails
+→ Run `bun run build` locally to test
+→ Verify all environment variables are set
 
-Edit `src/app/layout.tsx`:
-```typescript
-export const metadata = {
-  title: "Your Name - Product Owner",
-  description: "Your professional description",
-  // ... other meta tags
-}
-```
+**More help**: See [Getting Started Guide](./docs/GETTING_STARTED.md#troubleshooting)
 
-### Update Content
+---
 
-1. Login at `/nadia`
-2. Navigate to Back Office
-3. Edit each section through the UI
-4. Click "Save Changes"
-5. Changes persist immediately
+## 🚢 Deployment to Vercel
 
-## 🔧 Development Commands
+**Quick deployment** (requires Vercel account):
 
-```bash
-# Development
-bun run dev        # Start dev server
+1. Create Vercel Postgres database
+2. Connect your GitHub repository to Vercel
+3. Configure environment variables
+4. Deploy automatically
 
-# Production
-bun run build      # Build for production
-bun run start      # Start production server
+**Full guide**: [Vercel Deployment Documentation](./docs/VERCEL_DEPLOYMENT.md)
 
-# Code Quality
-bun run lint       # Run ESLint
-bun run type-check # Run TypeScript checks
+---
 
-# Database
-# Visit: http://localhost:3000/api/init-db
-```
+## 🤝 Contributing
 
-## 🗃️ Database Schema
+This is a portfolio project. Feel free to:
+- Fork the repository for your own use
+- Report issues or suggest improvements
+- Customize for your needs
 
-### Tables
-
-1. **users** - Admin user accounts
-   - id, username, password (hashed)
-   - refresh_tokens, last_login
-   - created_at, updated_at
-
-2. **content** - Website content
-   - All section fields (hero, about, experience, skills, contact)
-   - version, is_active
-   - last_modified_by, created_at, updated_at
-
-3. **content_backups** - Version history
-   - backup_data (full content snapshot)
-   - version, created_by, created_at
-
-## 🔒 Security Features
-
-- ✅ **Password Hashing** - bcrypt with 12 rounds
-- ✅ **JWT Authentication** - Secure token-based auth
-- ✅ **Refresh Tokens** - 7-day sessions with refresh capability
-- ✅ **Protected Routes** - Admin-only access control
-- ✅ **Environment Variables** - Sensitive data in env vars
-- ✅ **Type Safety** - TypeScript throughout
-- ✅ **SQL Injection Protection** - Drizzle ORM parameterized queries
-- ✅ **CORS** - Configured for production domain
-
-## 📊 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-- `GET /api/auth/me` - Get current user
-
-### Content
-- `GET /api/content` - Get all content (public)
-- `PUT /api/content` - Update content (admin only)
-- `POST /api/content/init` - Initialize default content
-
-### Uploads
-- `POST /api/upload` - Upload images/files (admin only)
-
-### System
-- `POST /api/init-db` - Initialize database (run once)
-
-## 🆘 Troubleshooting
-
-### "Database connection failed"
-- Verify `POSTGRES_URL` is set correctly
-- Ensure Vercel Postgres database is active
-- Check Vercel dashboard for database status
-
-### "Cannot login"
-- Run `/api/init-db` to create admin user
-- Verify credentials match env vars
-- Clear browser localStorage and try again
-
-### "401 Unauthorized"
-- Clear browser localStorage
-- Login again to get new token
-- Verify `JWT_SECRET` is consistent
-
-### Build fails on Vercel
-- Check environment variables are set
-- Review build logs in Vercel dashboard
-- Test build locally: `bun run build`
-
-## 💡 Tips
-
-- Content auto-saves when you click "Save Changes"
-- Back office shows live preview of all sections
-- Every update creates automatic backup
-- Supported image formats: JPG, PNG, GIF, WebP (max 5MB)
-- All changes persist immediately to database
-
-## 🚀 Performance
-
-- **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices, SEO)
-- **Vercel Edge Network**: Global CDN for fast loading
-- **Serverless Functions**: Auto-scaling API routes
-- **PostgreSQL**: Optimized queries with connection pooling
+---
 
 ## 📝 License
 
 Private project - All rights reserved
 
-## 🤝 Support
+---
 
-For issues or questions:
-1. Check the troubleshooting section
-2. Review documentation in `/docs`
-3. Check Vercel deployment logs
+## 🌟 What's Included
+
+✅ Full-featured CMS back office
+✅ JWT authentication system
+✅ Content versioning & backups
+✅ Image upload functionality
+✅ Working contact form (Resend)
+✅ Responsive design
+✅ SEO optimization
+✅ Production-ready deployment
+✅ Comprehensive documentation
+✅ E2E test suite
 
 ---
 
-**Built with** ❤️ **using Next.js 15, TypeScript, and Vercel Postgres**
+## 📊 Project Status
 
-**Status**: Production-ready ✅
-**Last Updated**: 2025-10-05
+**Status**: Production Ready ✅
+**Version**: 1.0.0
+**Last Updated**: 2025-10-07
+
+---
+
+## 🎓 Learning Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Vercel Postgres Guide](https://vercel.com/docs/storage/vercel-postgres)
+- [Drizzle ORM Documentation](https://orm.drizzle.team)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+---
+
+**Ready to start?** → **[Getting Started Guide](./docs/GETTING_STARTED.md)**
+
+**Need help?** → **[Documentation Index](./docs/README.md)**
+
+**Want to deploy?** → **[Vercel Deployment Guide](./docs/VERCEL_DEPLOYMENT.md)**
+
+---
+
+Built with ❤️ using Next.js 15, TypeScript, and Vercel Postgres
