@@ -1,6 +1,6 @@
 # API Reference
 
-Complete API documentation for the Alelunapaint CV Website.
+Complete API documentation for the Alequintanarpaint CV Website.
 
 **Base URL:** `/api`
 
@@ -105,15 +105,15 @@ Retrieve active website content.
     "heroSubtitle": "something extraordinary?",
     "heroDescription": "Transforming luxury retail...",
     "heroBadge": "Product Owner • Luxury Retail Expert",
-    "heroImage": "/nadia.jpg",
+    "heroImage": "/luz.jpg",
     "heroStats": [
       { "metric": "10+", "label": "Years Experience" }
     ],
     "heroCtaText": "Let's Craft Excellence Together",
     "heroScrollText": "Scroll",
     "headerFont": "playfair",
-    "loadingScreenFirstName": "NADIA",
-    "loadingScreenLastName": "LUNA",
+    "loadingScreenFirstName": "LUZ",
+    "loadingScreenLastName": "QUINTANAR",
     "loadingScreenTagline": "Product Owner • Luxury Retail",
     "aboutTitle": "Turning vision into",
     "aboutTitleSuffix": "reality",
@@ -121,7 +121,7 @@ Retrieve active website content.
     "aboutMainText": "I am a visionary Product Owner...",
     "aboutSecondaryText": "My expertise lies in...",
     "aboutQuote": "Excellence isn't a destination...",
-    "aboutQuoteAuthor": "— Nadia Luna",
+    "aboutQuoteAuthor": "— Luz Quintanar",
     "aboutApproachTitle": "My Approach",
     "aboutApproachItems": [
       {
@@ -161,8 +161,8 @@ Retrieve active website content.
         "icon": "📈"
       }
     ],
-    "contactEmail": "nadia.luna@example.com",
-    "contactLinkedin": "linkedin.com/in/nadialuna",
+    "contactEmail": "luz.quintanar@example.com",
+    "contactLinkedin": "linkedin.com/in/luzquintanar",
     "contactPhone": "+33 6 12 34 56 78",
     "version": 1,
     "isActive": true,
@@ -363,15 +363,15 @@ curl -X POST http://localhost:3000/api/upload \
   heroSubtitle: string | null;
   heroDescription: string | null;
   heroBadge: string | null;
-  heroImage: string;       // Default: "/nadia.jpg"
+  heroImage: string;       // Default: "/luz.jpg"
   heroStats: Array<{metric: string, label: string}>;
   heroCtaText: string | null;
   heroScrollText: string | null;
   headerFont: string;      // Default: "playfair"
 
   // Loading Screen
-  loadingScreenFirstName: string;  // Default: "NADIA"
-  loadingScreenLastName: string;   // Default: "LUNA"
+  loadingScreenFirstName: string;  // Default: "LUZ"
+  loadingScreenLastName: string;   // Default: "QUINTANAR"
   loadingScreenTagline: string;    // Default: "Product Owner • Luxury Retail"
 
   // About Section

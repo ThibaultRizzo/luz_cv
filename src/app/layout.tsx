@@ -30,16 +30,16 @@ const bodoni = Bodoni_Moda({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nadialuna.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://luzquintanar.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
+  title: "Luz Quintanar — Product Owner | Retail & Digital Transformation",
   description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
   keywords: "Product Owner, Luxury Retail, Digital Transformation, Product Strategy, UX Design, Agile, Product Management",
-  authors: [{ name: "Nadia Luna" }],
-  creator: "Nadia Luna",
-  publisher: "Nadia Luna",
+  authors: [{ name: "Luz Quintanar" }],
+  creator: "Luz Quintanar",
+  publisher: "Luz Quintanar",
   alternates: {
     canonical: siteUrl,
   },
@@ -55,23 +55,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "Nadia Luna Portfolio",
-    title: "Nadia Luna — Product Owner | Retail & Digital Transformation",
+    siteName: "Luz Quintanar Portfolio",
+    title: "Luz Quintanar — Product Owner | Retail & Digital Transformation",
     description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
     images: [
       {
-        url: `${siteUrl}/nadia.jpg`,
+        url: `${siteUrl}/luz.jpg`,
         width: 1200,
         height: 630,
-        alt: "Nadia Luna - Product Owner",
+        alt: "Luz Quintanar - Product Owner",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nadia Luna — Product Owner",
+    title: "Luz Quintanar — Product Owner",
     description: "Product Owner with 10+ years of leadership in luxury retail",
-    images: [`${siteUrl}/nadia.jpg`],
+    images: [`${siteUrl}/luz.jpg`],
   },
   robots: {
     index: true,

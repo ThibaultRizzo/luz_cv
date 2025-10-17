@@ -59,7 +59,7 @@ UPDATE content SET
   about_approach_items = '[{"title":"Customer-First Philosophy","description":"Every decision starts with understanding the customer''s deepest needs and desires"},{"title":"Data-Driven Innovation","description":"Combining intuition with analytics to create breakthrough solutions"},{"title":"Cross-Functional Leadership","description":"Building bridges between teams to deliver cohesive, impactful products"}]'::jsonb,
   about_impact_title = 'Impact at a Glance',
   about_impact_metrics = '[{"metric":"€50M+","label":"Revenue Generated"},{"metric":"40%","label":"Avg Growth Rate"},{"metric":"25+","label":"Products Launched"},{"metric":"15+","label":"Teams Led"}]'::jsonb,
-  about_quote_author = '— Nadia Luna',
+  about_quote_author = '— Luz Quintanar',
 
   -- Experience defaults
   experience_badge = 'Career Journey',
@@ -69,7 +69,7 @@ UPDATE content SET
   skills_badge = 'Core Expertise',
   skills_certifications_title = '🏆 Certifications',
   skills_tools_title = '🛠️ Tools & Platforms',
-  skills_quote_author = '— Nadia Luna',
+  skills_quote_author = '— Luz Quintanar',
 
   -- Contact defaults
   contact_badge = 'Let''s Connect',
@@ -80,8 +80,8 @@ UPDATE content SET
   contact_success_message = 'Thank you! Your message has been sent successfully.',
   contact_error_message = 'Sorry, there was an error sending your message. Please try again.',
   contact_info_title = 'Get in Touch Directly',
-  contact_email = 'nadia.luna@email.com',
-  contact_linkedin = 'linkedin.com/in/nadialuna',
+  contact_email = 'luz.quintanar@email.com',
+  contact_linkedin = 'linkedin.com/in/luzquintanar',
   contact_phone = '+33 1 23 45 67 89',
   contact_availability_title = 'Current Availability',
   contact_availability_status = 'Available for new opportunities',

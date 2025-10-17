@@ -99,7 +99,7 @@ export default function Nav() {
                                 'font-serif'
                             } ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'}`}
                     >
-                        NADIA LUNA
+                        LUZ QUINTANAR
                     </a>
 
                     {/* Section name that appears on hover or shows current section */}

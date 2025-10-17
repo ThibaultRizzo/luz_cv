@@ -4,7 +4,7 @@ import { db } from '@/lib/db/connection';
 import { content, contentBackups, users } from '@/lib/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'alelunapaint-super-secure-jwt-secret-key-2024-development';
+const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
 
 function verifyToken(authHeader: string | null) {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {

@@ -46,7 +46,7 @@ export async function POST() {
         heroSubtitle: "something extraordinary?",
         heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "Product Owner • Luxury Retail Expert",
-        heroImage: "/nadia.jpg",
+        heroImage: "/luz.jpg",
         heroStats: [
           { metric: "10+", label: "Years Experience" },
           { metric: "€50M+", label: "Revenue Impact" },
@@ -63,7 +63,7 @@ export async function POST() {
         aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
         aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
         aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
-        aboutQuoteAuthor: "— Nadia Luna",
+        aboutQuoteAuthor: "— Luz Quintanar",
         aboutApproachTitle: "My Approach",
         aboutApproachItems: [
           { title: "Customer-First Philosophy", description: "Every decision starts with understanding the customer's deepest needs and desires" },
@@ -136,7 +136,7 @@ export async function POST() {
         skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
         skillsCertificationsTitle: "🏆 Certifications",
         skillsToolsTitle: "🛠️ Tools & Platforms",
-        skillsQuoteAuthor: "— Nadia Luna",
+        skillsQuoteAuthor: "— Luz Quintanar",
         skillCategories: [
           {
             category: "Product Leadership",
@@ -225,8 +225,8 @@ export async function POST() {
         contactSuccessMessage: "Thank you! Your message has been sent successfully.",
         contactErrorMessage: "Sorry, there was an error sending your message. Please try again.",
         contactInfoTitle: "Contact Information",
-        contactEmail: "nadia.luna@example.com",
-        contactLinkedin: "linkedin.com/in/nadialuna",
+        contactEmail: "luz.quintanar@example.com",
+        contactLinkedin: "linkedin.com/in/luzquintanar",
         contactPhone: "+33 6 12 34 56 78",
         contactAvailabilityTitle: "Availability",
         contactAvailabilityStatus: "Open to Opportunities",

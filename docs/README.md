@@ -1,6 +1,6 @@
 # Documentation Index
 
-Complete documentation map for the Alelunapaint CV Website project.
+Complete documentation map for the Alequintanarpaint CV Website project.
 
 ---
 

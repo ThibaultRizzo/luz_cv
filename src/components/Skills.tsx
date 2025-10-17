@@ -125,7 +125,7 @@ export default function Skills() {
           <blockquote className="text-base sm:text-lg md:text-xl lg:text-2xl italic text-brand-cream/90 max-w-3xl mx-auto px-4">
             &quot;{textContent.skillsQuote}&quot;
           </blockquote>
-          <cite className="text-brand-gold font-medium mt-3 sm:mt-4 block text-sm sm:text-base">{textContent.skillsQuoteAuthor || '— Nadia Luna'}</cite>
+          <cite className="text-brand-gold font-medium mt-3 sm:mt-4 block text-sm sm:text-base">{textContent.skillsQuoteAuthor || '— Luz Quintanar'}</cite>
         </div>
       </div>
     </section>

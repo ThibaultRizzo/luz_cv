@@ -83,7 +83,7 @@ export default function About() {
                                 &quot;{textContent.aboutQuote}&quot;
                             </blockquote>
                             <div className="text-center mt-3 sm:mt-4">
-                                <cite className="text-brand-gold font-medium text-sm sm:text-base">{textContent.aboutQuoteAuthor || '— Nadia Luna'}</cite>
+                                <cite className="text-brand-gold font-medium text-sm sm:text-base">{textContent.aboutQuoteAuthor || '— Luz Quintanar'}</cite>
                             </div>
                         </div>
                     </div>

@@ -102,8 +102,8 @@ export default function Hero() {
 
                             {/* Main image */}
                             <Image
-                                src={textContent.heroImage || "/nadia.jpg"}
-                                alt="Nadia Luna - Product Owner and Luxury Retail Expert"
+                                src={textContent.heroImage || "/luz.jpg"}
+                                alt="Luz Quintanar - Product Owner and Luxury Retail Expert"
                                 width={600}
                                 height={800}
                                 priority

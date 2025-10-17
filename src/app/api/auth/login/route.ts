@@ -5,8 +5,8 @@ import { db } from '@/lib/db/connection';
 import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'alelunapaint-super-secure-jwt-secret-key-2024-development';
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'alelunapaint-super-secure-refresh-token-secret-2024';
+const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'alequintanarpaint-super-secure-refresh-token-secret-2024';
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '24h';
 const REFRESH_TOKEN_EXPIRE = process.env.REFRESH_TOKEN_EXPIRE || '7d';
 
@@ -20,8 +20,8 @@ function generateTokenPair(user: { id: string; username: string; role: string | 
     JWT_SECRET,
     {
       expiresIn: JWT_EXPIRE,
-      audience: 'alelunapaint-frontend',
-      issuer: 'alelunapaint-backend',
+      audience: 'alequintanarpaint-frontend',
+      issuer: 'alequintanarpaint-backend',
     } as SignOptions
   );
 
@@ -30,8 +30,8 @@ function generateTokenPair(user: { id: string; username: string; role: string | 
     REFRESH_TOKEN_SECRET,
     {
       expiresIn: REFRESH_TOKEN_EXPIRE,
-      audience: 'alelunapaint-frontend',
-      issuer: 'alelunapaint-backend',
+      audience: 'alequintanarpaint-frontend',
+      issuer: 'alequintanarpaint-backend',
     } as SignOptions
   );
 

@@ -94,7 +94,7 @@ Visit: `https://your-domain.vercel.app`
 After deployment:
 
 ### 1. Customize Content
-- Login to back office: `https://your-domain.vercel.app/nadia`
+- Login to back office: `https://your-domain.vercel.app/luz`
 - Update all sections with your information
 - Upload your profile photo
 

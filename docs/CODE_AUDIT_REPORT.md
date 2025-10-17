@@ -1,6 +1,6 @@
 # Code Quality & Security Audit Report
 
-**Project**: Nadia Luna CV Website with CMS
+**Project**: Luz Quintanar CV Website with CMS
 **Date**: 2025-10-05
 **Auditor**: Automated Code Review
 **Codebase Size**: ~7,055 lines of TypeScript/React code
@@ -327,7 +327,7 @@ export const db = new Proxy({} as ReturnType<typeof drizzle>, {
 src/
 ├── app/                    # Next.js App Router
 │   ├── api/               # Serverless API routes
-│   ├── nadia/             # Admin routes
+│   ├── luz/             # Admin routes
 │   └── layout.tsx         # Root layout
 ├── components/            # React components
 ├── lib/                   # Utilities & DB

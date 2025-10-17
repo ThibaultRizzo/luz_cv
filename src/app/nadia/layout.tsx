@@ -1,4 +1,4 @@
-export default function NadiaLayout({
+export default function LuzLayout({
   children,
 }: {
   children: React.ReactNode;

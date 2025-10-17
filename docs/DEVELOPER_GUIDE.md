@@ -1,6 +1,6 @@
 # Developer Guide
 
-Complete technical documentation for the Alelunapaint CV Website.
+Complete technical documentation for the Alequintanarpaint CV Website.
 
 ---
 
@@ -29,13 +29,13 @@ Before diving into development:
 ## Project Structure
 
 ```
-alelunapaint/
+alequintanarpaint/
 ├── src/
 │   ├── app/
 │   │   ├── (home)/              # Public CV website
 │   │   │   ├── layout.tsx       # Home layout with LoadingScreen
 │   │   │   └── page.tsx         # Main CV page
-│   │   ├── nadia/               # Admin routes
+│   │   ├── luz/               # Admin routes
 │   │   │   ├── page.tsx         # Login page
 │   │   │   └── backoffice/      # CMS back office
 │   │   │       └── page.tsx     # Full CMS interface
@@ -93,7 +93,7 @@ alelunapaint/
 
 ### Authentication Flow
 
-1. User logs in at `/nadia` → JWT token issued
+1. User logs in at `/luz` → JWT token issued
 2. Token stored in localStorage
 3. API requests include `Authorization: Bearer <token>`
 4. Token auto-refresh on 401 response
@@ -116,7 +116,7 @@ alelunapaint/
 - Editable via back office
 - Smooth fade-out transition
 
-### 2. CMS Back Office (`/nadia/backoffice`)
+### 2. CMS Back Office (`/luz/backoffice`)
 - Live preview of all sections
 - Inline editing for all content fields
 - Image upload with preview
@@ -231,7 +231,7 @@ const defaultTextContent: TextContent = {
 };
 ```
 
-4. **Update back office** (`src/app/nadia/backoffice/page.tsx`):
+4. **Update back office** (`src/app/luz/backoffice/page.tsx`):
 Add input field in the Hero section editor
 
 5. **Create migration** (`migrations/add-hero-new-field.sql`):
@@ -253,7 +253,7 @@ For production deployment instructions, see:
 
 **Want to customize your site?** See the comprehensive **[Customization Guide](./CUSTOMIZATION.md)** for:
 
-- 🎨 **Change Admin Route** - Change `/nadia` to `/yourname`
+- 🎨 **Change Admin Route** - Change `/luz` to `/yourname`
 - 🔐 **Change Credentials** - Update username/password
 - 🌈 **Change Colors** - Brand colors and theme
 - ✏️ **Change Fonts** - Typography customization

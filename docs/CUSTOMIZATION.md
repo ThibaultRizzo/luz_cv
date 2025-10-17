@@ -15,7 +15,7 @@ Complete guide to customizing your CV website to match your brand and preference
 
 ## Table of Contents
 
-1. [Change Admin Route Name](#change-admin-route-name) - Change `/nadia` to `/yourname`
+1. [Change Admin Route Name](#change-admin-route-name) - Change `/luz` to `/yourname`
 2. [Change Admin Credentials](#change-admin-credentials) - Update username/password
 3. [Change Site Colors](#change-site-colors) - Brand colors and theme
 4. [Change Site Content](#change-site-content) - SEO, titles, metadata
@@ -25,7 +25,7 @@ Complete guide to customizing your CV website to match your brand and preference
 
 ## Change Admin Route Name
 
-By default, the admin panel is at `/nadia/backoffice`. Here's how to change it to `/yourname/backoffice`.
+By default, the admin panel is at `/luz/backoffice`. Here's how to change it to `/yourname/backoffice`.
 
 ### Why Change This?
 
@@ -39,10 +39,10 @@ By default, the admin panel is at `/nadia/backoffice`. Here's how to change it t
 
 ```bash
 # Navigate to your project
-cd alelunapaint
+cd alequintanarpaint
 
-# Rename the nadia folder to your preferred name
-mv src/app/nadia src/app/john
+# Rename the luz folder to your preferred name
+mv src/app/luz src/app/john
 
 # Replace "john" with your desired route name (lowercase, no spaces)
 ```
@@ -58,7 +58,7 @@ You need to update 2 files that reference the old route:
 Find line ~35:
 ```typescript
 // OLD
-window.location.href = '/nadia/backoffice';
+window.location.href = '/luz/backoffice';
 
 // NEW
 window.location.href = '/john/backoffice';  // Replace with your route name
@@ -69,7 +69,7 @@ window.location.href = '/john/backoffice';  // Replace with your route name
 Find line ~103:
 ```typescript
 // OLD
-window.location.href = '/nadia';
+window.location.href = '/luz';
 
 // NEW
 window.location.href = '/john';  // Replace with your route name
@@ -81,7 +81,7 @@ Update references in your documentation:
 
 ```bash
 # Search for documentation files mentioning the old route
-grep -r "nadia" README.md docs/*.md
+grep -r "luz" README.md docs/*.md
 
 # Update URLs in documentation to match your new route
 ```
@@ -123,7 +123,7 @@ bun run dev
 **Issue**: "404 Not Found" at new route
 **Solution**: Make sure you restarted the dev server and cleared `.next` folder
 
-**Issue**: Redirects to old `/nadia` route
+**Issue**: Redirects to old `/luz` route
 **Solution**: Check you updated both files (page.tsx and api.ts)
 
 **Issue**: Compilation errors
@@ -159,7 +159,7 @@ Admin credentials are configured via environment variables - **no code changes n
    ```
 
 4. **Test login**:
-   - Visit: `http://localhost:3000/nadia` (or your custom route)
+   - Visit: `http://localhost:3000/luz` (or your custom route)
    - Login with your new credentials
 
 #### Production (Vercel)
@@ -184,7 +184,7 @@ Admin credentials are configured via environment variables - **no code changes n
    ```
 
 5. **Test login**:
-   - Visit: `https://your-domain.vercel.app/nadia`
+   - Visit: `https://your-domain.vercel.app/luz`
    - Login with new credentials
 
 ### Password Recommendations
@@ -321,7 +321,7 @@ NEXT_PUBLIC_SITE_URL=https://yourwebsite.com
 
 The loading screen text is **editable via the back office**:
 
-1. Login to `/nadia/backoffice`
+1. Login to `/luz/backoffice`
 2. Go to "Loading Screen" section
 3. Edit:
    - First Name
@@ -490,7 +490,7 @@ git reset --soft HEAD~1
 
 ### Rollback Route Name
 
-1. Rename folder back: `mv src/app/john src/app/nadia`
+1. Rename folder back: `mv src/app/john src/app/luz`
 2. Revert code changes in `page.tsx` and `api.ts`
 3. Clear cache: `rm -rf .next`
 4. Restart: `bun run dev`

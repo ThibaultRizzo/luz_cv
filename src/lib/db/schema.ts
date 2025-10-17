@@ -20,15 +20,15 @@ export const content = pgTable('content', {
   heroSubtitle: text('hero_subtitle'),
   heroDescription: text('hero_description'),
   heroBadge: text('hero_badge'),
-  heroImage: text('hero_image').default('/nadia.jpg'),
+  heroImage: text('hero_image').default('/luz.jpg'),
   heroStats: jsonb('hero_stats').default([]),
   heroCtaText: text('hero_cta_text'),
   heroScrollText: text('hero_scroll_text'),
   headerFont: text('header_font').default('playfair'),
 
   // Loading Screen
-  loadingScreenFirstName: text('loading_screen_first_name').default('NADIA'),
-  loadingScreenLastName: text('loading_screen_last_name').default('LUNA'),
+  loadingScreenFirstName: text('loading_screen_first_name').default('LUZ'),
+  loadingScreenLastName: text('loading_screen_last_name').default('QUINTANAR'),
   loadingScreenTagline: text('loading_screen_tagline').default('Product Owner • Luxury Retail'),
 
   // About Section

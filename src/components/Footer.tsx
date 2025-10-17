@@ -5,7 +5,7 @@ export default function Footer() {
                 <div className="grid md:grid-cols-3 gap-8 mb-8">
                     {/* Brand Section */}
                     <div className="text-center md:text-left">
-                        <h3 className="font-serif text-2xl text-brand-gold mb-4">Nadia Luna</h3>
+                        <h3 className="font-serif text-2xl text-brand-gold mb-4">Luz Quintanar</h3>
                         <p className="text-brand-cream/80 text-sm leading-relaxed">
                             Product Owner specializing in luxury retail transformation and digital innovation.
                         </p>
@@ -27,25 +27,25 @@ export default function Footer() {
                         <h4 className="font-medium text-brand-cream mb-4">Get in Touch</h4>
                         <div className="space-y-2 text-sm">
                             <a
-                                href="mailto:nadia.luna@email.com"
+                                href="mailto:luz.quintanar@email.com"
                                 className="block text-brand-cream/80 hover:text-brand-gold transition-colors"
-                                aria-label="Email Nadia Luna"
+                                aria-label="Email Luz Quintanar"
                             >
-                                nadia.luna@email.com
+                                luz.quintanar@email.com
                             </a>
                             <a
                                 href="tel:+33123456789"
                                 className="block text-brand-cream/80 hover:text-brand-gold transition-colors"
-                                aria-label="Call Nadia Luna"
+                                aria-label="Call Luz Quintanar"
                             >
                                 +33 1 23 45 67 89
                             </a>
                             <a
-                                href="https://linkedin.com/in/nadialuna"
+                                href="https://linkedin.com/in/luzquintanar"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block text-brand-cream/80 hover:text-brand-gold transition-colors"
-                                aria-label="Connect with Nadia Luna on LinkedIn"
+                                aria-label="Connect with Luz Quintanar on LinkedIn"
                             >
                                 LinkedIn Profile
                             </a>
@@ -55,7 +55,7 @@ export default function Footer() {
 
                 {/* Bottom Section */}
                 <div className="border-t border-brand-cream/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-brand-cream/60">
-                    <p>&copy; {new Date().getFullYear()} Nadia Luna. All Rights Reserved. Website by lamypro66@gmail.com</p>
+                    <p>&copy; {new Date().getFullYear()} Luz Quintanar. All Rights Reserved. Website by lamypro66@gmail.com</p>
                     <div className="flex space-x-6 mt-4 md:mt-0">
                         <a href="#" className="hover:text-brand-gold transition-colors">Privacy Policy</a>
                         <a href="#" className="hover:text-brand-gold transition-colors">Terms of Service</a>

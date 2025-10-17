@@ -1,6 +1,6 @@
 # Getting Started
 
-**Your first 10 minutes with the Alelunapaint CV Website**
+**Your first 10 minutes with the Alequintanarpaint CV Website**
 
 This guide gets you from zero to a running local development environment. Nothing more, nothing less.
 
@@ -22,7 +22,7 @@ Before starting, ensure you have:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd alelunapaint
+cd alequintanarpaint
 
 # Install dependencies
 bun install
@@ -40,7 +40,7 @@ You need a database for local development:
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click **Storage** → **Create Database**
 3. Select **Postgres**
-4. Name it: `alelunapaint-db`
+4. Name it: `alequintanarpaint-db`
 5. Click **Create**
 6. Copy the **POSTGRES_URL** connection string
 
@@ -129,10 +129,10 @@ This creates the database tables and your admin user.
 1. **Homepage**: http://localhost:3000
    - Should load with default content
 
-2. **Login**: http://localhost:3000/nadia
+2. **Login**: http://localhost:3000/luz
    - Use your `ADMIN_USERNAME` and `ADMIN_PASSWORD`
 
-3. **Back Office**: http://localhost:3000/nadia/backoffice
+3. **Back Office**: http://localhost:3000/luz/backoffice
    - Should see the CMS dashboard
 
 **If all three work: Congratulations! 🎉**
@@ -166,7 +166,7 @@ See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for detailed troubleshooti
 **You now have a working local environment!** Here's what to do next:
 
 ### 1. Customize Your Content
-- Login at http://localhost:3000/nadia
+- Login at http://localhost:3000/luz
 - Edit sections in the back office
 - Upload your profile photo
 

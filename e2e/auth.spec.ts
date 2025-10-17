@@ -9,7 +9,7 @@ test.describe('Authentication', () => {
 
   test('should display login page', async ({ page }) => {
     // Navigate to login page
-    await page.goto('/nadia');
+    await page.goto('/luz');
 
     // Check that login form is visible
     await expect(page.locator('input[name="username"]')).toBeVisible();
@@ -21,7 +21,7 @@ test.describe('Authentication', () => {
   });
 
   test('should show error for invalid credentials', async ({ page }) => {
-    await page.goto('/nadia');
+    await page.goto('/luz');
 
     // Fill in invalid credentials
     await page.fill('input[name="username"]', 'wronguser');
@@ -34,7 +34,7 @@ test.describe('Authentication', () => {
     await expect(page.locator('div.bg-red-100').first()).toBeVisible({ timeout: 10000 });
 
     // Should still be on login page
-    expect(page.url()).toContain('/nadia');
+    expect(page.url()).toContain('/luz');
     expect(page.url()).not.toContain('/backoffice');
   });
 
@@ -42,7 +42,7 @@ test.describe('Authentication', () => {
     const username = process.env.ADMIN_USERNAME || 'admin';
     const password = process.env.ADMIN_PASSWORD || 'your-password';
 
-    await page.goto('/nadia');
+    await page.goto('/luz');
 
     // Fill in valid credentials
     await page.fill('input[name="username"]', username);
@@ -52,10 +52,10 @@ test.describe('Authentication', () => {
     await page.click('button[type="submit"]');
 
     // Should redirect to back office
-    await page.waitForURL('**/nadia/backoffice', { timeout: 10000 });
+    await page.waitForURL('**/luz/backoffice', { timeout: 10000 });
 
     // Check that we're on the back office page
-    expect(page.url()).toContain('/nadia/backoffice');
+    expect(page.url()).toContain('/luz/backoffice');
 
     // Check for back office content
     await expect(page.locator('text=Content Editor').first()).toBeVisible();
@@ -66,7 +66,7 @@ test.describe('Authentication', () => {
     await loginAsAdmin(page);
 
     // Verify we're logged in
-    expect(page.url()).toContain('/nadia/backoffice');
+    expect(page.url()).toContain('/luz/backoffice');
 
     // Logout
     await logout(page);
@@ -82,10 +82,10 @@ test.describe('Authentication', () => {
     await page.goto('/');
 
     // Try to access back office directly
-    await page.goto('/nadia/backoffice');
+    await page.goto('/luz/backoffice');
 
     // Should be redirected to login
-    await page.waitForURL('**/nadia', { timeout: 5000 });
+    await page.waitForURL('**/luz', { timeout: 5000 });
     expect(page.url()).not.toContain('/backoffice');
   });
 
@@ -94,7 +94,7 @@ test.describe('Authentication', () => {
     await loginAsAdmin(page);
 
     // Verify we're logged in
-    expect(page.url()).toContain('/nadia/backoffice');
+    expect(page.url()).toContain('/luz/backoffice');
 
     // Reload page
     await page.reload();
@@ -103,7 +103,7 @@ test.describe('Authentication', () => {
     await page.waitForLoadState('networkidle');
 
     // Should still be logged in
-    expect(page.url()).toContain('/nadia/backoffice');
+    expect(page.url()).toContain('/luz/backoffice');
     await expect(page.locator('text=Content Editor').first()).toBeVisible();
   });
 });

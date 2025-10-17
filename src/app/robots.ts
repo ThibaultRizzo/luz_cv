@@ -1,14 +1,14 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nadialuna.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://luzquintanar.com'
 
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/nadia/', '/api/'],
+        disallow: ['/luz/', '/api/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

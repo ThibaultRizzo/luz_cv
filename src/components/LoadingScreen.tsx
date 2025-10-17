@@ -36,7 +36,7 @@ export default function LoadingScreen() {
 
             {/* Main content */}
             <div className="relative z-10 text-center">
-                {/* Elegant NADIA LUNA with unified shining effect */}
+                {/* Elegant LUZ QUINTANAR with unified shining effect */}
                 <div className="overflow-hidden">
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
@@ -64,7 +64,7 @@ export default function LoadingScreen() {
                                     color: '#0B132B'
                                 }}
                             >
-                                {textContent.loadingScreenFirstName || "NADIA"}
+                                {textContent.loadingScreenFirstName || "LUZ"}
                             </motion.span>
                         </h1>
                     </motion.div>
@@ -97,7 +97,7 @@ export default function LoadingScreen() {
                                     color: '#C7A17A'
                                 }}
                             >
-                                {textContent.loadingScreenLastName || "LUNA"}
+                                {textContent.loadingScreenLastName || "QUINTANAR"}
                             </motion.span>
                         </h2>
                     </motion.div>

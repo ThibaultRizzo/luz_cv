@@ -1,6 +1,6 @@
 # E2E Tests with Playwright
 
-End-to-end tests for the Nadia Luna CV website with CMS.
+End-to-end tests for the Luz Quintanar CV website with CMS.
 
 ## 📋 Test Coverage
 

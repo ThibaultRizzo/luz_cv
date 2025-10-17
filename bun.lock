@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "alelunapaint",
+      "name": "alequintanarpaint",
       "dependencies": {
         "@vercel/postgres": "^0.10.0",
         "bcryptjs": "^3.0.2",

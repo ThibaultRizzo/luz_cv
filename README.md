@@ -1,4 +1,4 @@
-# Nadia Luna - Professional CV Website with CMS
+# Luz Quintanar - Professional CV Website with CMS
 
 A modern, production-ready CV website with a powerful Content Management System (CMS) built with Next.js 15, TypeScript, Vercel Postgres, and Drizzle ORM.
 
@@ -21,7 +21,7 @@ A modern, production-ready CV website with a powerful Content Management System 
 ## ✨ Features
 
 ### Content Management System
-- **Full-featured Back Office** at `/nadia/backoffice`
+- **Full-featured Back Office** at `/luz/backoffice`
 - **Real-time Preview** of all sections as you edit
 - **Hero Section**: Title, subtitle, description, stats, CTA buttons
 - **About Section**: Bio, approach items, impact metrics, quotes
@@ -79,11 +79,11 @@ A modern, production-ready CV website with a powerful Content Management System 
 ## 🎯 Project Structure
 
 ```
-alelunapaint/
+alequintanarpaint/
 ├── src/
 │   ├── app/
 │   │   ├── api/              # API routes (serverless functions)
-│   │   ├── nadia/            # Admin routes & back office
+│   │   ├── luz/            # Admin routes & back office
 │   │   └── layout.tsx        # Root layout with SEO
 │   ├── components/           # React components
 │   └── lib/

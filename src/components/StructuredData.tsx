@@ -8,11 +8,11 @@ export default function StructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Nadia Luna",
+    "name": "Luz Quintanar",
     "jobTitle": "Product Owner",
     "description": textContent.heroDescription || "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
-    "url": process.env.NEXT_PUBLIC_SITE_URL || "https://nadialuna.com",
-    "image": textContent.heroImage || "/nadia.jpg",
+    "url": process.env.NEXT_PUBLIC_SITE_URL || "https://luzquintanar.com",
+    "image": textContent.heroImage || "/luz.jpg",
     "worksFor": {
       "@type": "Organization",
       "name": "Luxury Retail"
@@ -30,9 +30,9 @@ export default function StructuredData() {
       "name": "Business School"
     },
     "sameAs": [
-      textContent.contactLinkedin || "https://linkedin.com/in/nadialuna"
+      textContent.contactLinkedin || "https://linkedin.com/in/luzquintanar"
     ],
-    "email": textContent.contactEmail || "nadia.luna@email.com",
+    "email": textContent.contactEmail || "luz.quintanar@email.com",
     "telephone": textContent.contactPhone || "+33123456789"
   };
 

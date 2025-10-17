@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function NadiaLogin() {
+export default function LuzLogin() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -32,7 +32,7 @@ export default function NadiaLogin() {
                 localStorage.setItem('userInfo', JSON.stringify(data.data.user));
 
                 // Redirect to backoffice
-                window.location.href = '/nadia/backoffice';
+                window.location.href = '/luz/backoffice';
             } else {
                 setError(data.message || 'Invalid credentials');
             }

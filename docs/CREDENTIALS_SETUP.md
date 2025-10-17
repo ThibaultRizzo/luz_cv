@@ -36,7 +36,7 @@ When using Vercel Postgres locally:
    - Go to [Vercel Dashboard](https://vercel.com/dashboard)
    - Navigate to **Storage** → **Create Database**
    - Select **Postgres**
-   - Name it: `alelunapaint-db`
+   - Name it: `alequintanarpaint-db`
 
 2. **Get Connection String**:
    Vercel provides the complete connection string:
@@ -112,7 +112,7 @@ Admin credentials are configured via environment variables.
    ```
 
 4. **Login**:
-   - Go to: http://localhost:3000/nadia
+   - Go to: http://localhost:3000/luz
    - Use your credentials to login
 
 #### Production (Vercel)
@@ -140,7 +140,7 @@ Admin credentials are configured via environment variables.
    ```
 
 5. **Login to back office**:
-   - Go to: https://your-domain.vercel.app/nadia
+   - Go to: https://your-domain.vercel.app/luz
    - Use your production credentials
 
 ### Changing Admin Credentials
@@ -347,7 +347,7 @@ Expected response:
 
 ### 5. Login to Back Office
 
-1. Go to: http://localhost:3000/nadia
+1. Go to: http://localhost:3000/luz
 2. Enter your admin credentials
 3. Access back office
 

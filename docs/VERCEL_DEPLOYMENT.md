@@ -39,7 +39,7 @@ This application is built with:
 
 2. **Select Postgres**:
    - Choose **Postgres** from the options
-   - Name it: `alelunapaint-db` (or your preferred name)
+   - Name it: `alequintanarpaint-db` (or your preferred name)
    - Select region closest to your users
    - Click **Create**
 
@@ -223,12 +223,12 @@ To enable the working contact form with Resend:
 
 2. **Test admin login**:
    ```
-   https://your-domain.vercel.app/nadia
+   https://your-domain.vercel.app/luz
    ```
 
 3. **Access back office**:
    ```
-   https://your-domain.vercel.app/nadia/backoffice
+   https://your-domain.vercel.app/luz/backoffice
    ```
 
 4. **Make a content change**:
@@ -514,8 +514,8 @@ Consider upgrading when:
 After deployment, verify:
 
 - [ ] Homepage loads at production URL
-- [ ] Admin login works (`/nadia`)
-- [ ] Back office accessible (`/nadia/backoffice`)
+- [ ] Admin login works (`/luz`)
+- [ ] Back office accessible (`/luz/backoffice`)
 - [ ] Content edits persist
 - [ ] Image uploads work
 - [ ] Contact form sends emails (if Resend configured)

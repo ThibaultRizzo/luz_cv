@@ -1,6 +1,6 @@
 # Testing Guide
 
-Quick reference for running E2E tests on the Nadia Luna CV website.
+Quick reference for running E2E tests on the Luz Quintanar CV website.
 
 ---
 

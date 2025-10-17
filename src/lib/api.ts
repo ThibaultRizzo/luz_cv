@@ -100,7 +100,7 @@ class ApiClient {
                 // Refresh failed, redirect to login
                 TokenStorage.clearTokens();
                 if (typeof window !== 'undefined') {
-                    window.location.href = '/nadia';
+                    window.location.href = '/luz';
                 }
             }
         }

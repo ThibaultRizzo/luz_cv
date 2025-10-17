@@ -133,7 +133,7 @@ export default function BackOffice() {
         heroDescription:
             "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "",
-        heroImage: "/nadia.jpg",
+        heroImage: "/luz.jpg",
         heroStats: [],
         heroCtaText: "",
         heroScrollText: "",
@@ -237,8 +237,8 @@ export default function BackOffice() {
             location: { label: "", value: "" },
             languages: { label: "", value: "" },
         },
-        loadingScreenFirstName: "NADIA",
-        loadingScreenLastName: "LUNA",
+        loadingScreenFirstName: "LUZ",
+        loadingScreenLastName: "QUINTANAR",
         loadingScreenTagline: "Product Owner • Luxury Retail",
     });
     const [activeTab, setActiveTab] = useState("hero");
@@ -268,7 +268,7 @@ export default function BackOffice() {
     useEffect(() => {
         const checkAuth = async () => {
             if (!authApi.isLoggedIn()) {
-                router.push("/nadia");
+                router.push("/luz");
                 return;
             }
 
@@ -276,7 +276,7 @@ export default function BackOffice() {
                 // Verify token with backend
                 const userResponse = await authApi.getCurrentUser();
                 if (!userResponse.success) {
-                    router.push("/nadia");
+                    router.push("/luz");
                     return;
                 }
 
@@ -286,7 +286,7 @@ export default function BackOffice() {
                 await loadContent();
             } catch (error) {
                 console.error("Auth check failed:", error);
-                router.push("/nadia");
+                router.push("/luz");
             } finally {
                 setIsLoading(false);
             }
@@ -343,7 +343,7 @@ export default function BackOffice() {
             // Check if it's an authentication error
             if (error instanceof Error && (error.message.includes('401') || error.message.includes('Unauthorized'))) {
                 await authApi.logout();
-                router.push('/nadia');
+                router.push('/luz');
                 return;
             }
 
@@ -613,7 +613,7 @@ export default function BackOffice() {
 
             if (response.status === 401) {
                 await authApi.logout();
-                router.push('/nadia');
+                router.push('/luz');
                 return;
             }
 
@@ -673,7 +673,7 @@ export default function BackOffice() {
             if (response.status === 401) {
                 // Token expired or invalid - logout and redirect
                 await authApi.logout();
-                router.push('/nadia');
+                router.push('/luz');
                 return;
             }
 
@@ -701,7 +701,7 @@ export default function BackOffice() {
                     <div className="space-y-4 sm:space-y-5 md:space-y-6">
                         <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
                             <label className="block text-xs sm:text-sm font-semibold text-brand-gold mb-3">
-                                Header Font (NADIA LUNA)
+                                Header Font (LUZ QUINTANAR)
                             </label>
                             <div className="relative">
                                 <select
@@ -723,7 +723,7 @@ export default function BackOffice() {
                                 </select>
                             </div>
                             <p className="text-xs text-brand-cream/70 mt-3 italic">
-                                Choose the luxury font for the header navigation &quot;NADIA LUNA&quot;
+                                Choose the luxury font for the header navigation &quot;LUZ QUINTANAR&quot;
                             </p>
                         </div>
                         <div>
@@ -789,7 +789,7 @@ export default function BackOffice() {
                                             alt="Hero preview"
                                             className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
                                             onError={(e) => {
-                                                (e.target as HTMLImageElement).src = '/nadia.jpg';
+                                                (e.target as HTMLImageElement).src = '/luz.jpg';
                                             }}
                                         />
                                     </div>
@@ -828,7 +828,7 @@ export default function BackOffice() {
                                         onChange={(e) =>
                                             handleTextChange("heroImage", e.target.value)
                                         }
-                                        placeholder="/nadia.jpg or https://example.com/image.jpg"
+                                        placeholder="/luz.jpg or https://example.com/image.jpg"
                                         className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent text-sm"
                                     />
                                 </div>
@@ -2473,7 +2473,7 @@ export default function BackOffice() {
                                 value={textContent.loadingScreenFirstName}
                                 onChange={(e) => handleTextChange("loadingScreenFirstName", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
-                                placeholder="NADIA"
+                                placeholder="LUZ"
                             />
                         </div>
                         <div>
@@ -2485,7 +2485,7 @@ export default function BackOffice() {
                                 value={textContent.loadingScreenLastName}
                                 onChange={(e) => handleTextChange("loadingScreenLastName", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
-                                placeholder="LUNA"
+                                placeholder="QUINTANAR"
                             />
                         </div>
                         <div>
@@ -2714,7 +2714,7 @@ export default function BackOffice() {
                                                             'font-serif'
                                                         } text-brand-deep`}
                                                 >
-                                                    NADIA LUNA
+                                                    LUZ QUINTANAR
                                                 </div>
                                                 <div className="hidden md:flex items-center gap-2">
                                                     {['about', 'experience', 'skills', 'achievements', 'contact'].map((item) => (
@@ -2802,11 +2802,11 @@ export default function BackOffice() {
                                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                                 <img
                                                                     key={textContent.heroImage}
-                                                                    src={textContent.heroImage || "/nadia.jpg"}
+                                                                    src={textContent.heroImage || "/luz.jpg"}
                                                                     alt="Hero"
                                                                     className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
                                                                     onError={(e) => {
-                                                                        (e.target as HTMLImageElement).src = '/nadia.jpg';
+                                                                        (e.target as HTMLImageElement).src = '/luz.jpg';
                                                                     }}
                                                                 />
                                                             </div>
@@ -2902,7 +2902,7 @@ export default function BackOffice() {
                                                                         &quot;{textContent.aboutQuote}&quot;
                                                                     </blockquote>
                                                                     <div className="text-center mt-3">
-                                                                        <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor || '— Nadia Luna'}</cite>
+                                                                        <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor || '— Luz Quintanar'}</cite>
                                                                     </div>
                                                                 </div>
                                                             )}
@@ -3117,7 +3117,7 @@ export default function BackOffice() {
                                                         <blockquote className="text-sm italic text-brand-cream/90 max-w-2xl mx-auto">
                                                             &quot;{textContent.skillsQuote}&quot;
                                                         </blockquote>
-                                                        <cite className="text-brand-gold font-medium mt-2 block text-xs">{textContent.skillsQuoteAuthor || '— Nadia Luna'}</cite>
+                                                        <cite className="text-brand-gold font-medium mt-2 block text-xs">{textContent.skillsQuoteAuthor || '— Luz Quintanar'}</cite>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3262,14 +3262,14 @@ export default function BackOffice() {
                                                                         <div className="w-6 h-6 bg-brand-gold/20 rounded-full flex items-center justify-center text-xs">📧</div>
                                                                         <div>
                                                                             <div className="font-medium text-brand-cream text-xs">Email</div>
-                                                                            <div className="text-brand-gold text-xs break-all font-medium">{textContent.contactEmail || 'nadia.luna@email.com'}</div>
+                                                                            <div className="text-brand-gold text-xs break-all font-medium">{textContent.contactEmail || 'luz.quintanar@email.com'}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center space-x-2">
                                                                         <div className="w-6 h-6 bg-brand-gold/20 rounded-full flex items-center justify-center text-xs">💼</div>
                                                                         <div>
                                                                             <div className="font-medium text-brand-cream text-xs">LinkedIn</div>
-                                                                            <div className="text-brand-gold text-xs break-all font-medium">{textContent.contactLinkedin ? textContent.contactLinkedin.replace('https://', '').replace('http://', '') : 'linkedin.com/in/nadialuna'}</div>
+                                                                            <div className="text-brand-gold text-xs break-all font-medium">{textContent.contactLinkedin ? textContent.contactLinkedin.replace('https://', '').replace('http://', '') : 'linkedin.com/in/luzquintanar'}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center space-x-2">
@@ -3351,12 +3351,12 @@ export default function BackOffice() {
                                                 <div className="relative z-10 text-center">
                                                     <div className="overflow-hidden">
                                                         <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-2">
-                                                            <span className="text-brand-deep">{textContent.loadingScreenFirstName || "NADIA"}</span>
+                                                            <span className="text-brand-deep">{textContent.loadingScreenFirstName || "LUZ"}</span>
                                                         </h1>
                                                     </div>
                                                     <div className="overflow-hidden mt-2">
                                                         <h2 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold italic tracking-wider">
-                                                            <span className="text-brand-gold">{textContent.loadingScreenLastName || "LUNA"}</span>
+                                                            <span className="text-brand-gold">{textContent.loadingScreenLastName || "QUINTANAR"}</span>
                                                         </h2>
                                                     </div>
                                                     <div className="mt-8 md:mt-12">

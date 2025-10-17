@@ -282,7 +282,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <div className="font-medium text-brand-cream text-sm sm:text-base">Email</div>
-                                        <a href={`mailto:${textContent.contactEmail || 'nadia.luna@email.com'}`} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactEmail || 'nadia.luna@email.com'}</a>
+                                        <a href={`mailto:${textContent.contactEmail || 'luz.quintanar@email.com'}`} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactEmail || 'luz.quintanar@email.com'}</a>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3 sm:space-x-4">
@@ -291,7 +291,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <div className="font-medium text-brand-cream text-sm sm:text-base">LinkedIn</div>
-                                        <a href={textContent.contactLinkedin || '#'} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactLinkedin ? textContent.contactLinkedin.replace('https://', '').replace('http://', '') : 'linkedin.com/in/nadialuna'}</a>
+                                        <a href={textContent.contactLinkedin || '#'} className="text-brand-gold hover:text-brand-cream hover:underline text-sm sm:text-base break-all font-medium">{textContent.contactLinkedin ? textContent.contactLinkedin.replace('https://', '').replace('http://', '') : 'linkedin.com/in/luzquintanar'}</a>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3 sm:space-x-4">
