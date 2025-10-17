@@ -1,60 +1,31 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as schema from './schema';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import dotenv from 'dotenv';
 
-// Create database connection lazily to avoid build-time errors
-let sql: postgres.Sql | null = null;
-let dbInstance: ReturnType<typeof drizzle> | null = null;
+// Load environment variables from .env.local
+dotenv.config({ path: '.env.local' });
 
-function getDb() {
-  if (dbInstance) return dbInstance;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
+async function initDatabase() {
   const connectionString = process.env.POSTGRES_URL;
 
   if (!connectionString) {
-    throw new Error('POSTGRES_URL environment variable is not set. Please configure it in your Vercel environment variables.');
+    console.error('❌ POSTGRES_URL environment variable is not set');
+    console.error('Make sure you have a .env.local file with POSTGRES_URL set');
+    process.exit(1);
   }
 
-  sql = postgres(connectionString);
-  dbInstance = drizzle(sql, { schema });
-  return dbInstance;
-}
+  const sql = postgres(connectionString);
 
-export const db = new Proxy({} as ReturnType<typeof drizzle>, {
-  get(target, prop) {
-    return getDb()[prop as keyof ReturnType<typeof drizzle>];
-  }
-});
-
-// Get the underlying SQL instance for utility functions
-function getSql() {
-  if (!sql) {
-    const connectionString = process.env.POSTGRES_URL;
-    if (!connectionString) {
-      throw new Error('POSTGRES_URL environment variable is not set.');
-    }
-    sql = postgres(connectionString);
-  }
-  return sql;
-}
-
-// Database utilities
-export async function testConnection() {
   try {
-    const sqlClient = getSql();
-    await sqlClient`SELECT 1`;
-    return true;
-  } catch (error) {
-    console.error('❌ Database connection failed:', error);
-    return false;
-  }
-}
-
-export async function initializeDatabase() {
-  try {
-    const sqlClient = getSql();
-    // Check if tables exist and create them if not
-    await sqlClient`
+    console.log('🔄 Step 1: Creating tables if they don\'t exist...');
+    
+    // Create users table
+    await sql`
       CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
         username TEXT UNIQUE NOT NULL,
@@ -66,8 +37,10 @@ export async function initializeDatabase() {
         updated_at TIMESTAMP DEFAULT NOW() NOT NULL
       )
     `;
+    console.log('✅ Users table ready');
 
-    await sqlClient`
+    // Create content table with ALL fields
+    await sql`
       CREATE TABLE IF NOT EXISTS content (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
 
@@ -158,8 +131,10 @@ export async function initializeDatabase() {
         updated_at TIMESTAMP DEFAULT NOW() NOT NULL
       )
     `;
+    console.log('✅ Content table ready');
 
-    await sqlClient`
+    // Create content_backups table
+    await sql`
       CREATE TABLE IF NOT EXISTS content_backups (
         id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
         content_id TEXT REFERENCES content(id) NOT NULL,
@@ -169,10 +144,56 @@ export async function initializeDatabase() {
         created_at TIMESTAMP DEFAULT NOW() NOT NULL
       )
     `;
+    console.log('✅ Content backups table ready');
 
-    return true;
+    console.log('\n🔄 Step 2: Running migrations to add missing columns...');
+    
+    // Run all migrations
+    const migrations = [
+      'add-flexible-content.sql',
+      'add-loading-screen-fields.sql',
+      'add-soft-skills-title.sql'
+    ];
+
+    for (const migrationFile of migrations) {
+      try {
+        console.log(`   📄 Running ${migrationFile}...`);
+        const migrationPath = join(__dirname, '../migrations', migrationFile);
+        const migration = readFileSync(migrationPath, 'utf-8');
+
+        // Split by semicolons and execute each statement
+        const statements = migration
+          .split(';')
+          .map(s => s.trim())
+          .filter(s => s.length > 0 && !s.startsWith('--'));
+
+        for (const statement of statements) {
+          await sql.unsafe(statement);
+        }
+        console.log(`   ✅ ${migrationFile} completed`);
+      } catch (error) {
+        // Ignore errors for columns that already exist
+        if (error.message && error.message.includes('already exists')) {
+          console.log(`   ⚠️  ${migrationFile} - columns already exist (skipped)`);
+        } else {
+          console.error(`   ❌ ${migrationFile} failed:`, error.message);
+        }
+      }
+    }
+
+    console.log('\n✅ Database initialization completed successfully!');
+    console.log('\n📝 Next steps:');
+    console.log('   1. Restart your dev server if it\'s running');
+    console.log('   2. Visit http://localhost:3000/api/init-db to seed initial data');
+    console.log('   3. Visit http://localhost:3000 to see your site');
+    
   } catch (error) {
-    console.error('❌ Database initialization failed:', error);
-    return false;
+    console.error('\n❌ Database initialization failed:', error);
+    process.exit(1);
+  } finally {
+    await sql.end();
   }
 }
+
+initDatabase();
+

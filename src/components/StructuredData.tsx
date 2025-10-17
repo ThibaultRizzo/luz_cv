@@ -12,7 +12,7 @@ export default function StructuredData() {
     "jobTitle": "Product Owner",
     "description": textContent.heroDescription || "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
     "url": process.env.NEXT_PUBLIC_SITE_URL || "https://luzquintanar.com",
-    "image": textContent.heroImage || "/luz.jpg",
+    "image": textContent.heroImage || "/luz.png",
     "worksFor": {
       "@type": "Organization",
       "name": "Luxury Retail"

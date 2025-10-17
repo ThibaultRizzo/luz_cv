@@ -46,7 +46,7 @@ export async function POST() {
         heroSubtitle: "something extraordinary?",
         heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "Product Owner • Luxury Retail Expert",
-        heroImage: "/luz.jpg",
+        heroImage: "/luz.png",
         heroStats: [
           { metric: "10+", label: "Years Experience" },
           { metric: "€50M+", label: "Revenue Impact" },

@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
     images: [
       {
-        url: `${siteUrl}/luz.jpg`,
+        url: `${siteUrl}/luz.png`,
         width: 1200,
         height: 630,
         alt: "Luz Quintanar - Product Owner",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Luz Quintanar — Product Owner",
     description: "Product Owner with 10+ years of leadership in luxury retail",
-    images: [`${siteUrl}/luz.jpg`],
+    images: [`${siteUrl}/luz.png`],
   },
   robots: {
     index: true,

@@ -102,7 +102,7 @@ export default function Hero() {
 
                             {/* Main image */}
                             <Image
-                                src={textContent.heroImage || "/luz.jpg"}
+                                src={textContent.heroImage || "/luz.png"}
                                 alt="Luz Quintanar - Product Owner and Luxury Retail Expert"
                                 width={600}
                                 height={800}

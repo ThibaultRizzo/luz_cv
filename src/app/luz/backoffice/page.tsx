@@ -133,7 +133,7 @@ export default function BackOffice() {
         heroDescription:
             "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "",
-        heroImage: "/luz.jpg",
+        heroImage: "/luz.png",
         heroStats: [],
         heroCtaText: "",
         heroScrollText: "",
@@ -789,7 +789,7 @@ export default function BackOffice() {
                                             alt="Hero preview"
                                             className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
                                             onError={(e) => {
-                                                (e.target as HTMLImageElement).src = '/luz.jpg';
+                                                (e.target as HTMLImageElement).src = '/luz.png';
                                             }}
                                         />
                                     </div>
@@ -828,7 +828,7 @@ export default function BackOffice() {
                                         onChange={(e) =>
                                             handleTextChange("heroImage", e.target.value)
                                         }
-                                        placeholder="/luz.jpg or https://example.com/image.jpg"
+                                        placeholder="/luz.png or https://example.com/image.jpg"
                                         className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent text-sm"
                                     />
                                 </div>
@@ -2802,11 +2802,11 @@ export default function BackOffice() {
                                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                                 <img
                                                                     key={textContent.heroImage}
-                                                                    src={textContent.heroImage || "/luz.jpg"}
+                                                                    src={textContent.heroImage || "/luz.png"}
                                                                     alt="Hero"
                                                                     className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
                                                                     onError={(e) => {
-                                                                        (e.target as HTMLImageElement).src = '/luz.jpg';
+                                                                        (e.target as HTMLImageElement).src = '/luz.png';
                                                                     }}
                                                                 />
                                                             </div>

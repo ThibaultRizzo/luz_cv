@@ -121,7 +121,7 @@ const defaultTextContent: TextContent = {
     heroTitle: "Ready to create",
     heroSubtitle: "something extraordinary?",
     heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
-    heroImage: "/luz.jpg",
+    heroImage: "/luz.png",
     headerFont: "playfair",
     loadingScreenFirstName: "LUZ",
     loadingScreenLastName: "QUINTANAR",

@@ -20,7 +20,7 @@ export const content = pgTable('content', {
   heroSubtitle: text('hero_subtitle'),
   heroDescription: text('hero_description'),
   heroBadge: text('hero_badge'),
-  heroImage: text('hero_image').default('/luz.jpg'),
+  heroImage: text('hero_image').default('/luz.png'),
   heroStats: jsonb('hero_stats').default([]),
   heroCtaText: text('hero_cta_text'),
   heroScrollText: text('hero_scroll_text'),
