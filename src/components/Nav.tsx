@@ -17,26 +17,26 @@ export default function Nav() {
             const aboutSection = document.getElementById('about');
             const experienceSection = document.getElementById('experience');
             const skillsSection = document.getElementById('skills');
-            const achievementsSection = document.getElementById('achievements');
+            const projectsSection = document.getElementById('projects');
             const contactSection = document.getElementById('contact');
 
-            if (!heroSection || !aboutSection || !experienceSection || !skillsSection || !achievementsSection || !contactSection) return;
+            if (!heroSection || !aboutSection || !experienceSection || !skillsSection || !projectsSection || !contactSection) return;
 
             const scrollY = window.scrollY + 100; // Header height offset
 
-            // Check if we're in About, Skills, or Achievements sections (dark backgrounds)
+            // Check if we're in About, Skills, or Projects sections (dark backgrounds)
             const aboutTop = aboutSection.offsetTop;
             const aboutBottom = aboutTop + aboutSection.offsetHeight;
             const skillsTop = skillsSection.offsetTop;
             const skillsBottom = skillsTop + skillsSection.offsetHeight;
-            const achievementsTop = achievementsSection.offsetTop;
-            const achievementsBottom = achievementsTop + achievementsSection.offsetHeight;
+            const projectsTop = projectsSection.offsetTop;
+            const projectsBottom = projectsTop + projectsSection.offsetHeight;
 
             const isInAbout = scrollY >= aboutTop && scrollY < aboutBottom;
             const isInSkills = scrollY >= skillsTop && scrollY < skillsBottom;
-            const isInAchievements = scrollY >= achievementsTop && scrollY < achievementsBottom;
+            const isInProjects = scrollY >= projectsTop && scrollY < projectsBottom;
 
-            setIsOverDark(isInAbout || isInSkills || isInAchievements);
+            setIsOverDark(isInAbout || isInSkills || isInProjects);
 
             // Determine current section based on scroll position
             const heroTop = heroSection.offsetTop;
@@ -56,8 +56,8 @@ export default function Nav() {
                 newCurrentSection = 'Experience';
             } else if (scrollY >= skillsTop && scrollY < skillsBottom) {
                 newCurrentSection = 'Skills';
-            } else if (scrollY >= achievementsTop && scrollY < achievementsBottom) {
-                newCurrentSection = 'Achievements';
+            } else if (scrollY >= projectsTop && scrollY < projectsBottom) {
+                newCurrentSection = 'Projects';
             } else if (scrollY >= contactTop) {
                 newCurrentSection = 'Contact';
             }
@@ -75,7 +75,7 @@ export default function Nav() {
         { id: 'about', label: 'About' },
         { id: 'experience', label: 'Experience' },
         { id: 'skills', label: 'Skills' },
-        { id: 'achievements', label: 'Achievements' },
+        { id: 'projects', label: 'Projects' },
         { id: 'contact', label: 'Contact' }
     ];
 

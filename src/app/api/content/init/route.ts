@@ -50,11 +50,6 @@ const defaultContent = {
   ],
   tools: ["Jira", "Figma", "Shopify Plus", "Salesforce"],
   skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
-  achievementsTitle: "Achievements",
-  achievements: [
-    { metric: "+40%", description: "Increase in Online Sales" },
-    { metric: "+25%", description: "Customer Retention in 1 Year" }
-  ],
   contactTitle: "Ready to create",
   contactSubtitle: "something extraordinary?",
   contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."

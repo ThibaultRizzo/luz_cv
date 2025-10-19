@@ -107,13 +107,6 @@ const defaultContent = {
   ],
   tools: ["Jira", "Figma", "Shopify Plus", "Salesforce", "Tableau", "Miro", "Slack", "Notion"],
   skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
-  achievementsTitle: "Achievements",
-  achievements: [
-    { metric: "+40%", description: "Increase in Online Sales" },
-    { metric: "+25%", description: "Customer Retention in 1 Year" },
-    { metric: "10+", description: "New Boutiques Opened Worldwide" },
-    { metric: "+30%", description: "Improvement in Customer Engagement" }
-  ],
   contactTitle: "Ready to create",
   contactSubtitle: "something extraordinary?",
   contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."
@@ -152,7 +145,6 @@ async function seedContent() {
         about_title, about_description, about_main_text, about_secondary_text, about_quote,
         experience_title, experience_subtitle, experiences,
         skills_title, skills_subtitle, skills_description, skill_categories, certifications, tools, skills_quote,
-        achievements_title, achievements,
         contact_title, contact_subtitle, contact_description,
         version, is_active, last_modified_by
       ) VALUES (
@@ -160,7 +152,6 @@ async function seedContent() {
         ${defaultContent.aboutTitle}, ${defaultContent.aboutDescription}, ${defaultContent.aboutMainText}, ${defaultContent.aboutSecondaryText}, ${defaultContent.aboutQuote},
         ${defaultContent.experienceTitle}, ${defaultContent.experienceSubtitle}, ${JSON.stringify(defaultContent.experiences)},
         ${defaultContent.skillsTitle}, ${defaultContent.skillsSubtitle}, ${defaultContent.skillsDescription}, ${JSON.stringify(defaultContent.skillCategories)}, ${JSON.stringify(defaultContent.certifications)}, ${JSON.stringify(defaultContent.tools)}, ${defaultContent.skillsQuote},
-        ${defaultContent.achievementsTitle}, ${JSON.stringify(defaultContent.achievements)},
         ${defaultContent.contactTitle}, ${defaultContent.contactSubtitle}, ${defaultContent.contactDescription},
         1, true, ${adminUser[0].id}
       )

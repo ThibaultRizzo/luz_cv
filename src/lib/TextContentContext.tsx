@@ -18,12 +18,6 @@ interface SkillCategory {
     skills: { name: string; level: number }[];
 }
 
-interface Achievement {
-    metric: string;
-    description: string;
-    icon?: string;
-}
-
 interface SoftSkill {
     skill: string;
     icon: string;
@@ -72,8 +66,6 @@ interface TextContent {
     skillsQuoteAuthor: string;
     softSkills: SoftSkill[];
     skillsSoftSkillsTitle: string;
-    achievementsTitle: string;
-    achievements: Achievement[];
     contactTitle: string;
     contactSubtitle: string;
     contactDescription: string;
@@ -121,7 +113,7 @@ const defaultTextContent: TextContent = {
     heroTitle: "Ready to create",
     heroSubtitle: "something extraordinary?",
     heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
-    heroImage: "/luz.png",
+    heroImage: "/luz.jpg",
     headerFont: "playfair",
     loadingScreenFirstName: "LUZ",
     loadingScreenLastName: "QUINTANAR",
@@ -243,13 +235,6 @@ const defaultTextContent: TextContent = {
         { skill: 'Change Management', icon: '🔄' }
     ],
     skillsSoftSkillsTitle: "Leadership & Soft Skills",
-    achievementsTitle: "Achievements",
-    achievements: [
-        { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
-        { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
-        { metric: "10+", description: "New Boutiques Opened Worldwide", icon: "🏆" },
-        { metric: "+30%", description: "Improvement in Customer Engagement", icon: "💎" },
-    ],
     contactTitle: "Ready to create",
     contactSubtitle: "something extraordinary?",
     contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you.",

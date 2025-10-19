@@ -20,7 +20,7 @@ export const content = pgTable('content', {
   heroSubtitle: text('hero_subtitle'),
   heroDescription: text('hero_description'),
   heroBadge: text('hero_badge'),
-  heroImage: text('hero_image').default('/luz.png'),
+  heroImage: text('hero_image').default('/luz.jpg'),
   heroStats: jsonb('hero_stats').default([]),
   heroCtaText: text('hero_cta_text'),
   heroScrollText: text('hero_scroll_text'),
@@ -67,9 +67,9 @@ export const content = pgTable('content', {
   softSkills: jsonb('soft_skills').default([]),
   skillsSoftSkillsTitle: text('skills_soft_skills_title').default('Leadership & Soft Skills'),
 
-  // Achievements
-  achievementsTitle: text('achievements_title'),
-  achievements: jsonb('achievements').default([]),
+  // Projects
+  projectsTitle: text('projects_title'),
+  projects: jsonb('projects').default([]),
 
   // Contact Section
   contactTitle: text('contact_title'),

@@ -76,7 +76,7 @@ export async function initializeDatabase() {
         hero_subtitle TEXT,
         hero_description TEXT,
         hero_badge TEXT,
-        hero_image TEXT DEFAULT '/luz.png',
+        hero_image TEXT DEFAULT '/luz.jpg',
         hero_stats JSONB DEFAULT '[]',
         hero_cta_text TEXT,
         hero_scroll_text TEXT,
@@ -123,9 +123,9 @@ export async function initializeDatabase() {
         soft_skills JSONB DEFAULT '[]',
         skills_soft_skills_title TEXT DEFAULT 'Leadership & Soft Skills',
 
-        -- Achievements
-        achievements_title TEXT,
-        achievements JSONB DEFAULT '[]',
+        -- Projects
+        projects_title TEXT,
+        projects JSONB DEFAULT '[]',
 
         -- Contact Section
         contact_title TEXT,

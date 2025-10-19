@@ -11,24 +11,22 @@ export default function HomeLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const [showLoading, setShowLoading] = useState(false);
-    const [mounted, setMounted] = useState(false);
+    const [showLoading, setShowLoading] = useState(true);
 
     useEffect(() => {
-        setMounted(true);
-        // Show loading screen on every page load
-        setShowLoading(true);
         // Hide loading screen after animation
         const timer = setTimeout(() => {
             setShowLoading(false);
-        }, 5000);
+        }, 4000); // Reduced from 5000 to 4000ms for better UX
 
         return () => clearTimeout(timer);
     }, []);
 
-    // Don't render anything until mounted to avoid hydration mismatch
-    if (!mounted) {
-        return (
+    return (
+        <>
+            <AnimatePresence mode="wait">
+                {showLoading && <LoadingScreen />}
+            </AnimatePresence>
             <div className="home-layout">
                 <a href="#main-content" className="skip-nav">
                     Skip to main content
@@ -39,26 +37,6 @@ export default function HomeLayout({
                 </main>
                 <Footer />
             </div>
-        );
-    }
-
-    return (
-        <>
-            <AnimatePresence mode="wait">
-                {showLoading && <LoadingScreen />}
-            </AnimatePresence>
-            {!showLoading && (
-                <div className="home-layout">
-                    <a href="#main-content" className="skip-nav">
-                        Skip to main content
-                    </a>
-                    <Nav />
-                    <main id="main-content">
-                        {children}
-                    </main>
-                    <Footer />
-                </div>
-            )}
         </>
     );
 }

@@ -46,7 +46,7 @@ export async function POST() {
         heroSubtitle: "something extraordinary?",
         heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "Product Owner • Luxury Retail Expert",
-        heroImage: "/luz.png",
+        heroImage: "/luz.jpg",
         heroStats: [
           { metric: "10+", label: "Years Experience" },
           { metric: "€50M+", label: "Revenue Impact" },
@@ -192,15 +192,6 @@ export async function POST() {
           { skill: "Cross-Cultural Communication", icon: "🌍" },
           { skill: "Luxury Customer Psychology", icon: "✨" },
           { skill: "Change Management", icon: "🔄" }
-        ],
-
-        // Achievements Section
-        achievementsTitle: "Key Achievements",
-        achievements: [
-          { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
-          { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
-          { metric: "€50M+", description: "Revenue Impact Across Products", icon: "🏆" },
-          { metric: "2M+", description: "Premium Customers Served", icon: "💎" }
         ],
 
         // Contact Section

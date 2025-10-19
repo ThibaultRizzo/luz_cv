@@ -39,8 +39,8 @@ async function checkSchema() {
       'certifications', 'tools', 'skills_quote', 'skills_badge',
       'skills_certifications_title', 'skills_tools_title', 'skills_quote_author', 'soft_skills',
 
-      // Achievements
-      'achievements_title', 'achievements',
+      // Projects
+      'projects_title', 'projects',
 
       // Contact
       'contact_title', 'contact_subtitle', 'contact_description', 'contact_badge',

@@ -105,7 +105,7 @@ Retrieve active website content.
     "heroSubtitle": "something extraordinary?",
     "heroDescription": "Transforming luxury retail...",
     "heroBadge": "Product Owner • Luxury Retail Expert",
-    "heroImage": "/luz.png",
+    "heroImage": "/luz.jpg",
     "heroStats": [
       { "metric": "10+", "label": "Years Experience" }
     ],
@@ -363,7 +363,7 @@ curl -X POST http://localhost:3000/api/upload \
   heroSubtitle: string | null;
   heroDescription: string | null;
   heroBadge: string | null;
-  heroImage: string;       // Default: "/luz.png"
+  heroImage: string;       // Default: "/luz.jpg"
   heroStats: Array<{metric: string, label: string}>;
   heroCtaText: string | null;
   heroScrollText: string | null;
@@ -420,12 +420,13 @@ curl -X POST http://localhost:3000/api/upload \
   tools: string[];
   softSkills: Array<{skill: string, icon: string}>;
 
-  // Achievements
-  achievementsTitle: string | null;
-  achievements: Array<{
-    metric: string;
-    description: string;
-    icon: string;
+  // Projects
+  projectsTitle: string | null;
+  projects: Array<{
+    title: string;
+    subtitle: string;
+    image: string;
+    link: string;
   }>;
 
   // Contact Section

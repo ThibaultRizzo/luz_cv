@@ -21,10 +21,11 @@ interface SkillCategory {
     skills: { name: string; level: number }[];
 }
 
-interface Achievement {
-    metric: string;
-    description: string;
-    icon?: string;
+interface Project {
+    title: string;
+    subtitle: string;
+    image: string;
+    link?: string;
 }
 
 interface SoftSkill {
@@ -95,8 +96,8 @@ interface TextContent {
     skillsQuote: string;
     softSkills: SoftSkill[];
     skillsSoftSkillsTitle: string;
-    achievementsTitle: string;
-    achievements: Achievement[];
+    projectsTitle: string;
+    projects: Project[];
     contactTitle: string;
     contactSubtitle: string;
     contactDescription: string;
@@ -133,7 +134,7 @@ export default function BackOffice() {
         heroDescription:
             "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
         heroBadge: "",
-        heroImage: "/luz.png",
+        heroImage: "/luz.jpg",
         heroStats: [],
         heroCtaText: "",
         heroScrollText: "",
@@ -206,10 +207,14 @@ export default function BackOffice() {
             { skill: 'Change Management', icon: '🔄' }
         ],
         skillsSoftSkillsTitle: "Leadership & Soft Skills",
-        achievementsTitle: "Achievements",
-        achievements: [
-            { metric: "+40%", description: "Increase in Online Sales", icon: "📈" },
-            { metric: "+25%", description: "Customer Retention in 1 Year", icon: "🎯" },
+        projectsTitle: "Featured Projects",
+        projects: [
+            { 
+                title: "Sample Project", 
+                subtitle: "A description of the project", 
+                image: "/luz.jpg",
+                link: ""
+            },
         ],
         contactTitle: "Ready to create",
         contactSubtitle: "something extraordinary?",
@@ -308,7 +313,7 @@ export default function BackOffice() {
 
     const handleTextChange = (
         field: keyof TextContent,
-        value: string | string[] | SoftSkill[] | Achievement[],
+        value: string | string[] | SoftSkill[] | Project[],
     ) => {
         setTextContent((prev) => ({
             ...prev,
@@ -391,31 +396,33 @@ export default function BackOffice() {
         }));
     };
 
-    const updateAchievement = (
+    const updateProject = (
         index: number,
-        field: keyof Achievement,
+        field: keyof Project,
         value: string,
     ) => {
-        const newAchievements = [...textContent.achievements];
-        newAchievements[index][field] = value;
-        setTextContent((prev) => ({ ...prev, achievements: newAchievements }));
+        const newProjects = [...textContent.projects];
+        newProjects[index][field] = value;
+        setTextContent((prev) => ({ ...prev, projects: newProjects }));
     };
 
-    const addAchievement = () => {
-        const newAchievement: Achievement = {
-            metric: "+0%",
-            description: "New Achievement",
+    const addProject = () => {
+        const newProject: Project = {
+            title: "New Project",
+            subtitle: "Project description",
+            image: "/luz.jpg",
+            link: "",
         };
         setTextContent((prev) => ({
             ...prev,
-            achievements: [...prev.achievements, newAchievement],
+            projects: [...prev.projects, newProject],
         }));
     };
 
-    const removeAchievement = (index: number) => {
+    const removeProject = (index: number) => {
         setTextContent((prev) => ({
             ...prev,
-            achievements: prev.achievements.filter((_, i) => i !== index),
+            projects: prev.projects.filter((_, i) => i !== index),
         }));
     };
 
@@ -789,7 +796,7 @@ export default function BackOffice() {
                                             alt="Hero preview"
                                             className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
                                             onError={(e) => {
-                                                (e.target as HTMLImageElement).src = '/luz.png';
+                                                (e.target as HTMLImageElement).src = '/luz.jpg';
                                             }}
                                         />
                                     </div>
@@ -828,7 +835,7 @@ export default function BackOffice() {
                                         onChange={(e) =>
                                             handleTextChange("heroImage", e.target.value)
                                         }
-                                        placeholder="/luz.png or https://example.com/image.jpg"
+                                        placeholder="/luz.jpg or https://example.com/image.jpg"
                                         className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent text-sm"
                                     />
                                 </div>
@@ -1827,18 +1834,18 @@ export default function BackOffice() {
                         </div>
                     </div>
                 );
-            case "achievements":
+            case "projects":
                 return (
                     <div className="space-y-4 sm:space-y-5 md:space-y-6">
                         <div>
                             <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                Achievements Title
+                                Projects Title
                             </label>
                             <input
                                 type="text"
-                                value={textContent.achievementsTitle}
+                                value={textContent.projectsTitle}
                                 onChange={(e) =>
-                                    handleTextChange("achievementsTitle", e.target.value)
+                                    handleTextChange("projectsTitle", e.target.value)
                                 }
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                             />
@@ -1846,27 +1853,27 @@ export default function BackOffice() {
                         <div className="border-t border-white/10 pt-6">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-serif text-lg text-brand-cream">
-                                    Achievement Items
+                                    Project Items
                                 </h3>
                                 <button
-                                    onClick={addAchievement}
+                                    onClick={addProject}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                                 >
-                                    Add Achievement
+                                    Add Project
                                 </button>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {textContent.achievements.map((achievement, index) => (
+                            <div className="grid grid-cols-1 gap-4">
+                                {textContent.projects.map((project, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
                                     >
                                         <div className="flex justify-between items-center mb-3">
                                             <h4 className="font-medium text-brand-cream">
-                                                Achievement {index + 1}
+                                                Project {index + 1}
                                             </h4>
                                             <button
-                                                onClick={() => removeAchievement(index)}
+                                                onClick={() => removeProject(index)}
                                                 className="text-red-500 hover:text-red-700 text-lg"
                                                 title="Remove"
                                             >
@@ -1874,48 +1881,58 @@ export default function BackOffice() {
                                             </button>
                                         </div>
                                         <div className="space-y-3">
-                                            <div className="grid grid-cols-2 gap-3">
-                                                <div>
-                                                    <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                                                        Metric
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        value={achievement.metric}
-                                                        onChange={(e) =>
-                                                            updateAchievement(index, "metric", e.target.value)
-                                                        }
-                                                        className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                                                        Icon (emoji)
-                                                    </label>
-                                                    <EmojiPicker
-                                                        value={achievement.icon || ''}
-                                                        onChange={(emoji) =>
-                                                            updateAchievement(index, "icon", emoji)
-                                                        }
-                                                        placeholder="📈"
-                                                    />
-                                                </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Title
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={project.title}
+                                                    onChange={(e) =>
+                                                        updateProject(index, "title", e.target.value)
+                                                    }
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                                                    Description
+                                                    Subtitle
                                                 </label>
                                                 <textarea
-                                                    value={achievement.description}
+                                                    value={project.subtitle}
                                                     onChange={(e) =>
-                                                        updateAchievement(
-                                                            index,
-                                                            "description",
-                                                            e.target.value,
-                                                        )
+                                                        updateProject(index, "subtitle", e.target.value)
                                                     }
-                                                    rows={3}
+                                                    rows={2}
                                                     className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm resize-none"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Image Path
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={project.image}
+                                                    onChange={(e) =>
+                                                        updateProject(index, "image", e.target.value)
+                                                    }
+                                                    placeholder="/uploads/project-image.jpg"
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Link (optional)
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={project.link || ''}
+                                                    onChange={(e) =>
+                                                        updateProject(index, "link", e.target.value)
+                                                    }
+                                                    placeholder="https://example.com"
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                                                 />
                                             </div>
                                         </div>
@@ -2607,9 +2624,9 @@ export default function BackOffice() {
                                 {[
                                     { id: "hero", label: "Hero Section", icon: "🏠", desc: "Main banner" },
                                     { id: "about", label: "About", icon: "👤", desc: "Your story" },
-                                    { id: "experience", label: "Experience", icon: "💼", desc: "Career path" },
                                     { id: "skills", label: "Skills", icon: "⚡", desc: "Expertise" },
-                                    { id: "achievements", label: "Achievements", icon: "🏆", desc: "Milestones" },
+                                    { id: "projects", label: "Projects", icon: "📁", desc: "Portfolio" },
+                                    { id: "experience", label: "Experience", icon: "💼", desc: "Career path" },
                                     { id: "contact", label: "Contact", icon: "📧", desc: "Get in touch" },
                                     { id: "loading", label: "Loading Screen", icon: "✨", desc: "Opening animation" },
                                 ].map((tab) => (
@@ -2717,7 +2734,7 @@ export default function BackOffice() {
                                                     LUZ QUINTANAR
                                                 </div>
                                                 <div className="hidden md:flex items-center gap-2">
-                                                    {['about', 'experience', 'skills', 'achievements', 'contact'].map((item) => (
+                                                    {['about', 'experience', 'skills', 'contact'].map((item) => (
                                                         <div key={item} className="px-3 py-2">
                                                             <div className="w-1.5 h-1.5 rounded-full bg-brand-deep"></div>
                                                         </div>
@@ -2802,11 +2819,11 @@ export default function BackOffice() {
                                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                                 <img
                                                                     key={textContent.heroImage}
-                                                                    src={textContent.heroImage || "/luz.png"}
+                                                                    src={textContent.heroImage || "/luz.jpg"}
                                                                     alt="Hero"
                                                                     className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
                                                                     onError={(e) => {
-                                                                        (e.target as HTMLImageElement).src = '/luz.png';
+                                                                        (e.target as HTMLImageElement).src = '/luz.jpg';
                                                                     }}
                                                                 />
                                                             </div>
@@ -3123,47 +3140,75 @@ export default function BackOffice() {
                                             </div>
                                         )}
 
-                                        {activeTab === "achievements" && (
+                                        {activeTab === "projects" && (
                                             <div className="bg-brand-deep text-brand-cream p-4 sm:p-6 md:p-8 min-h-[500px]">
                                                 {/* Section header */}
                                                 <div className="text-center mb-8 sm:mb-10 md:mb-12">
                                                     <div className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-3 sm:mb-4 hover:bg-brand-gold/30 hover:shadow-[0_0_20px_rgba(199,161,122,0.4)] transition-all duration-500 cursor-default group relative overflow-hidden">
                                                         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></span>
                                                         <span className="w-1.5 h-1.5 bg-brand-gold rounded-full mr-2 relative z-10 group-hover:scale-125 transition-transform duration-300"></span>
-                                                        Key Achievements
+                                                        Featured Projects
                                                     </div>
-                                                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">{textContent.achievementsTitle}</h2>
+                                                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">{textContent.projectsTitle}</h2>
                                                     <div className="w-12 sm:w-16 h-1 bg-brand-gold mx-auto"></div>
                                                 </div>
 
-                                                {/* Achievements grid - responsive */}
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
-                                                    {textContent.achievements.map((achievement, idx) => (
-                                                        <div
-                                                            key={idx}
-                                                            className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-2xl p-4 sm:p-5 md:p-6 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300"
-                                                        >
-                                                            {/* Icon */}
-                                                            {achievement.icon && (
-                                                                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 opacity-80 group-hover:scale-110 transition-transform duration-300">
-                                                                    {achievement.icon}
+                                                {/* Projects grid - responsive */}
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
+                                                    {textContent.projects.map((project, idx) => {
+                                                        const CardWrapper = project.link ? 'a' : 'div';
+                                                        const cardProps = project.link 
+                                                            ? { 
+                                                                href: project.link, 
+                                                                target: '_blank', 
+                                                                rel: 'noopener noreferrer'
+                                                            } 
+                                                            : {};
+
+                                                        return (
+                                                            <CardWrapper
+                                                                key={idx}
+                                                                {...cardProps}
+                                                            >
+                                                                <div className="group relative bg-gradient-to-br from-brand-cream/5 to-brand-gold/5 backdrop-blur-sm rounded-2xl border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300 overflow-hidden h-full flex flex-col">
+                                                                    {/* Image section - 60% */}
+                                                                    <div className="relative w-full h-0 pb-[60%] overflow-hidden">
+                                                                        {project.image ? (
+                                                                            <img
+                                                                                src={project.image}
+                                                                                alt={project.title}
+                                                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                                                            />
+                                                                        ) : (
+                                                                            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/20 to-brand-cream/10 flex items-center justify-center">
+                                                                                <span className="text-4xl opacity-50">📁</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+
+                                                                    {/* Content section - 40% */}
+                                                                    <div className="flex-1 p-4 sm:p-5 flex flex-col justify-end">
+                                                                        <h3 className="text-lg sm:text-xl font-semibold text-brand-cream mb-1 leading-tight group-hover:text-brand-gold transition-colors duration-300">
+                                                                            {project.title}
+                                                                        </h3>
+                                                                        {project.subtitle && (
+                                                                            <p className="text-xs sm:text-sm text-brand-cream/70 leading-relaxed">
+                                                                                {project.subtitle}
+                                                                            </p>
+                                                                        )}
+                                                                        {project.link && (
+                                                                            <div className="mt-2 flex items-center text-brand-gold text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                                                <span>View Project</span>
+                                                                                <svg className="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                                                </svg>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            )}
-
-                                                            {/* Metric */}
-                                                            <div className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-gold mb-2 sm:mb-3 md:mb-4 leading-none">
-                                                                {achievement.metric}
-                                                            </div>
-
-                                                            {/* Description */}
-                                                            <h3 className="text-sm sm:text-base font-semibold text-brand-cream leading-snug">
-                                                                {achievement.description}
-                                                            </h3>
-
-                                                            {/* Decorative line */}
-                                                            <div className="h-1 w-8 bg-brand-gold/50 rounded-full mt-2 sm:mt-3"></div>
-                                                        </div>
-                                                    ))}
+                                                            </CardWrapper>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         )}
@@ -3385,7 +3430,7 @@ export default function BackOffice() {
                         { id: "about", label: "About", icon: "👤" },
                         { id: "experience", label: "Experience", icon: "💼" },
                         { id: "skills", label: "Skills", icon: "⚡" },
-                        { id: "achievements", label: "Achievements", icon: "🏆" },
+                        { id: "projects", label: "Projects", icon: "📁" },
                         { id: "contact", label: "Contact", icon: "📧" },
                         { id: "loading", label: "Loading", icon: "✨" },
                     ].map((tab) => (
