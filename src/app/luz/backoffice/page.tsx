@@ -482,6 +482,48 @@ export default function BackOffice() {
         return { ...textContent, ...translations };
     };
 
+    // Helper function to get a field value for the current language
+    const getFieldValue = <K extends keyof TextContent>(field: K): TextContent[K] => {
+        const defaultLang = textContent.defaultLanguage || 'en';
+        
+        // If editing default language, return base content
+        if (currentLanguage === defaultLang) {
+            return textContent[field];
+        }
+
+        // Otherwise, return translation if it exists, or base content as fallback
+        const translations = textContent.translations?.[currentLanguage] as Partial<TextContent> | undefined;
+        return (translations?.[field] ?? textContent[field]) as TextContent[K];
+    };
+
+    // Helper function to update a field for the current language
+    const setFieldValue = <K extends keyof TextContent>(field: K, value: TextContent[K]) => {
+        const defaultLang = textContent.defaultLanguage || 'en';
+        
+        // If editing default language, update base content
+        if (currentLanguage === defaultLang) {
+            setTextContent((prev) => ({
+                ...prev,
+                [field]: value,
+            }));
+        } else {
+            // Otherwise, update translation for current language
+            setTextContent((prev) => {
+                const currentTranslations = prev.translations?.[currentLanguage] as Partial<TextContent> || {};
+                return {
+                    ...prev,
+                    translations: {
+                        ...prev.translations,
+                        [currentLanguage]: {
+                            ...currentTranslations,
+                            [field]: value,
+                        },
+                    },
+                };
+            });
+        }
+    };
+
     const handleLogout = async () => {
         try {
             await authApi.logout();
@@ -521,10 +563,7 @@ export default function BackOffice() {
         field: keyof TextContent,
         value: string | string[] | SoftSkill[] | Project[],
     ) => {
-        setTextContent((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+        setFieldValue(field, value as TextContent[typeof field]);
     };
 
     const handleSave = async () => {
@@ -571,9 +610,9 @@ export default function BackOffice() {
         field: K,
         value: ExperienceItem[K],
     ) => {
-        const newExperiences = [...textContent.experiences];
+        const newExperiences = [...getFieldValue("experiences")];
         newExperiences[index][field] = value;
-        setTextContent((prev) => ({ ...prev, experiences: newExperiences }));
+        setFieldValue("experiences", newExperiences);
     };
 
     const addExperience = () => {
@@ -587,10 +626,8 @@ export default function BackOffice() {
             icon: "💼",
             iconType: "emoji",
         };
-        setTextContent((prev) => ({
-            ...prev,
-            experiences: [...prev.experiences, newExperience],
-        }));
+        const experiences = getFieldValue("experiences");
+        setFieldValue("experiences", [...experiences, newExperience]);
     };
 
     // Image Upload handler for experience icons
@@ -628,10 +665,8 @@ export default function BackOffice() {
     };
 
     const removeExperience = (index: number) => {
-        setTextContent((prev) => ({
-            ...prev,
-            experiences: prev.experiences.filter((_, i) => i !== index),
-        }));
+        const experiences = getFieldValue("experiences");
+        setFieldValue("experiences", experiences.filter((_, i) => i !== index));
     };
 
     const updateProject = (
@@ -639,9 +674,9 @@ export default function BackOffice() {
         field: Exclude<keyof Project, 'tags'>,
         value: string,
     ) => {
-        const newProjects = [...textContent.projects];
+        const newProjects = [...getFieldValue("projects")];
         newProjects[index][field] = value;
-        setTextContent((prev) => ({ ...prev, projects: newProjects }));
+        setFieldValue("projects", newProjects);
     };
 
     const addProject = () => {
@@ -652,35 +687,31 @@ export default function BackOffice() {
             link: "",
             tags: [],
         };
-        setTextContent((prev) => ({
-            ...prev,
-            projects: [...prev.projects, newProject],
-        }));
+        const projects = getFieldValue("projects");
+        setFieldValue("projects", [...projects, newProject]);
     };
 
     const removeProject = (index: number) => {
-        setTextContent((prev) => ({
-            ...prev,
-            projects: prev.projects.filter((_, i) => i !== index),
-        }));
+        const projects = getFieldValue("projects");
+        setFieldValue("projects", projects.filter((_, i) => i !== index));
     };
 
     const addProjectTag = (projectIndex: number, tag: string) => {
         if (!tag.trim()) return;
-        const newProjects = [...textContent.projects];
+        const newProjects = [...getFieldValue("projects")];
         if (!newProjects[projectIndex].tags) {
             newProjects[projectIndex].tags = [];
         }
         newProjects[projectIndex].tags!.push(tag.trim());
-        setTextContent((prev) => ({ ...prev, projects: newProjects }));
+        setFieldValue("projects", newProjects);
     };
 
     const removeProjectTag = (projectIndex: number, tagIndex: number) => {
-        const newProjects = [...textContent.projects];
+        const newProjects = [...getFieldValue("projects")];
         if (newProjects[projectIndex].tags) {
             newProjects[projectIndex].tags = newProjects[projectIndex].tags!.filter((_, i) => i !== tagIndex);
         }
-        setTextContent((prev) => ({ ...prev, projects: newProjects }));
+        setFieldValue("projects", newProjects);
     };
 
     // Helper functions for StatItem arrays (heroStats, aboutImpactMetrics, experienceBottomStats)
@@ -690,26 +721,25 @@ export default function BackOffice() {
         key: keyof StatItem,
         value: string,
     ) => {
-        const newStats = [...textContent[field]];
+        const newStats = [...getFieldValue(field)];
         newStats[index][key] = value;
-        setTextContent((prev) => ({ ...prev, [field]: newStats }));
+        setFieldValue(field, newStats);
     };
 
     const addStatItem = (
         field: "heroStats" | "aboutImpactMetrics" | "experienceBottomStats",
     ) => {
         const newStat: StatItem = { metric: "", label: "" };
-        setTextContent((prev) => ({ ...prev, [field]: [...prev[field], newStat] }));
+        const stats = getFieldValue(field);
+        setFieldValue(field, [...stats, newStat]);
     };
 
     const removeStatItem = (
         field: "heroStats" | "aboutImpactMetrics" | "experienceBottomStats",
         index: number,
     ) => {
-        setTextContent((prev) => ({
-            ...prev,
-            [field]: prev[field].filter((_, i) => i !== index),
-        }));
+        const stats = getFieldValue(field);
+        setFieldValue(field, stats.filter((_, i) => i !== index));
     };
 
     // Helper functions for ApproachItem array
@@ -718,24 +748,20 @@ export default function BackOffice() {
         key: keyof ApproachItem,
         value: string,
     ) => {
-        const newItems = [...textContent.aboutApproachItems];
+        const newItems = [...getFieldValue("aboutApproachItems")];
         newItems[index][key] = value;
-        setTextContent((prev) => ({ ...prev, aboutApproachItems: newItems }));
+        setFieldValue("aboutApproachItems", newItems);
     };
 
     const addApproachItem = () => {
         const newItem: ApproachItem = { title: "", description: "" };
-        setTextContent((prev) => ({
-            ...prev,
-            aboutApproachItems: [...prev.aboutApproachItems, newItem],
-        }));
+        const items = getFieldValue("aboutApproachItems");
+        setFieldValue("aboutApproachItems", [...items, newItem]);
     };
 
     const removeApproachItem = (index: number) => {
-        setTextContent((prev) => ({
-            ...prev,
-            aboutApproachItems: prev.aboutApproachItems.filter((_, i) => i !== index),
-        }));
+        const items = getFieldValue("aboutApproachItems");
+        setFieldValue("aboutApproachItems", items.filter((_, i) => i !== index));
     };
 
     // Helper functions for SkillCard management
@@ -744,9 +770,9 @@ export default function BackOffice() {
         key: K,
         value: SkillCard[K],
     ) => {
-        const newCards = [...textContent.skillCards];
+        const newCards = [...getFieldValue("skillCards")];
         newCards[index][key] = value;
-        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+        setFieldValue("skillCards", newCards);
     };
 
     const addSkillCard = () => {
@@ -759,32 +785,30 @@ export default function BackOffice() {
                 { title: "Skill 1", icon: "✨", iconType: "emoji" }
             ]
         };
-        setTextContent((prev) => ({
-            ...prev,
-            skillCards: [...prev.skillCards, newCard],
-        }));
+        const cards = getFieldValue("skillCards");
+        setFieldValue("skillCards", [...cards, newCard]);
     };
 
     const addSkillCardItem = (cardIndex: number) => {
-        const newCards = [...textContent.skillCards];
+        const newCards = [...getFieldValue("skillCards")];
         // Initialize items array if it doesn't exist
         if (!newCards[cardIndex].items) {
             newCards[cardIndex].items = [];
         }
         newCards[cardIndex].items.push({ title: "New Skill", icon: "✨", iconType: "emoji" });
-        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+        setFieldValue("skillCards", newCards);
     };
 
     const removeSkillCardItem = (cardIndex: number, itemIndex: number) => {
-        const newCards = [...textContent.skillCards];
+        const newCards = [...getFieldValue("skillCards")];
         if (newCards[cardIndex].items) {
             newCards[cardIndex].items = newCards[cardIndex].items.filter((_, i) => i !== itemIndex);
         }
-        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+        setFieldValue("skillCards", newCards);
     };
 
     const updateSkillCardItem = (cardIndex: number, itemIndex: number, field: 'title' | 'icon' | 'iconType', value: string) => {
-        const newCards = [...textContent.skillCards];
+        const newCards = [...getFieldValue("skillCards")];
         if (newCards[cardIndex].items && newCards[cardIndex].items[itemIndex]) {
             if (field === 'iconType') {
                 newCards[cardIndex].items[itemIndex][field] = value as 'emoji' | 'upload';
@@ -792,7 +816,7 @@ export default function BackOffice() {
                 newCards[cardIndex].items[itemIndex][field] = value;
             }
         }
-        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+        setFieldValue("skillCards", newCards);
     };
 
     // Image Upload handler for skill card item icons
@@ -1087,7 +1111,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.heroBadge}
+                                value={getFieldValue("heroBadge")}
                                 onChange={(e) => handleTextChange("heroBadge", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                             />
@@ -1098,7 +1122,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.heroTitle}
+                                value={getFieldValue("heroTitle")}
                                 onChange={(e) => handleTextChange("heroTitle", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                             />
@@ -1109,7 +1133,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.heroSubtitle}
+                                value={getFieldValue("heroSubtitle")}
                                 onChange={(e) =>
                                     handleTextChange("heroSubtitle", e.target.value)
                                 }
@@ -1121,7 +1145,7 @@ export default function BackOffice() {
                                 Hero Description
                             </label>
                             <textarea
-                                value={textContent.heroDescription}
+                                value={getFieldValue("heroDescription")}
                                 onChange={(e) =>
                                     handleTextChange("heroDescription", e.target.value)
                                 }
@@ -1179,7 +1203,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.heroImage}
+                                        value={getFieldValue("heroImage")}
                                         onChange={(e) =>
                                             handleTextChange("heroImage", e.target.value)
                                         }
@@ -1195,7 +1219,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.heroCtaText}
+                                value={getFieldValue("heroCtaText")}
                                 onChange={(e) =>
                                     handleTextChange("heroCtaText", e.target.value)
                                 }
@@ -1208,7 +1232,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.heroScrollText}
+                                value={getFieldValue("heroScrollText")}
                                 onChange={(e) =>
                                     handleTextChange("heroScrollText", e.target.value)
                                 }
@@ -1229,7 +1253,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4">
-                                {textContent.heroStats.map((stat, index) => (
+                                {getFieldValue("heroStats").map((stat, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
@@ -1299,7 +1323,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.aboutBadge}
+                                value={getFieldValue("aboutBadge")}
                                 onChange={(e) => handleTextChange("aboutBadge", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                             />
@@ -1311,7 +1335,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.aboutTitle}
+                                    value={getFieldValue("aboutTitle")}
                                     onChange={(e) =>
                                         handleTextChange("aboutTitle", e.target.value)
                                     }
@@ -1324,7 +1348,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.aboutTitleSuffix}
+                                    value={getFieldValue("aboutTitleSuffix")}
                                     onChange={(e) =>
                                         handleTextChange("aboutTitleSuffix", e.target.value)
                                     }
@@ -1337,7 +1361,7 @@ export default function BackOffice() {
                                 Main Text
                             </label>
                             <textarea
-                                value={textContent.aboutMainText}
+                                value={getFieldValue("aboutMainText")}
                                 onChange={(e) =>
                                     handleTextChange("aboutMainText", e.target.value)
                                 }
@@ -1350,7 +1374,7 @@ export default function BackOffice() {
                                 Secondary Text
                             </label>
                             <textarea
-                                value={textContent.aboutSecondaryText}
+                                value={getFieldValue("aboutSecondaryText")}
                                 onChange={(e) =>
                                     handleTextChange("aboutSecondaryText", e.target.value)
                                 }
@@ -1366,7 +1390,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.aboutApproachTitle}
+                                    value={getFieldValue("aboutApproachTitle")}
                                     onChange={(e) =>
                                         handleTextChange("aboutApproachTitle", e.target.value)
                                     }
@@ -1385,7 +1409,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4">
-                                {textContent.aboutApproachItems.map((item, index) => (
+                                {getFieldValue("aboutApproachItems").map((item, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
@@ -1446,7 +1470,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.aboutImpactTitle}
+                                    value={getFieldValue("aboutImpactTitle")}
                                     onChange={(e) =>
                                         handleTextChange("aboutImpactTitle", e.target.value)
                                     }
@@ -1465,7 +1489,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4">
-                                {textContent.aboutImpactMetrics.map((metric, index) => (
+                                {getFieldValue("aboutImpactMetrics").map((metric, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
@@ -1537,7 +1561,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.experienceBadge}
+                                value={getFieldValue("experienceBadge")}
                                 onChange={(e) =>
                                     handleTextChange("experienceBadge", e.target.value)
                                 }
@@ -1551,7 +1575,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.experienceTitle}
+                                    value={getFieldValue("experienceTitle")}
                                     onChange={(e) =>
                                         handleTextChange("experienceTitle", e.target.value)
                                     }
@@ -1564,7 +1588,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.experienceSubtitle}
+                                    value={getFieldValue("experienceSubtitle")}
                                     onChange={(e) =>
                                         handleTextChange("experienceSubtitle", e.target.value)
                                     }
@@ -1586,7 +1610,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4">
-                                {textContent.experienceBottomStats.map((stat, index) => (
+                                {getFieldValue("experienceBottomStats").map((stat, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
@@ -1661,7 +1685,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                                {textContent.experiences.map((exp, index) => (
+                                {getFieldValue("experiences").map((exp, index) => (
                                     <div
                                         key={index}
                                         className="bg-brand-cream/30 p-6 rounded-xl border border-brand-deep/10"
@@ -1847,7 +1871,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.skillsBadge}
+                                value={getFieldValue("skillsBadge")}
                                 onChange={(e) =>
                                     handleTextChange("skillsBadge", e.target.value)
                                 }
@@ -1861,7 +1885,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.skillsTitle}
+                                    value={getFieldValue("skillsTitle")}
                                     onChange={(e) =>
                                         handleTextChange("skillsTitle", e.target.value)
                                     }
@@ -1874,7 +1898,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.skillsSubtitle}
+                                    value={getFieldValue("skillsSubtitle")}
                                     onChange={(e) =>
                                         handleTextChange("skillsSubtitle", e.target.value)
                                     }
@@ -1887,7 +1911,7 @@ export default function BackOffice() {
                                 Skills Description
                             </label>
                             <textarea
-                                value={textContent.skillsDescription}
+                                value={getFieldValue("skillsDescription")}
                                 onChange={(e) =>
                                     handleTextChange("skillsDescription", e.target.value)
                                 }
@@ -1910,7 +1934,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                                {textContent.skillCards.map((card, cardIndex) => (
+                                {getFieldValue("skillCards").map((card, cardIndex) => (
                                     <div
                                         key={cardIndex}
                                         className="bg-brand-cream/30 p-6 rounded-xl border border-brand-deep/10"
@@ -2185,7 +2209,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.skillsSoftSkillsTitle}
+                                    value={getFieldValue("skillsSoftSkillsTitle")}
                                     onChange={(e) =>
                                         handleTextChange("skillsSoftSkillsTitle", e.target.value)
                                     }
@@ -2199,7 +2223,7 @@ export default function BackOffice() {
                                 </h3>
                                 <button
                                     onClick={() => {
-                                        const updated = [...textContent.softSkills, { skill: '', icon: '🤝' }];
+                                        const updated = [...getFieldValue("softSkills"), { skill: '', icon: '🤝' }];
                                         handleTextChange("softSkills", updated);
                                     }}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
@@ -2208,7 +2232,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="space-y-4">
-                                {textContent.softSkills.map((softSkill, index) => (
+                                {getFieldValue("softSkills").map((softSkill, index) => (
                                     <div key={index} className="bg-brand-cream/30 p-4 rounded-xl">
                                         <div className="flex justify-between items-center mb-3">
                                             <h4 className="font-medium text-brand-deep">Soft Skill {index + 1}</h4>
@@ -2267,7 +2291,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.skillsCertificationsTitle}
+                                    value={getFieldValue("skillsCertificationsTitle")}
                                     onChange={(e) =>
                                         handleTextChange(
                                             "skillsCertificationsTitle",
@@ -2336,7 +2360,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.projectsTitle}
+                                value={getFieldValue("projectsTitle")}
                                 onChange={(e) =>
                                     handleTextChange("projectsTitle", e.target.value)
                                 }
@@ -2356,7 +2380,7 @@ export default function BackOffice() {
                                 </button>
                             </div>
                             <div className="grid grid-cols-1 gap-4">
-                                {textContent.projects.map((project, index) => (
+                                {getFieldValue("projects").map((project, index) => (
                                     <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/20"
@@ -2402,16 +2426,72 @@ export default function BackOffice() {
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                                                    Image Path
+                                                    Project Image
                                                 </label>
+                                                <div className="flex items-center gap-3">
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={async (e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                const formData = new FormData();
+                                                                formData.append('file', file);
+                                                                try {
+                                                                    const response = await fetch('/api/upload', {
+                                                                        method: 'POST',
+                                                                        body: formData,
+                                                                    });
+                                                                    const data = await response.json();
+                                                                    if (response.ok) {
+                                                                        updateProject(index, "image", data.path);
+                                                                    } else {
+                                                                        console.error('Upload failed:', data.message);
+                                                                    }
+                                                                } catch (error) {
+                                                                    console.error('Error uploading file:', error);
+                                                                }
+                                                            }
+                                                        }}
+                                                        className="hidden"
+                                                        id={`project-image-upload-${index}`}
+                                                    />
+                                                    <label
+                                                        htmlFor={`project-image-upload-${index}`}
+                                                        className="cursor-pointer bg-brand-gold/20 hover:bg-brand-gold/30 text-brand-cream px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-brand-gold/30"
+                                                    >
+                                                        Upload Image
+                                                    </label>
+                                                    {project.image && (
+                                                        <div className="flex items-center gap-2">
+                                                            <img
+                                                                src={project.image}
+                                                                alt="Project preview"
+                                                                className="w-12 h-12 object-cover rounded-lg border border-brand-gold/30"
+                                                            />
+                                                            <button
+                                                                onClick={() => updateProject(index, "image", "")}
+                                                                className="text-red-500 hover:text-red-700 text-sm"
+                                                                title="Remove image"
+                                                            >
+                                                                ✕
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {!project.image && (
+                                                    <p className="text-xs text-brand-cream/50 mt-1">
+                                                        Or enter a URL:
+                                                    </p>
+                                                )}
                                                 <input
                                                     type="text"
-                                                    value={project.image}
+                                                    value={project.image || ''}
                                                     onChange={(e) =>
                                                         updateProject(index, "image", e.target.value)
                                                     }
-                                                    placeholder="/uploads/project-image.jpg"
-                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                    placeholder="/uploads/project-image.jpg or https://..."
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm mt-2"
                                                 />
                                             </div>
                                             <div>
@@ -2499,7 +2579,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.contactBadge}
+                                value={getFieldValue("contactBadge")}
                                 onChange={(e) =>
                                     handleTextChange("contactBadge", e.target.value)
                                 }
@@ -2512,7 +2592,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.contactTitle}
+                                value={getFieldValue("contactTitle")}
                                 onChange={(e) =>
                                     handleTextChange("contactTitle", e.target.value)
                                 }
@@ -2525,7 +2605,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.contactSubtitle}
+                                value={getFieldValue("contactSubtitle")}
                                 onChange={(e) =>
                                     handleTextChange("contactSubtitle", e.target.value)
                                 }
@@ -2537,7 +2617,7 @@ export default function BackOffice() {
                                 Contact Description
                             </label>
                             <textarea
-                                value={textContent.contactDescription}
+                                value={getFieldValue("contactDescription")}
                                 onChange={(e) =>
                                     handleTextChange("contactDescription", e.target.value)
                                 }
@@ -2556,7 +2636,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.contactFormTitle}
+                                    value={getFieldValue("contactFormTitle")}
                                     onChange={(e) =>
                                         handleTextChange("contactFormTitle", e.target.value)
                                     }
@@ -2688,7 +2768,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactSubmitButton}
+                                        value={getFieldValue("contactSubmitButton")}
                                         onChange={(e) =>
                                             handleTextChange("contactSubmitButton", e.target.value)
                                         }
@@ -2701,7 +2781,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactSuccessMessage}
+                                        value={getFieldValue("contactSuccessMessage")}
                                         onChange={(e) =>
                                             handleTextChange("contactSuccessMessage", e.target.value)
                                         }
@@ -2714,7 +2794,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactErrorMessage}
+                                        value={getFieldValue("contactErrorMessage")}
                                         onChange={(e) =>
                                             handleTextChange("contactErrorMessage", e.target.value)
                                         }
@@ -2734,7 +2814,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.contactInfoTitle}
+                                    value={getFieldValue("contactInfoTitle")}
                                     onChange={(e) =>
                                         handleTextChange("contactInfoTitle", e.target.value)
                                     }
@@ -2748,7 +2828,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactEmail}
+                                        value={getFieldValue("contactEmail")}
                                         onChange={(e) =>
                                             handleTextChange("contactEmail", e.target.value)
                                         }
@@ -2761,7 +2841,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactLinkedin}
+                                        value={getFieldValue("contactLinkedin")}
                                         onChange={(e) =>
                                             handleTextChange("contactLinkedin", e.target.value)
                                         }
@@ -2774,7 +2854,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactPhone}
+                                        value={getFieldValue("contactPhone")}
                                         onChange={(e) =>
                                             handleTextChange("contactPhone", e.target.value)
                                         }
@@ -2788,7 +2868,7 @@ export default function BackOffice() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={textContent.contactDownloadText}
+                                    value={getFieldValue("contactDownloadText")}
                                     onChange={(e) =>
                                         handleTextChange("contactDownloadText", e.target.value)
                                     }
@@ -2833,7 +2913,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactAvailabilityTitle}
+                                        value={getFieldValue("contactAvailabilityTitle")}
                                         onChange={(e) =>
                                             handleTextChange(
                                                 "contactAvailabilityTitle",
@@ -2849,7 +2929,7 @@ export default function BackOffice() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={textContent.contactAvailabilityStatus}
+                                        value={getFieldValue("contactAvailabilityStatus")}
                                         onChange={(e) =>
                                             handleTextChange(
                                                 "contactAvailabilityStatus",
@@ -2865,7 +2945,7 @@ export default function BackOffice() {
                                     Availability Description
                                 </label>
                                 <textarea
-                                    value={textContent.contactAvailabilityDescription}
+                                    value={getFieldValue("contactAvailabilityDescription")}
                                     onChange={(e) =>
                                         handleTextChange(
                                             "contactAvailabilityDescription",
@@ -3035,7 +3115,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.loadingScreenFirstName}
+                                value={getFieldValue("loadingScreenFirstName")}
                                 onChange={(e) => handleTextChange("loadingScreenFirstName", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                                 placeholder="LUZ"
@@ -3047,7 +3127,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.loadingScreenLastName}
+                                value={getFieldValue("loadingScreenLastName")}
                                 onChange={(e) => handleTextChange("loadingScreenLastName", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                                 placeholder="QUINTANAR"
@@ -3059,7 +3139,7 @@ export default function BackOffice() {
                             </label>
                             <input
                                 type="text"
-                                value={textContent.loadingScreenTagline}
+                                value={getFieldValue("loadingScreenTagline")}
                                 onChange={(e) => handleTextChange("loadingScreenTagline", e.target.value)}
                                 className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
                                 placeholder="Product Owner • Luxury Retail"
@@ -3800,7 +3880,7 @@ export default function BackOffice() {
                                                             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold transform -translate-x-1/2"></div>
 
                                                             <div className="space-y-12">
-                                                                {textContent.experiences.map((exp, index) => (
+                                                                {getFieldValue("experiences").map((exp, index) => (
                                                                     <div key={index} className="relative flex items-center">
                                                                         {/* Timeline dot - centered */}
                                                                         <div className="absolute left-1/2 w-4 h-4 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10 transform -translate-x-1/2"></div>
@@ -3912,7 +3992,7 @@ export default function BackOffice() {
                                                     {/* Skill Cards */}
                                                     {textContent.skillCards && textContent.skillCards.length > 0 && (
                                                         <div className="flex flex-wrap gap-3 mb-6">
-                                                            {textContent.skillCards.map((card, index) => (
+                                                            {getFieldValue("skillCards").map((card, index) => (
                                                                 <div
                                                                     key={index}
                                                                     className={`bg-brand-cream/5 backdrop-blur-sm rounded-xl p-5 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300 ${
@@ -3977,7 +4057,7 @@ export default function BackOffice() {
                                                                     <span>Leadership & Soft Skills</span>
                                                                 </h3>
                                                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                                                    {textContent.softSkills.map((item, index) => (
+                                                                    {getFieldValue("softSkills").map((item, index) => (
                                                                         <div key={index} className="text-center group">
                                                                             <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
                                                                             <p className="text-xs text-brand-cream font-medium leading-snug">{item.skill}</p>
@@ -3988,11 +4068,10 @@ export default function BackOffice() {
                                                         </div>
                                                     )}
 
-                                                    {/* Certifications & Tools */}
-                                                    <div className="grid md:grid-cols-2 gap-3 mb-6">
-                                                        {/* Certifications */}
+                                                    {/* Certifications */}
+                                                    <div className="max-w-xl mx-auto mb-6">
                                                         <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
-                                                            <h3 className="font-serif text-base text-brand-gold mb-3 flex items-center">
+                                                            <h3 className="font-serif text-base text-brand-gold mb-3 flex items-center justify-center">
                                                                 {textContent.skillsCertificationsTitle || '🏆 Certifications'}
                                                             </h3>
                                                             <div className="space-y-2">
@@ -4000,20 +4079,6 @@ export default function BackOffice() {
                                                                     <div key={index} className="flex items-center space-x-2">
                                                                         <div className="w-1.5 h-1.5 bg-brand-gold rounded-full"></div>
                                                                         <span className="text-xs">{cert}</span>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Tools & Technologies */}
-                                                        <div className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20">
-                                                            <h3 className="font-serif text-base text-brand-gold mb-3 flex items-center">
-                                                                {textContent.skillsToolsTitle || '🛠️ Tools & Platforms'}
-                                                            </h3>
-                                                            <div className="grid grid-cols-2 gap-2">
-                                                                {textContent.tools.slice(0, 6).map((tool, index) => (
-                                                                    <div key={index} className="bg-brand-gold/10 rounded-lg px-2 py-1.5 text-center text-xs font-medium">
-                                                                        {tool}
                                                                     </div>
                                                                 ))}
                                                             </div>
@@ -4038,7 +4103,7 @@ export default function BackOffice() {
 
                                                 {/* Projects grid - responsive */}
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
-                                                    {textContent.projects.map((project, idx) => {
+                                                    {getFieldValue("projects").map((project, idx) => {
                                                         const CardWrapper = project.link ? 'a' : 'div';
                                                         const cardProps = project.link 
                                                             ? { 

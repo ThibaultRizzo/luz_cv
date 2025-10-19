@@ -11,10 +11,12 @@ A modern, production-ready CV website with a powerful Content Management System 
 **New to this project? Start here:**
 
 1. **[Getting Started Guide](./docs/GETTING_STARTED.md)** ← **Start here for local setup (10 minutes)**
-2. **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Deploy to production
-3. **[Documentation Index](./docs/README.md)** - All guides and references
+2. **[Local Development Setup](./LOCAL_DEVELOPMENT.md)** - Optional: Set up local database with Docker
+3. **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Deploy to production
+4. **[Documentation Index](./docs/README.md)** - All guides and references
 
-**Estimated time to first run**: 10 minutes
+**Estimated time to first run**: 10 minutes  
+**Want local development?** Add 5 minutes for Docker setup
 
 ---
 
@@ -63,8 +65,10 @@ A modern, production-ready CV website with a powerful Content Management System 
 
 ### Deployment
 - **[Vercel Deployment](./docs/VERCEL_DEPLOYMENT.md)** - Complete production deployment guide
+- **[Vercel Blob Setup](./VERCEL_BLOB_SETUP.md)** - File upload storage configuration
 
 ### Development
+- **[Local Development Setup](./LOCAL_DEVELOPMENT.md)** - Set up local database with Docker
 - **[Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Architecture & development
 - **[Customization Guide](./docs/CUSTOMIZATION.md)** - Change admin route, colors, fonts
 - **[API Reference](./docs/API_REFERENCE.md)** - API endpoints documentation
@@ -135,11 +139,13 @@ See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for details.
 
 ## 🆘 Common Issues
 
+### Want to develop locally without touching production?
+→ See **[Local Development Setup](./LOCAL_DEVELOPMENT.md)** - Docker-based local database
+→ Run `bun run db:start` to start local PostgreSQL
+
 ### Database connection failed
 → Check `POSTGRES_URL` in `.env.local`
 → See [Getting Started](./docs/GETTING_STARTED.md#troubleshooting)
-
-
 
 ### Cannot login
 → Visit `/api/init-db` to initialize database

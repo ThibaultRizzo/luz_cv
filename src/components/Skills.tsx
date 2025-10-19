@@ -131,11 +131,10 @@ export default function Skills() {
           </div>
         )}
 
-        {/* Certifications & Tools */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
-          {/* Certifications */}
+        {/* Certifications */}
+        <div className="max-w-2xl mx-auto">
           <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 md:p-8 border border-brand-gold/20">
-            <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-brand-gold mb-4 sm:mb-6 flex items-center">
+            <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-brand-gold mb-4 sm:mb-6 flex items-center justify-center">
               {textContent.skillsCertificationsTitle || '🏆 Certifications'}
             </h3>
             <div className="space-y-2 sm:space-y-3">
@@ -143,20 +142,6 @@ export default function Skills() {
                 <div key={index} className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-brand-gold rounded-full flex-shrink-0"></div>
                   <span className="text-sm md:text-base">{cert}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tools & Technologies */}
-          <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 md:p-8 border border-brand-gold/20">
-            <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-brand-gold mb-4 sm:mb-6 flex items-center">
-              {textContent.skillsToolsTitle || '🛠️ Tools & Platforms'}
-            </h3>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3">
-              {textContent.tools.map((tool, index) => (
-                <div key={index} className="bg-brand-gold/10 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-center text-sm font-medium">
-                  {tool}
                 </div>
               ))}
             </div>

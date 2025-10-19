@@ -92,14 +92,12 @@ export async function initializeDatabase() {
         about_description TEXT,
         about_main_text TEXT,
         about_secondary_text TEXT,
-        about_quote TEXT,
         about_badge TEXT,
         about_title_suffix TEXT,
         about_approach_title TEXT,
         about_approach_items JSONB DEFAULT '[]',
         about_impact_title TEXT,
         about_impact_metrics JSONB DEFAULT '[]',
-        about_quote_author TEXT,
 
         -- Experience Section
         experience_title TEXT,
@@ -112,14 +110,11 @@ export async function initializeDatabase() {
         skills_title TEXT,
         skills_subtitle TEXT,
         skills_description TEXT,
-        skill_categories JSONB DEFAULT '[]',
+        skill_cards JSONB DEFAULT '[]',
         certifications JSONB DEFAULT '[]',
         tools JSONB DEFAULT '[]',
-        skills_quote TEXT,
         skills_badge TEXT,
         skills_certifications_title TEXT,
-        skills_tools_title TEXT,
-        skills_quote_author TEXT,
         soft_skills JSONB DEFAULT '[]',
         skills_soft_skills_title TEXT DEFAULT 'Leadership & Soft Skills',
 
@@ -149,6 +144,15 @@ export async function initializeDatabase() {
         contact_download_text TEXT,
         contact_cv_path TEXT DEFAULT '/cv.pdf',
         contact_bottom_info JSONB DEFAULT '{}',
+
+        -- Theme Settings
+        theme_font JSONB DEFAULT '{"primary":"Playfair Display","primaryUrl":"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap","secondary":"Inter","secondaryUrl":"https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"}',
+        theme_colors JSONB DEFAULT '{"brandDeep":"#1a1a1a","brandCream":"#f5f1e8","brandGold":"#c7a17a"}',
+
+        -- Language Settings
+        enabled_languages JSONB DEFAULT '["en"]',
+        default_language TEXT DEFAULT 'en',
+        translations JSONB DEFAULT '{}',
 
         -- Meta
         version INTEGER DEFAULT 1 NOT NULL,

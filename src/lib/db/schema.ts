@@ -36,14 +36,12 @@ export const content = pgTable('content', {
   aboutDescription: text('about_description'),
   aboutMainText: text('about_main_text'),
   aboutSecondaryText: text('about_secondary_text'),
-  aboutQuote: text('about_quote'),
   aboutBadge: text('about_badge'),
   aboutTitleSuffix: text('about_title_suffix'),
   aboutApproachTitle: text('about_approach_title'),
   aboutApproachItems: jsonb('about_approach_items').default([]),
   aboutImpactTitle: text('about_impact_title'),
   aboutImpactMetrics: jsonb('about_impact_metrics').default([]),
-  aboutQuoteAuthor: text('about_quote_author'),
 
   // Experience Section
   experienceTitle: text('experience_title'),
@@ -59,11 +57,8 @@ export const content = pgTable('content', {
   skillCards: jsonb('skill_cards').default([]),
   certifications: jsonb('certifications').default([]),
   tools: jsonb('tools').default([]),
-  skillsQuote: text('skills_quote'),
   skillsBadge: text('skills_badge'),
   skillsCertificationsTitle: text('skills_certifications_title'),
-  skillsToolsTitle: text('skills_tools_title'),
-  skillsQuoteAuthor: text('skills_quote_author'),
   softSkills: jsonb('soft_skills').default([]),
   skillsSoftSkillsTitle: text('skills_soft_skills_title').default('Leadership & Soft Skills'),
 

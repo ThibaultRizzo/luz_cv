@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import { put } from '@vercel/blob';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
@@ -46,21 +45,21 @@ export async function POST(request: NextRequest) {
 
     if (fileType === 'image') {
       // Image upload (for hero section)
-      allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
       maxSize = 5 * 1024 * 1024; // 5MB
-      const ext = file.name.split('.').pop() || 'jpg';
-      fileName = `hero.${ext}`;
+      // Use a timestamp to make filenames unique
+      fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
     } else {
       // PDF upload (for CV)
       allowedTypes = ['application/pdf'];
       maxSize = 10 * 1024 * 1024; // 10MB
-      fileName = 'cv.pdf';
+      fileName = `cv-${Date.now()}.pdf`;
     }
 
     // Validate file type
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { success: false, message: `Only ${fileType === 'image' ? 'image files (JPG, PNG, WebP)' : 'PDF files'} are allowed` },
+        { success: false, message: `Only ${fileType === 'image' ? 'image files (JPG, PNG, WebP, SVG)' : 'PDF files'} are allowed` },
         { status: 400 }
       );
     }
@@ -73,25 +72,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Save to public directory
-    const uploadsDir = join(process.cwd(), 'public', 'uploads');
-    await mkdir(uploadsDir, { recursive: true });
-
-    const filePath = join(uploadsDir, fileName);
-    await writeFile(filePath, buffer);
+    // Upload to Vercel Blob
+    const blob = await put(fileName, file, {
+      access: 'public',
+      addRandomSuffix: false,
+    });
 
     return NextResponse.json({
       success: true,
       message: 'File uploaded successfully',
-      data: { path: `/uploads/${fileName}` }
+      data: { path: blob.url }
     });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to upload file' },
+      { success: false, message: 'Failed to upload file', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

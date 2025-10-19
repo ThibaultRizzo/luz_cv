@@ -133,7 +133,6 @@ export async function POST() {
         skillsBadge: "Core Expertise",
         skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
         skillsCertificationsTitle: "🏆 Certifications",
-        skillsToolsTitle: "🛠️ Tools & Platforms",
         skillCards: [],
         certifications: [
           "Certified Scrum Product Owner (CSPO)",
