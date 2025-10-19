@@ -1,17 +1,28 @@
 "use client";
 
 import { useTextContent } from '@/lib/TextContentContext';
+import Image from 'next/image';
+
+interface SkillCard {
+  title: string;
+  icon: string;
+  iconType: 'emoji' | 'upload';
+  width: 'half' | 'full';
+  items: Array<{
+    title: string;
+    icon: string;
+    iconType?: 'emoji' | 'upload';
+  }>;
+}
 
 export default function Skills() {
   const { textContent } = useTextContent();
 
+  // Use new skill cards structure
+  const skillCards: SkillCard[] = ((textContent as unknown) as Record<string, unknown>).skillCards as SkillCard[] || [];
+
   // Default soft skills if not defined
-  const softSkills = textContent.softSkills || [
-    { skill: 'Executive Stakeholder Management', icon: '🤝' },
-    { skill: 'Cross-Cultural Communication', icon: '🌍' },
-    { skill: 'Luxury Customer Psychology', icon: '✨' },
-    { skill: 'Change Management', icon: '🔄' }
-  ];
+  const softSkills = textContent.softSkills || [];
 
   return (
     <section id="skills" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">
@@ -39,34 +50,66 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Skills grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto mb-10 sm:mb-12 md:mb-16">
-          {textContent.skillCategories.map((category, index) => (
-            <div key={index} className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 md:p-8 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300">
-              <div className="flex items-center mb-4 sm:mb-5 md:mb-6">
-                <div className="text-2xl sm:text-3xl md:text-4xl mr-3 md:mr-4">{category.icon}</div>
-                <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-brand-gold">{category.category}</h3>
-              </div>
+        {/* Skill Cards */}
+        {skillCards.length > 0 && (
+          <div className="flex flex-wrap gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto mb-10 sm:mb-12 md:mb-16">
+            {skillCards.map((card, index) => (
+              <div
+                key={index}
+                className={`bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(199,161,122,0.2)] group ${
+                  card.width === 'full' 
+                    ? 'w-full' 
+                    : 'w-full lg:w-[calc(50%-1rem)]'
+                }`}
+              >
+                {/* Card Header: Icon + Title */}
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  {card.iconType === 'emoji' ? (
+                    <div className="text-3xl sm:text-4xl md:text-5xl group-hover:scale-110 transition-transform duration-300">
+                      {card.icon}
+                    </div>
+                  ) : (
+                    <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <Image
+                        src={card.icon}
+                        alt={card.title}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
+                  <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-gold">
+                    {card.title}
+                  </h3>
+                </div>
 
-              <div className="space-y-3 sm:space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-1 sm:space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-brand-cream font-medium text-sm md:text-base">{skill.name}</span>
-                      <span className="text-brand-gold text-sm font-bold">{skill.level}%</span>
+                {/* Items List - Horizontal */}
+                <div className="flex flex-wrap gap-3 sm:gap-4">
+                  {(card.items || []).map((item, itemIndex) => (
+                    <div
+                      key={itemIndex}
+                      className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-brand-deep/30 rounded-lg border border-brand-gold/20 hover:bg-brand-deep/50 hover:border-brand-gold/40 transition-all duration-300"
+                    >
+                      {(item.iconType || 'emoji') === 'emoji' ? (
+                        <span className="text-lg sm:text-xl">{item.icon}</span>
+                      ) : (
+                        <div className="relative w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0">
+                          <Image
+                            src={item.icon}
+                            alt={item.title}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      )}
+                      <span className="text-sm sm:text-base text-brand-cream font-medium">{item.title}</span>
                     </div>
-                    <div className="h-2 bg-brand-deep/30 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-brand-gold to-brand-cream rounded-full transition-all duration-1000 ease-out"
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Soft Skills - Critical for Luxury Retail */}
         {softSkills.length > 0 && (
@@ -118,14 +161,6 @@ export default function Skills() {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Bottom quote */}
-        <div className="text-center mt-12 sm:mt-16">
-          <blockquote className="text-base sm:text-lg md:text-xl lg:text-2xl italic text-brand-cream/90 max-w-3xl mx-auto px-4">
-            &quot;{textContent.skillsQuote}&quot;
-          </blockquote>
-          <cite className="text-brand-gold font-medium mt-3 sm:mt-4 block text-sm sm:text-base">{textContent.skillsQuoteAuthor || '— Luz Quintanar'}</cite>
         </div>
       </div>
     </section>

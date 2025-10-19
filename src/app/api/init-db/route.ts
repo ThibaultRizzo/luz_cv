@@ -62,8 +62,6 @@ export async function POST() {
         aboutBadge: "About Me",
         aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
         aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
-        aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
-        aboutQuoteAuthor: "— Luz Quintanar",
         aboutApproachTitle: "My Approach",
         aboutApproachItems: [
           { title: "Customer-First Philosophy", description: "Every decision starts with understanding the customer's deepest needs and desires" },
@@ -136,49 +134,7 @@ export async function POST() {
         skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
         skillsCertificationsTitle: "🏆 Certifications",
         skillsToolsTitle: "🛠️ Tools & Platforms",
-        skillsQuoteAuthor: "— Luz Quintanar",
-        skillCategories: [
-          {
-            category: "Product Leadership",
-            icon: "🎯",
-            skills: [
-              { name: "Product Strategy", level: 95 },
-              { name: "Roadmap Planning", level: 90 },
-              { name: "Stakeholder Management", level: 92 },
-              { name: "Cross-functional Leadership", level: 88 }
-            ]
-          },
-          {
-            category: "Retail Excellence",
-            icon: "🏪",
-            skills: [
-              { name: "Luxury Retail Strategy", level: 95 },
-              { name: "Omnichannel Experience", level: 90 },
-              { name: "Customer Journey Mapping", level: 85 },
-              { name: "Brand Positioning", level: 88 }
-            ]
-          },
-          {
-            category: "Digital Innovation",
-            icon: "⚡",
-            skills: [
-              { name: "Digital Transformation", level: 92 },
-              { name: "E-commerce Platforms", level: 88 },
-              { name: "Data Analytics", level: 85 },
-              { name: "AI/ML Applications", level: 80 }
-            ]
-          },
-          {
-            category: "Business Impact",
-            icon: "📈",
-            skills: [
-              { name: "Revenue Growth", level: 95 },
-              { name: "Market Expansion", level: 88 },
-              { name: "Process Optimization", level: 90 },
-              { name: "Team Scaling", level: 85 }
-            ]
-          }
-        ],
+        skillCards: [],
         certifications: [
           "Certified Scrum Product Owner (CSPO)",
           "Google Analytics Certified",
@@ -186,7 +142,6 @@ export async function POST() {
           "Design Thinking Practitioner"
         ],
         tools: ["Jira", "Figma", "Shopify Plus", "Salesforce", "Tableau", "Miro", "Slack", "Notion"],
-        skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
         softSkills: [
           { skill: "Executive Stakeholder Management", icon: "🤝" },
           { skill: "Cross-Cultural Communication", icon: "🌍" },

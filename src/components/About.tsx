@@ -77,15 +77,6 @@ export default function About() {
                                 ))}
                             </div>
                         </div>
-                        {/* Quote */}
-                        <div className="relative bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-brand-gold/20">
-                            <blockquote className="text-base sm:text-lg md:text-xl italic text-brand-cream/90 text-center">
-                                &quot;{textContent.aboutQuote}&quot;
-                            </blockquote>
-                            <div className="text-center mt-3 sm:mt-4">
-                                <cite className="text-brand-gold font-medium text-sm sm:text-base">{textContent.aboutQuoteAuthor || '— Luz Quintanar'}</cite>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { authApi, contentApi } from "@/lib/api";
 import { useTextContent } from "@/lib/TextContentContext";
 import EmojiPicker from "@/components/EmojiPicker";
+import QRCode from "qrcode";
 
 interface ExperienceItem {
     role: string;
@@ -13,12 +14,20 @@ interface ExperienceItem {
     location: string;
     achievements: string[];
     highlight: string;
+    icon?: string;
+    iconType?: 'emoji' | 'upload';
 }
 
-interface SkillCategory {
-    category: string;
+interface SkillCard {
+    title: string;
     icon: string;
-    skills: { name: string; level: number }[];
+    iconType: 'emoji' | 'upload';
+    width: 'half' | 'full';
+    items: Array<{
+        title: string;
+        icon: string;
+        iconType?: 'emoji' | 'upload';
+    }>;
 }
 
 interface Project {
@@ -26,6 +35,7 @@ interface Project {
     subtitle: string;
     image: string;
     link?: string;
+    tags?: string[];
 }
 
 interface SoftSkill {
@@ -56,6 +66,25 @@ interface ContactBottomInfo {
     languages: { label: string; value: string };
 }
 
+interface ThemeFont {
+    primary: string;
+    primaryUrl: string;
+    secondary: string;
+    secondaryUrl: string;
+}
+
+interface ThemeColors {
+    brandDeep: string;
+    brandCream: string;
+    brandGold: string;
+}
+
+interface Language {
+    code: string;
+    name: string;
+    flag: string;
+}
+
 interface TextContent {
     heroTitle: string;
     heroSubtitle: string;
@@ -70,14 +99,12 @@ interface TextContent {
     aboutDescription: string;
     aboutMainText: string;
     aboutSecondaryText: string;
-    aboutQuote: string;
     aboutBadge: string;
     aboutTitleSuffix: string;
     aboutApproachTitle: string;
     aboutApproachItems: ApproachItem[];
     aboutImpactTitle: string;
     aboutImpactMetrics: StatItem[];
-    aboutQuoteAuthor: string;
     experienceTitle: string;
     experienceSubtitle: string;
     experienceBadge: string;
@@ -90,7 +117,7 @@ interface TextContent {
     skillsCertificationsTitle: string;
     skillsToolsTitle: string;
     skillsQuoteAuthor: string;
-    skillCategories: SkillCategory[];
+    skillCards: SkillCard[];
     certifications: string[];
     tools: string[];
     skillsQuote: string;
@@ -122,6 +149,11 @@ interface TextContent {
     loadingScreenFirstName: string;
     loadingScreenLastName: string;
     loadingScreenTagline: string;
+    themeFont: ThemeFont;
+    themeColors: ThemeColors;
+    enabledLanguages: string[];
+    defaultLanguage: string;
+    translations: Record<string, Partial<TextContent>>;
 }
 
 export default function BackOffice() {
@@ -146,15 +178,12 @@ export default function BackOffice() {
             "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
         aboutSecondaryText:
             "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
-        aboutQuote:
-            "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
         aboutBadge: "",
         aboutTitleSuffix: "",
         aboutApproachTitle: "",
         aboutApproachItems: [],
         aboutImpactTitle: "",
         aboutImpactMetrics: [],
-        aboutQuoteAuthor: "",
         experienceTitle: "A decade of",
         experienceSubtitle: "transformation",
         experienceBadge: "",
@@ -183,15 +212,29 @@ export default function BackOffice() {
         skillsCertificationsTitle: "",
         skillsToolsTitle: "",
         skillsQuoteAuthor: "",
-        skillCategories: [
+        skillCards: [
             {
-                category: "Product Leadership",
+                title: "Product Leadership",
                 icon: "🎯",
-                skills: [
-                    { name: "Product Strategy", level: 95 },
-                    { name: "Roadmap Planning", level: 90 },
-                ],
+                iconType: "emoji",
+                width: "half",
+                items: [
+                    { title: "Product Strategy", icon: "📋", iconType: "emoji" },
+                    { title: "Roadmap Planning", icon: "🗺️", iconType: "emoji" },
+                    { title: "Team Management", icon: "👥", iconType: "emoji" }
+                ]
             },
+            {
+                title: "Technical Skills",
+                icon: "💻",
+                iconType: "emoji",
+                width: "half",
+                items: [
+                    { title: "React & Next.js", icon: "⚛️", iconType: "emoji" },
+                    { title: "TypeScript", icon: "📘", iconType: "emoji" },
+                    { title: "UI/UX Design", icon: "🎨", iconType: "emoji" }
+                ]
+            }
         ],
         certifications: [
             "Certified Scrum Product Owner (CSPO)",
@@ -213,7 +256,8 @@ export default function BackOffice() {
                 title: "Sample Project", 
                 subtitle: "A description of the project", 
                 image: "/luz.jpg",
-                link: ""
+                link: "",
+                tags: ["Next.js", "TypeScript", "Design"]
             },
         ],
         contactTitle: "Ready to create",
@@ -245,8 +289,25 @@ export default function BackOffice() {
         loadingScreenFirstName: "LUZ",
         loadingScreenLastName: "QUINTANAR",
         loadingScreenTagline: "Product Owner • Luxury Retail",
+        themeFont: {
+            primary: "Playfair Display",
+            primaryUrl: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+            secondary: "Inter",
+            secondaryUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        },
+        themeColors: {
+            brandDeep: "#1a1a1a",
+            brandCream: "#f5f1e8",
+            brandGold: "#c7a17a"
+        },
+        enabledLanguages: ["en"],
+        defaultLanguage: "en",
+        translations: {}
     });
     const [activeTab, setActiveTab] = useState("hero");
+    const [currentLanguage, setCurrentLanguage] = useState("en");
+    const [availableLanguages, setAvailableLanguages] = useState<Record<string, Language>>({});
+    const [isTranslating, setIsTranslating] = useState(false);
     const [saveStatus, setSaveStatus] = useState<
         "idle" | "saving" | "saved" | "error"
     >("idle");
@@ -256,6 +317,7 @@ export default function BackOffice() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [imageUploadStatus, setImageUploadStatus] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false); // For mobile toggle
+    const [showQRCode, setShowQRCode] = useState(false);
     const router = useRouter();
 
     // Function to load content from API
@@ -300,6 +362,126 @@ export default function BackOffice() {
         checkAuth();
     }, [router, loadContent]);
 
+    // Load available languages
+    useEffect(() => {
+        const loadLanguages = async () => {
+            try {
+                const response = await fetch('/api/translate');
+                const data = await response.json();
+                if (data.success) {
+                    setAvailableLanguages(data.languages);
+                }
+            } catch (error) {
+                console.error('Failed to load languages:', error);
+            }
+        };
+        loadLanguages();
+    }, []);
+
+    // Add a new language
+    const addLanguage = async (languageCode: string) => {
+        if (textContent.enabledLanguages.includes(languageCode)) {
+            setErrorMessage('Language already enabled');
+            return;
+        }
+
+        setIsTranslating(true);
+        setErrorMessage('');
+
+        try {
+            // Get current content (excluding meta fields)
+            const contentToTranslate: Partial<TextContent> = {};
+            Object.keys(textContent).forEach(key => {
+                if (!['enabledLanguages', 'defaultLanguage', 'translations', 'themeFont', 'themeColors'].includes(key)) {
+                    (contentToTranslate as Record<string, unknown>)[key] = textContent[key as keyof TextContent];
+                }
+            });
+
+            // Call translation API
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch('/api/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    content: contentToTranslate,
+                    sourceLang: textContent.defaultLanguage,
+                    targetLang: languageCode,
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setTextContent(prev => ({
+                    ...prev,
+                    enabledLanguages: [...prev.enabledLanguages, languageCode],
+                    translations: {
+                        ...prev.translations,
+                        [languageCode]: data.translatedContent
+                    }
+                }));
+                setCurrentLanguage(languageCode);
+            } else {
+                setErrorMessage(data.error || 'Translation failed');
+            }
+        } catch (error) {
+            console.error('Translation error:', error);
+            setErrorMessage('Failed to translate content');
+        } finally {
+            setIsTranslating(false);
+        }
+    };
+
+    // Remove a language
+    const removeLanguage = (languageCode: string) => {
+        if (languageCode === textContent.defaultLanguage) {
+            setErrorMessage('Cannot remove default language');
+            return;
+        }
+
+        const newTranslations = { ...textContent.translations };
+        delete newTranslations[languageCode];
+
+        setTextContent(prev => ({
+            ...prev,
+            enabledLanguages: prev.enabledLanguages.filter(lang => lang !== languageCode),
+            translations: newTranslations
+        }));
+
+        if (currentLanguage === languageCode) {
+            setCurrentLanguage(textContent.defaultLanguage);
+        }
+    };
+
+    // Set default language
+    const setDefaultLanguageHandler = (languageCode: string) => {
+        if (!textContent.enabledLanguages.includes(languageCode)) {
+            setErrorMessage('Language must be enabled first');
+            return;
+        }
+
+        setTextContent(prev => ({
+            ...prev,
+            defaultLanguage: languageCode
+        }));
+    };
+
+    // Get content for current language (for preview)
+    const getCurrentLanguageContent = () => {
+        const defaultLang = textContent.defaultLanguage || 'en';
+        
+        // If current language is the default, return base content
+        if (currentLanguage === defaultLang) {
+            return textContent;
+        }
+
+        // Otherwise, merge base content with translations
+        const translations = textContent.translations?.[currentLanguage] || {};
+        return { ...textContent, ...translations };
+    };
+
     const handleLogout = async () => {
         try {
             await authApi.logout();
@@ -310,6 +492,30 @@ export default function BackOffice() {
             router.push("/");
         }
     };
+
+    // Generate QR code when modal opens
+    useEffect(() => {
+        if (showQRCode && typeof window !== 'undefined') {
+            const canvas = document.getElementById('qr-code-canvas') as HTMLCanvasElement;
+            if (canvas) {
+                QRCode.toCanvas(
+                    canvas,
+                    window.location.origin,
+                    {
+                        width: 256,
+                        margin: 2,
+                        color: {
+                            dark: '#0B132B',
+                            light: '#FFFFFF'
+                        }
+                    },
+                    (error: Error | null | undefined) => {
+                        if (error) console.error('QR Code generation error:', error);
+                    }
+                );
+            }
+        }
+    }, [showQRCode]);
 
     const handleTextChange = (
         field: keyof TextContent,
@@ -360,17 +566,13 @@ export default function BackOffice() {
         }
     };
 
-    const updateExperience = (
+    const updateExperience = <K extends keyof ExperienceItem>(
         index: number,
-        field: keyof ExperienceItem,
-        value: string | string[],
+        field: K,
+        value: ExperienceItem[K],
     ) => {
         const newExperiences = [...textContent.experiences];
-        if (field === "achievements") {
-            newExperiences[index][field] = value as string[];
-        } else {
-            newExperiences[index][field] = value as string;
-        }
+        newExperiences[index][field] = value;
         setTextContent((prev) => ({ ...prev, experiences: newExperiences }));
     };
 
@@ -382,11 +584,47 @@ export default function BackOffice() {
             location: "Location",
             achievements: ["Achievement 1", "Achievement 2"],
             highlight: "Main highlight",
+            icon: "💼",
+            iconType: "emoji",
         };
         setTextContent((prev) => ({
             ...prev,
             experiences: [...prev.experiences, newExperience],
         }));
+    };
+
+    // Image Upload handler for experience icons
+    const handleExperienceIconUpload = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+        expIndex: number
+    ) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG, PNG, WebP, or SVG images are allowed');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error('Upload failed');
+
+            const data = await response.json();
+            updateExperience(expIndex, 'icon', data.path);
+            updateExperience(expIndex, 'iconType', 'upload');
+        } catch (error) {
+            console.error('Error uploading icon:', error);
+            alert('Failed to upload icon. Please try again.');
+        }
     };
 
     const removeExperience = (index: number) => {
@@ -398,7 +636,7 @@ export default function BackOffice() {
 
     const updateProject = (
         index: number,
-        field: keyof Project,
+        field: Exclude<keyof Project, 'tags'>,
         value: string,
     ) => {
         const newProjects = [...textContent.projects];
@@ -412,6 +650,7 @@ export default function BackOffice() {
             subtitle: "Project description",
             image: "/luz.jpg",
             link: "",
+            tags: [],
         };
         setTextContent((prev) => ({
             ...prev,
@@ -424,6 +663,24 @@ export default function BackOffice() {
             ...prev,
             projects: prev.projects.filter((_, i) => i !== index),
         }));
+    };
+
+    const addProjectTag = (projectIndex: number, tag: string) => {
+        if (!tag.trim()) return;
+        const newProjects = [...textContent.projects];
+        if (!newProjects[projectIndex].tags) {
+            newProjects[projectIndex].tags = [];
+        }
+        newProjects[projectIndex].tags!.push(tag.trim());
+        setTextContent((prev) => ({ ...prev, projects: newProjects }));
+    };
+
+    const removeProjectTag = (projectIndex: number, tagIndex: number) => {
+        const newProjects = [...textContent.projects];
+        if (newProjects[projectIndex].tags) {
+            newProjects[projectIndex].tags = newProjects[projectIndex].tags!.filter((_, i) => i !== tagIndex);
+        }
+        setTextContent((prev) => ({ ...prev, projects: newProjects }));
     };
 
     // Helper functions for StatItem arrays (heroStats, aboutImpactMetrics, experienceBottomStats)
@@ -481,67 +738,137 @@ export default function BackOffice() {
         }));
     };
 
-    // Helper functions for SkillCategory management
-    const updateSkillCategory = (
+    // Helper functions for SkillCard management
+    const updateSkillCard = <K extends keyof SkillCard>(
         index: number,
-        key: keyof SkillCategory,
-        value: string | { name: string; level: number }[],
+        key: K,
+        value: SkillCard[K],
     ) => {
-        const newCategories = [...textContent.skillCategories];
-        if (key === "skills") {
-            newCategories[index][key] = value as { name: string; level: number }[];
-        } else {
-            newCategories[index][key] = value as string;
-        }
-        setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+        const newCards = [...textContent.skillCards];
+        newCards[index][key] = value;
+        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
     };
 
-    const addSkillCategory = () => {
-        const newCategory: SkillCategory = {
-            category: "New Category",
+    const addSkillCard = () => {
+        const newCard: SkillCard = {
+            title: "New Skill Category",
             icon: "⭐",
-            skills: [{ name: "New Skill", level: 50 }],
+            iconType: "emoji",
+            width: "half",
+            items: [
+                { title: "Skill 1", icon: "✨", iconType: "emoji" }
+            ]
         };
         setTextContent((prev) => ({
             ...prev,
-            skillCategories: [...prev.skillCategories, newCategory],
+            skillCards: [...prev.skillCards, newCard],
         }));
     };
 
-    const removeSkillCategory = (index: number) => {
+    const addSkillCardItem = (cardIndex: number) => {
+        const newCards = [...textContent.skillCards];
+        // Initialize items array if it doesn't exist
+        if (!newCards[cardIndex].items) {
+            newCards[cardIndex].items = [];
+        }
+        newCards[cardIndex].items.push({ title: "New Skill", icon: "✨", iconType: "emoji" });
+        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+    };
+
+    const removeSkillCardItem = (cardIndex: number, itemIndex: number) => {
+        const newCards = [...textContent.skillCards];
+        if (newCards[cardIndex].items) {
+            newCards[cardIndex].items = newCards[cardIndex].items.filter((_, i) => i !== itemIndex);
+        }
+        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+    };
+
+    const updateSkillCardItem = (cardIndex: number, itemIndex: number, field: 'title' | 'icon' | 'iconType', value: string) => {
+        const newCards = [...textContent.skillCards];
+        if (newCards[cardIndex].items && newCards[cardIndex].items[itemIndex]) {
+            if (field === 'iconType') {
+                newCards[cardIndex].items[itemIndex][field] = value as 'emoji' | 'upload';
+            } else {
+                newCards[cardIndex].items[itemIndex][field] = value;
+            }
+        }
+        setTextContent((prev) => ({ ...prev, skillCards: newCards }));
+    };
+
+    // Image Upload handler for skill card item icons
+    const handleSkillCardItemIconUpload = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+        cardIndex: number,
+        itemIndex: number
+    ) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG, PNG, WebP, or SVG images are allowed');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error('Upload failed');
+
+            const data = await response.json();
+            updateSkillCardItem(cardIndex, itemIndex, 'icon', data.path);
+            updateSkillCardItem(cardIndex, itemIndex, 'iconType', 'upload');
+        } catch (error) {
+            console.error('Error uploading icon:', error);
+            alert('Failed to upload icon. Please try again.');
+        }
+    };
+
+    const removeSkillCard = (index: number) => {
         setTextContent((prev) => ({
             ...prev,
-            skillCategories: prev.skillCategories.filter((_, i) => i !== index),
+            skillCards: prev.skillCards.filter((_, i) => i !== index),
         }));
     };
 
-    const updateSkill = (
-        categoryIndex: number,
-        skillIndex: number,
-        key: "name" | "level",
-        value: string | number,
+    // Image Upload handler for skill card icons
+    const handleSkillCardIconUpload = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+        cardIndex: number
     ) => {
-        const newCategories = [...textContent.skillCategories];
-        if (key === "level") {
-            newCategories[categoryIndex].skills[skillIndex][key] = Number(value);
-        } else {
-            newCategories[categoryIndex].skills[skillIndex][key] = value as string;
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG, PNG, WebP, or SVG images are allowed');
+            return;
         }
-        setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
-    };
 
-    const addSkill = (categoryIndex: number) => {
-        const newCategories = [...textContent.skillCategories];
-        newCategories[categoryIndex].skills.push({ name: "New Skill", level: 50 });
-        setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
-    };
+        const formData = new FormData();
+        formData.append('file', file);
 
-    const removeSkill = (categoryIndex: number, skillIndex: number) => {
-        const newCategories = [...textContent.skillCategories];
-        newCategories[categoryIndex].skills = newCategories[
-            categoryIndex
-        ].skills.filter((_, i) => i !== skillIndex);
-        setTextContent((prev) => ({ ...prev, skillCategories: newCategories }));
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error('Upload failed');
+
+            const data = await response.json();
+            updateSkillCard(cardIndex, 'icon', data.path);
+            updateSkillCard(cardIndex, 'iconType', 'upload');
+        } catch (error) {
+            console.error('Error uploading icon:', error);
+            alert('Failed to upload icon. Please try again.');
+        }
     };
 
     // Helper functions for ContactFormLabels
@@ -579,6 +906,27 @@ export default function BackOffice() {
             contactBottomInfo: {
                 ...prev.contactBottomInfo,
                 [section]: { ...prev.contactBottomInfo[section], [key]: value },
+            },
+        }));
+    };
+
+    // Helper functions for Theme Settings
+    const updateThemeFont = (key: keyof ThemeFont, value: string) => {
+        setTextContent((prev) => ({
+            ...prev,
+            themeFont: {
+                ...prev.themeFont,
+                [key]: value,
+            },
+        }));
+    };
+
+    const updateThemeColor = (key: keyof ThemeColors, value: string) => {
+        setTextContent((prev) => ({
+            ...prev,
+            themeColors: {
+                ...prev.themeColors,
+                [key]: value,
             },
         }));
     };
@@ -1178,35 +1526,6 @@ export default function BackOffice() {
                                 ))}
                             </div>
                         </div>
-
-                        <div className="border-t border-white/10 pt-6">
-                            <div>
-                                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                    Quote
-                                </label>
-                                <textarea
-                                    value={textContent.aboutQuote}
-                                    onChange={(e) =>
-                                        handleTextChange("aboutQuote", e.target.value)
-                                    }
-                                    rows={3}
-                                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                    Quote Author
-                                </label>
-                                <input
-                                    type="text"
-                                    value={textContent.aboutQuoteAuthor}
-                                    onChange={(e) =>
-                                        handleTextChange("aboutQuoteAuthor", e.target.value)
-                                    }
-                                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
-                                />
-                            </div>
-                        </div>
                     </div>
                 );
             case "experience":
@@ -1413,6 +1732,74 @@ export default function BackOffice() {
                                                 />
                                             </div>
                                         </div>
+
+                                        {/* Icon Type Selection */}
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-brand-cream/80 mb-2">
+                                                Icon Type
+                                            </label>
+                                            <div className="flex gap-4">
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`expIconType-${index}`}
+                                                        value="emoji"
+                                                        checked={(exp.iconType || 'emoji') === 'emoji'}
+                                                        onChange={(e) =>
+                                                            updateExperience(index, "iconType", e.target.value as 'emoji' | 'upload')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">Emoji</span>
+                                                </label>
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`expIconType-${index}`}
+                                                        value="upload"
+                                                        checked={exp.iconType === 'upload'}
+                                                        onChange={(e) =>
+                                                            updateExperience(index, "iconType", e.target.value as 'emoji' | 'upload')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">Upload Image</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        {/* Icon Input - Emoji Picker or File Upload */}
+                                        {(exp.iconType || 'emoji') === 'emoji' ? (
+                                            <div className="mb-4">
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Icon (emoji)
+                                                </label>
+                                                <EmojiPicker
+                                                    value={exp.icon || '💼'}
+                                                    onChange={(emoji) =>
+                                                        updateExperience(index, "icon", emoji)
+                                                    }
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="mb-4">
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Upload Icon
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => handleExperienceIconUpload(e, index)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-brand-deep hover:file:bg-brand-gold/80"
+                                                />
+                                                {exp.icon && exp.iconType === 'upload' && (
+                                                    <div className="mt-2">
+                                                        <p className="text-xs text-brand-cream/70">Current icon: {exp.icon}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                                                 Highlight
@@ -1509,143 +1896,277 @@ export default function BackOffice() {
                             />
                         </div>
 
-                        {/* Skill Categories */}
-                        <div className="border-t border-white/10 pt-6">
+                        {/* Skill Cards */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-serif text-lg text-brand-cream">
-                                    Skill Categories
+                                    Skill Cards
                                 </h3>
                                 <button
-                                    onClick={addSkillCategory}
+                                    onClick={addSkillCard}
                                     className="px-4 py-2 bg-brand-gold text-brand-deep rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                                 >
-                                    Add Category
+                                    Add Skill Card
                                 </button>
                             </div>
                             <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                                {textContent.skillCategories.map((category, categoryIndex) => (
+                                {textContent.skillCards.map((card, cardIndex) => (
                                     <div
-                                        key={categoryIndex}
+                                        key={cardIndex}
                                         className="bg-brand-cream/30 p-6 rounded-xl border border-brand-deep/10"
                                     >
                                         <div className="flex justify-between items-center mb-4">
                                             <h4 className="font-medium text-brand-cream">
-                                                Category {categoryIndex + 1}
+                                                Card {cardIndex + 1}
                                             </h4>
                                             <button
-                                                onClick={() => removeSkillCategory(categoryIndex)}
+                                                onClick={() => removeSkillCard(cardIndex)}
                                                 className="text-red-500 hover:text-red-700 text-lg"
-                                                title="Remove Category"
+                                                title="Remove Card"
                                             >
                                                 🗑️
                                             </button>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-4 mb-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
-                                                    Category Name
+                                        
+                                        {/* Title */}
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                Card Title
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={card.title}
+                                                onChange={(e) =>
+                                                    updateSkillCard(cardIndex, "title", e.target.value)
+                                                }
+                                                className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                            />
+                                        </div>
+
+                                        {/* Icon Type Selection */}
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-brand-cream/80 mb-2">
+                                                Icon Type
+                                            </label>
+                                            <div className="flex gap-4">
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`iconType-${cardIndex}`}
+                                                        value="emoji"
+                                                        checked={card.iconType === 'emoji'}
+                                                        onChange={(e) =>
+                                                            updateSkillCard(cardIndex, "iconType", e.target.value as 'emoji' | 'upload')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">Emoji</span>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    value={category.category}
-                                                    onChange={(e) =>
-                                                        updateSkillCategory(
-                                                            categoryIndex,
-                                                            "category",
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
-                                                />
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`iconType-${cardIndex}`}
+                                                        value="upload"
+                                                        checked={card.iconType === 'upload'}
+                                                        onChange={(e) =>
+                                                            updateSkillCard(cardIndex, "iconType", e.target.value as 'emoji' | 'upload')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">Upload Image</span>
+                                                </label>
                                             </div>
-                                            <div>
+                                        </div>
+
+                                        {/* Icon Input - Emoji Picker or File Upload */}
+                                        {card.iconType === 'emoji' ? (
+                                            <div className="mb-4">
                                                 <label className="block text-sm font-medium text-brand-cream/80 mb-1">
                                                     Icon (emoji)
                                                 </label>
                                                 <EmojiPicker
-                                                    value={category.icon}
+                                                    value={card.icon}
                                                     onChange={(emoji) =>
-                                                        updateSkillCategory(
-                                                            categoryIndex,
-                                                            "icon",
-                                                            emoji,
-                                                        )
+                                                        updateSkillCard(cardIndex, "icon", emoji)
                                                     }
                                                 />
                                             </div>
+                                        ) : (
+                                            <div className="mb-4">
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Upload Icon
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => handleSkillCardIconUpload(e, cardIndex)}
+                                                    className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-gold file:text-brand-deep hover:file:bg-brand-gold/80"
+                                                />
+                                                {card.icon && card.iconType === 'upload' && (
+                                                    <div className="mt-2">
+                                                        <p className="text-xs text-brand-cream/70">Current icon: {card.icon}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Width Selection */}
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-brand-cream/80 mb-2">
+                                                Card Width
+                                            </label>
+                                            <div className="flex gap-4">
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`width-${cardIndex}`}
+                                                        value="half"
+                                                        checked={card.width === 'half'}
+                                                        onChange={(e) =>
+                                                            updateSkillCard(cardIndex, "width", e.target.value as 'half' | 'full')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">50% Width</span>
+                                                </label>
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name={`width-${cardIndex}`}
+                                                        value="full"
+                                                        checked={card.width === 'full'}
+                                                        onChange={(e) =>
+                                                            updateSkillCard(cardIndex, "width", e.target.value as 'half' | 'full')
+                                                        }
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <span className="text-sm text-brand-cream">100% Width</span>
+                                                </label>
+                                            </div>
                                         </div>
 
+                                        {/* Items Management */}
                                         <div className="border-t border-brand-deep/10 pt-4 mt-4">
                                             <div className="flex justify-between items-center mb-3">
                                                 <h5 className="font-medium text-brand-cream text-sm">
-                                                    Skills in this Category
+                                                    Skills in this Card
                                                 </h5>
                                                 <button
-                                                    onClick={() => addSkill(categoryIndex)}
+                                                    onClick={() => addSkillCardItem(cardIndex)}
                                                     className="px-3 py-1 bg-brand-gold/80 text-brand-deep text-sm rounded-lg transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.4)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.6)] hover:-translate-y-0.5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-brand-cream/0 before:via-brand-cream/50 before:to-brand-cream/0 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700"
                                                 >
-                                                    Add Skill
+                                                    Add Item
                                                 </button>
                                             </div>
                                             <div className="space-y-3">
-                                                {category.skills.map((skill, skillIndex) => (
+                                                {(card.items || []).map((item, itemIndex) => (
                                                     <div
-                                                        key={skillIndex}
+                                                        key={itemIndex}
                                                         className="bg-white/10 p-3 rounded-lg"
                                                     >
                                                         <div className="flex justify-between items-center mb-2">
                                                             <span className="text-xs font-medium text-brand-cream/80">
-                                                                Skill {skillIndex + 1}
+                                                                Item {itemIndex + 1}
                                                             </span>
                                                             <button
                                                                 onClick={() =>
-                                                                    removeSkill(categoryIndex, skillIndex)
+                                                                    removeSkillCardItem(cardIndex, itemIndex)
                                                                 }
                                                                 className="text-red-500 hover:text-red-700 text-sm"
-                                                                title="Remove Skill"
+                                                                title="Remove Item"
                                                             >
                                                                 🗑️
                                                             </button>
                                                         </div>
-                                                        <div className="grid grid-cols-2 gap-2">
+                                                        <div className="space-y-2">
                                                             <div>
                                                                 <label className="block text-xs text-brand-cream/70 mb-1">
                                                                     Skill Name
                                                                 </label>
                                                                 <input
                                                                     type="text"
-                                                                    value={skill.name}
+                                                                    value={item.title}
                                                                     onChange={(e) =>
-                                                                        updateSkill(
-                                                                            categoryIndex,
-                                                                            skillIndex,
-                                                                            "name",
+                                                                        updateSkillCardItem(
+                                                                            cardIndex,
+                                                                            itemIndex,
+                                                                            "title",
                                                                             e.target.value,
                                                                         )
                                                                     }
                                                                     className="w-full px-2 py-1 bg-white border border-brand-deep/20 rounded text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold"
                                                                 />
                                                             </div>
+                                                            
+                                                            {/* Icon Type Selection for Item */}
                                                             <div>
                                                                 <label className="block text-xs text-brand-cream/70 mb-1">
-                                                                    Level (%)
+                                                                    Icon Type
                                                                 </label>
-                                                                <input
-                                                                    type="number"
-                                                                    min="0"
-                                                                    max="100"
-                                                                    value={skill.level}
-                                                                    onChange={(e) =>
-                                                                        updateSkill(
-                                                                            categoryIndex,
-                                                                            skillIndex,
-                                                                            "level",
-                                                                            e.target.value,
-                                                                        )
-                                                                    }
-                                                                    className="w-full px-2 py-1 bg-white border border-brand-deep/20 rounded text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold"
-                                                                />
+                                                                <div className="flex gap-2">
+                                                                    <label className="flex items-center gap-1 cursor-pointer">
+                                                                        <input
+                                                                            type="radio"
+                                                                            name={`itemIconType-${cardIndex}-${itemIndex}`}
+                                                                            value="emoji"
+                                                                            checked={(item.iconType || 'emoji') === 'emoji'}
+                                                                            onChange={(e) =>
+                                                                                updateSkillCardItem(cardIndex, itemIndex, "iconType", e.target.value)
+                                                                            }
+                                                                            className="w-3 h-3"
+                                                                        />
+                                                                        <span className="text-xs text-brand-cream">Emoji</span>
+                                                                    </label>
+                                                                    <label className="flex items-center gap-1 cursor-pointer">
+                                                                        <input
+                                                                            type="radio"
+                                                                            name={`itemIconType-${cardIndex}-${itemIndex}`}
+                                                                            value="upload"
+                                                                            checked={item.iconType === 'upload'}
+                                                                            onChange={(e) =>
+                                                                                updateSkillCardItem(cardIndex, itemIndex, "iconType", e.target.value)
+                                                                            }
+                                                                            className="w-3 h-3"
+                                                                        />
+                                                                        <span className="text-xs text-brand-cream">Upload</span>
+                                                                    </label>
+                                                                </div>
                                                             </div>
+
+                                                            {/* Icon Input - Emoji or Upload */}
+                                                            {(item.iconType || 'emoji') === 'emoji' ? (
+                                                                <div>
+                                                                    <label className="block text-xs text-brand-cream/70 mb-1">
+                                                                        Icon (emoji)
+                                                                    </label>
+                                                                    <EmojiPicker
+                                                                        value={item.icon}
+                                                                        onChange={(emoji) =>
+                                                                            updateSkillCardItem(
+                                                                                cardIndex,
+                                                                                itemIndex,
+                                                                                "icon",
+                                                                                emoji,
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <label className="block text-xs text-brand-cream/70 mb-1">
+                                                                        Upload Icon
+                                                                    </label>
+                                                                    <input
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                        onChange={(e) => handleSkillCardItemIconUpload(e, cardIndex, itemIndex)}
+                                                                        className="w-full px-2 py-1 bg-white border border-brand-deep/20 rounded text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-brand-gold file:text-brand-deep hover:file:bg-brand-gold/80"
+                                                                    />
+                                                                    {item.icon && item.iconType === 'upload' && (
+                                                                        <p className="text-xs text-brand-cream/70 mt-1">Current: {item.icon}</p>
+                                                                    )}
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 ))}
@@ -1656,34 +2177,6 @@ export default function BackOffice() {
                             </div>
                         </div>
 
-                        <div className="border-t border-white/10 pt-6">
-                            <div>
-                                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                    Skills Quote
-                                </label>
-                                <textarea
-                                    value={textContent.skillsQuote}
-                                    onChange={(e) =>
-                                        handleTextChange("skillsQuote", e.target.value)
-                                    }
-                                    rows={2}
-                                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent resize-none"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <label className="block text-xs sm:text-sm font-medium text-brand-cream/90 mb-1.5 sm:mb-2">
-                                    Quote Author
-                                </label>
-                                <input
-                                    type="text"
-                                    value={textContent.skillsQuoteAuthor}
-                                    onChange={(e) =>
-                                        handleTextChange("skillsQuoteAuthor", e.target.value)
-                                    }
-                                    className="w-full px-3 py-3 sm:px-4 sm:py-3 md:px-4 md:py-3 text-sm md:text-base bg-white/10 backdrop-blur-sm border border-white/30 text-brand-cream placeholder:text-brand-cream/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
-                                />
-                            </div>
-                        </div>
                         {/* Soft Skills Section */}
                         <div className="border-t border-white/10 pt-6">
                             <div className="mb-4">
@@ -1934,6 +2427,61 @@ export default function BackOffice() {
                                                     placeholder="https://example.com"
                                                     className="w-full px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
                                                 />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                                    Tags (optional)
+                                                </label>
+                                                <div className="space-y-2">
+                                                    {project.tags && project.tags.length > 0 && (
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {project.tags.map((tag, tagIndex) => (
+                                                                <span
+                                                                    key={tagIndex}
+                                                                    className="inline-flex items-center gap-1 px-3 py-1 bg-brand-gold/20 text-brand-gold text-xs font-medium rounded-full border border-brand-gold/30"
+                                                                >
+                                                                    {tag}
+                                                                    <button
+                                                                        onClick={() => removeProjectTag(index, tagIndex)}
+                                                                        className="hover:text-red-500 transition-colors"
+                                                                        title="Remove tag"
+                                                                    >
+                                                                        ×
+                                                                    </button>
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Add a tag..."
+                                                            className="flex-1 px-3 py-2 bg-white border border-brand-deep/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === 'Enter') {
+                                                                    e.preventDefault();
+                                                                    const input = e.target as HTMLInputElement;
+                                                                    if (input.value.trim()) {
+                                                                        addProjectTag(index, input.value);
+                                                                        input.value = '';
+                                                                    }
+                                                                }
+                                                            }}
+                                                        />
+                                                        <button
+                                                            onClick={(e) => {
+                                                                const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
+                                                                if (input.value.trim()) {
+                                                                    addProjectTag(index, input.value);
+                                                                    input.value = '';
+                                                                }
+                                                            }}
+                                                            className="px-4 py-2 bg-brand-gold/20 text-brand-gold rounded-lg hover:bg-brand-gold/30 transition-colors text-sm font-medium"
+                                                        >
+                                                            Add
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2522,6 +3070,271 @@ export default function BackOffice() {
                         </div>
                     </div>
                 );
+            case "theme":
+                return (
+                    <div className="space-y-8">
+                        {/* Font Settings */}
+                        <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
+                            <h3 className="text-xl font-medium mb-6 text-brand-cream">Typography Settings</h3>
+                            
+                            {/* Primary Font */}
+                            <div className="space-y-4 mb-6 pb-6 border-b border-white/10">
+                                <h4 className="font-medium text-brand-gold">Primary Font (Headings)</h4>
+                                <div>
+                                    <label className="block text-sm text-brand-cream/70 mb-2">
+                                        Font Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={textContent.themeFont.primary}
+                                        onChange={(e) => updateThemeFont('primary', e.target.value)}
+                                        className="w-full px-4 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold"
+                                        placeholder="e.g., Playfair Display"
+                                    />
+                                    <p className="text-xs text-brand-cream/60 mt-1">
+                                        Enter the exact Google Font name
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-brand-cream/70 mb-2">
+                                        Google Fonts URL
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={textContent.themeFont.primaryUrl}
+                                        onChange={(e) => updateThemeFont('primaryUrl', e.target.value)}
+                                        className="w-full px-4 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold font-mono text-xs"
+                                        placeholder="https://fonts.googleapis.com/css2?family=..."
+                                    />
+                                    <p className="text-xs text-brand-cream/60 mt-1">
+                                        Get this from <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-brand-gold hover:underline">Google Fonts</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Secondary Font */}
+                            <div className="space-y-4">
+                                <h4 className="font-medium text-brand-gold">Secondary Font (Body Text)</h4>
+                                <div>
+                                    <label className="block text-sm text-brand-cream/70 mb-2">
+                                        Font Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={textContent.themeFont.secondary}
+                                        onChange={(e) => updateThemeFont('secondary', e.target.value)}
+                                        className="w-full px-4 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold"
+                                        placeholder="e.g., Inter"
+                                    />
+                                    <p className="text-xs text-brand-cream/60 mt-1">
+                                        Enter the exact Google Font name
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-brand-cream/70 mb-2">
+                                        Google Fonts URL
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={textContent.themeFont.secondaryUrl}
+                                        onChange={(e) => updateThemeFont('secondaryUrl', e.target.value)}
+                                        className="w-full px-4 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold font-mono text-xs"
+                                        placeholder="https://fonts.googleapis.com/css2?family=..."
+                                    />
+                                    <p className="text-xs text-brand-cream/60 mt-1">
+                                        Get this from <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-brand-gold hover:underline">Google Fonts</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Color Settings */}
+                        <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
+                            <h3 className="text-xl font-medium mb-6 text-brand-cream">Color Palette</h3>
+                            
+                            <div className="space-y-6">
+                                {/* Brand Deep */}
+                                <div className="flex items-center gap-4">
+                                    <div className="flex-shrink-0">
+                                        <input
+                                            type="color"
+                                            value={textContent.themeColors.brandDeep}
+                                            onChange={(e) => updateThemeColor('brandDeep', e.target.value)}
+                                            className="w-16 h-16 rounded-lg cursor-pointer border-2 border-brand-gold/40"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                            Primary Dark (Background)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={textContent.themeColors.brandDeep}
+                                            onChange={(e) => updateThemeColor('brandDeep', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold font-mono text-sm"
+                                            placeholder="#1a1a1a"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Brand Cream */}
+                                <div className="flex items-center gap-4">
+                                    <div className="flex-shrink-0">
+                                        <input
+                                            type="color"
+                                            value={textContent.themeColors.brandCream}
+                                            onChange={(e) => updateThemeColor('brandCream', e.target.value)}
+                                            className="w-16 h-16 rounded-lg cursor-pointer border-2 border-brand-gold/40"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                            Light Background (Cream)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={textContent.themeColors.brandCream}
+                                            onChange={(e) => updateThemeColor('brandCream', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold font-mono text-sm"
+                                            placeholder="#f5f1e8"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Brand Gold */}
+                                <div className="flex items-center gap-4">
+                                    <div className="flex-shrink-0">
+                                        <input
+                                            type="color"
+                                            value={textContent.themeColors.brandGold}
+                                            onChange={(e) => updateThemeColor('brandGold', e.target.value)}
+                                            className="w-16 h-16 rounded-lg cursor-pointer border-2 border-brand-gold/40"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-medium text-brand-cream/80 mb-1">
+                                            Accent Color (Gold)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={textContent.themeColors.brandGold}
+                                            onChange={(e) => updateThemeColor('brandGold', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/30 text-brand-cream rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold font-mono text-sm"
+                                            placeholder="#c7a17a"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 p-4 bg-brand-gold/10 rounded-lg border border-brand-gold/20">
+                                <p className="text-sm text-brand-cream/70">
+                                    <strong className="text-brand-cream">💡 Tip:</strong> Changes will apply across your entire portfolio. 
+                                    Make sure to save and preview your changes before sharing your site.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            case "languages":
+                return (
+                    <div className="space-y-8">
+                        {/* Current Languages */}
+                        <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
+                            <h3 className="text-xl font-medium mb-6 text-brand-cream">Enabled Languages</h3>
+                            
+                            <div className="space-y-3">
+                                {textContent.enabledLanguages.map((langCode) => {
+                                    const lang = availableLanguages[langCode];
+                                    if (!lang) return null;
+                                    return (
+                                        <div key={langCode} className="flex items-center justify-between p-4 bg-white/5 border border-white/30 rounded-lg">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-3xl">{lang.flag}</span>
+                                                <div>
+                                                    <p className="font-medium text-brand-cream">{lang.name}</p>
+                                                    <p className="text-sm text-brand-cream/60">{lang.code}</p>
+                                                </div>
+                                                {langCode === textContent.defaultLanguage && (
+                                                    <span className="ml-2 px-2 py-1 bg-brand-gold/20 text-brand-cream text-xs rounded-full border border-brand-gold/40">
+                                                        Default
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                {langCode !== textContent.defaultLanguage && (
+                                                    <button
+                                                        onClick={() => setDefaultLanguageHandler(langCode)}
+                                                        className="px-3 py-1 text-sm text-brand-gold hover:bg-brand-gold/10 rounded-lg transition-colors"
+                                                    >
+                                                        Set as Default
+                                                    </button>
+                                                )}
+                                                {langCode !== textContent.defaultLanguage && (
+                                                    <button
+                                                        onClick={() => removeLanguage(langCode)}
+                                                        className="px-3 py-1 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Add New Language */}
+                        <div className="bg-gradient-to-br from-brand-gold/10 to-brand-cream/5 p-4 sm:p-5 md:p-6 rounded-2xl border border-brand-gold/30">
+                            <h3 className="text-xl font-medium mb-6 text-brand-cream">Add New Language</h3>
+                            
+                            {isTranslating ? (
+                                <div className="flex flex-col items-center justify-center py-12">
+                                    <svg className="animate-spin h-12 w-12 text-brand-gold mb-4" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <p className="text-lg font-medium text-brand-cream mb-2">Translating content...</p>
+                                    <p className="text-sm text-brand-cream/60">This may take a few minutes</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {Object.entries(availableLanguages).map(([code, lang]) => {
+                                        const isEnabled = textContent.enabledLanguages.includes(code);
+                                        return (
+                                            <button
+                                                key={code}
+                                                onClick={() => !isEnabled && addLanguage(code)}
+                                                disabled={isEnabled}
+                                                className={`p-4 rounded-lg border-2 transition-all ${
+                                                    isEnabled
+                                                        ? 'bg-white/5 border-white/20 opacity-50 cursor-not-allowed'
+                                                        : 'bg-white/5 border-white/30 hover:border-brand-gold hover:bg-brand-gold/5 cursor-pointer'
+                                                }`}
+                                            >
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <span className="text-4xl">{lang.flag}</span>
+                                                    <span className="font-medium text-brand-cream">{lang.name}</span>
+                                                    <span className="text-xs text-brand-cream/60">{code}</span>
+                                                    {isEnabled && (
+                                                        <span className="text-xs text-green-400 font-medium">✓ Enabled</span>
+                                                    )}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
+                            <div className="mt-6 p-4 bg-brand-gold/10 rounded-lg border border-brand-gold/20">
+                                <p className="text-sm text-brand-cream/70">
+                                    <strong className="text-brand-cream">ℹ️ How it works:</strong> When you add a new language, all your content will be automatically translated using LibreTranslate. 
+                                    You can then edit the translations in the backoffice by switching to that language using the language switcher at the top of the page.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
             default:
                 return null;
         }
@@ -2628,6 +3441,8 @@ export default function BackOffice() {
                                     { id: "projects", label: "Projects", icon: "📁", desc: "Portfolio" },
                                     { id: "experience", label: "Experience", icon: "💼", desc: "Career path" },
                                     { id: "contact", label: "Contact", icon: "📧", desc: "Get in touch" },
+                                    { id: "theme", label: "Theme", icon: "🎨", desc: "Fonts & Colors" },
+                                    { id: "languages", label: "Languages", icon: "🌍", desc: "Translations" },
                                     { id: "loading", label: "Loading Screen", icon: "✨", desc: "Opening animation" },
                                 ].map((tab) => (
                                     <button
@@ -2652,8 +3467,23 @@ export default function BackOffice() {
                                 ))}
                             </nav>
 
-                            {/* Logout Button */}
-                            <div className="pt-4 border-t border-brand-gold/20">
+                            {/* Actions */}
+                            <div className="pt-4 border-t border-brand-gold/20 space-y-2">
+                                {/* QR Code Button */}
+                                <button
+                                    onClick={() => setShowQRCode(true)}
+                                    className="w-full p-3 bg-brand-gold/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-brand-gold hover:text-brand-deep transition-all duration-500 shadow-[0_4px_14px_0_rgba(199,161,122,0.3)] hover:shadow-[0_6px_20px_rgba(199,161,122,0.5)] hover:-translate-y-0.5 flex items-center gap-3 group border border-brand-gold/30 hover:border-brand-gold"
+                                >
+                                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                    </svg>
+                                    <div className="flex-1 text-left">
+                                        <div className="font-medium text-sm">QR Code</div>
+                                        <div className="text-xs text-brand-cream/50 group-hover:text-brand-deep/70">Share your site</div>
+                                    </div>
+                                </button>
+
+                                {/* Logout Button */}
                                 <button
                                     onClick={handleLogout}
                                     className="w-full p-3 bg-red-500/20 backdrop-blur-sm text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 shadow-[0_4px_14px_0_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.5)] hover:-translate-y-0.5 flex items-center gap-3 group border border-red-500/30 hover:border-red-500"
@@ -2697,10 +3527,33 @@ export default function BackOffice() {
                         {/* Editor Panel */}
                         <div className={`${showPreview ? 'hidden md:block' : 'block'} w-full md:w-[45%] flex-shrink-0`}>
                             <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3 sm:p-4 md:p-6 md:sticky md:top-4 max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-custom pb-32 md:pb-6">
-                                <div className="flex items-center justify-between mb-4 md:mb-6">
-                                    <h2 className="font-serif text-lg md:text-xl text-brand-cream capitalize">
-                                        Edit {activeTab}
-                                    </h2>
+                                <div className="flex items-center justify-between mb-4 md:mb-6 gap-3 flex-wrap">
+                                    <div className="flex items-center gap-3">
+                                        <h2 className="font-serif text-lg md:text-xl text-brand-cream capitalize">
+                                            Edit {activeTab}
+                                        </h2>
+                                        {/* Language Selector */}
+                                        {!["theme", "languages", "loading"].includes(activeTab) && textContent.enabledLanguages.length > 1 && (
+                                            <div className="relative">
+                                                <select
+                                                    value={currentLanguage}
+                                                    onChange={(e) => setCurrentLanguage(e.target.value)}
+                                                    className="pl-8 pr-3 py-1.5 bg-brand-gold/20 text-brand-cream border border-brand-gold/40 rounded-lg text-sm font-medium appearance-none cursor-pointer hover:bg-brand-gold/30 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-gold"
+                                                >
+                                                    {textContent.enabledLanguages.map((langCode) => {
+                                                        const lang = availableLanguages[langCode];
+                                                        if (!lang) return null;
+                                                        return (
+                                                            <option key={langCode} value={langCode}>
+                                                                {lang.flag} {lang.name} {langCode === textContent.defaultLanguage ? '(default)' : ''}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm pointer-events-none">🌍</span>
+                                            </div>
+                                        )}
+                                    </div>
                                     <button
                                         onClick={handleSave}
                                         disabled={saveStatus === "saving"}
@@ -2911,18 +3764,6 @@ export default function BackOffice() {
                                                                     ))}
                                                                 </div>
                                                             </div>
-
-                                                            {/* Quote */}
-                                                            {textContent.aboutQuote && (
-                                                                <div className="relative bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 border border-brand-gold/20">
-                                                                    <blockquote className="text-sm italic text-brand-cream/90 text-center">
-                                                                        &quot;{textContent.aboutQuote}&quot;
-                                                                    </blockquote>
-                                                                    <div className="text-center mt-3">
-                                                                        <cite className="text-brand-gold font-medium text-xs">{textContent.aboutQuoteAuthor || '— Luz Quintanar'}</cite>
-                                                                    </div>
-                                                                </div>
-                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2967,7 +3808,27 @@ export default function BackOffice() {
                                                                         {/* Content card - alternating sides */}
                                                                         <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'ml-auto pl-8'} bg-white rounded-2xl shadow-xl p-6 border border-brand-gold/10`}>
                                                                             <div className="mb-4">
-                                                                                <h3 className="font-serif text-2xl text-brand-deep mb-2">{exp.role}</h3>
+                                                                                <div className="flex items-start gap-3 mb-2">
+                                                                                    {/* Icon */}
+                                                                                    {exp.icon && (
+                                                                                        <div className="flex-shrink-0">
+                                                                                            {(exp.iconType || 'emoji') === 'emoji' ? (
+                                                                                                <div className="text-4xl">{exp.icon}</div>
+                                                                                            ) : (
+                                                                                                <div className="relative w-12 h-12">
+                                                                                                    <img
+                                                                                                        src={exp.icon}
+                                                                                                        alt={exp.role}
+                                                                                                        className="w-full h-full object-contain"
+                                                                                                    />
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    )}
+                                                                                    <div className="flex-1 min-w-0">
+                                                                                        <h3 className="font-serif text-2xl text-brand-deep">{exp.role}</h3>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div className="text-brand-gold font-medium mb-2">
                                                                                     <div className="text-lg">{exp.company}</div>
                                                                                     <div className="text-sm mt-1">{exp.location}</div>
@@ -3048,34 +3909,64 @@ export default function BackOffice() {
                                                         </p>
                                                     </div>
 
-                                                    {/* Skills grid */}
-                                                    <div className="grid md:grid-cols-2 gap-3 mb-6">
-                                                        {textContent.skillCategories.map((category, index) => (
-                                                            <div key={index} className="bg-brand-cream/5 backdrop-blur-sm rounded-xl p-4 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300">
-                                                                <div className="flex items-center mb-3">
-                                                                    <div className="text-xl mr-2">{category.icon}</div>
-                                                                    <h3 className="font-serif text-base text-brand-gold">{category.category}</h3>
-                                                                </div>
+                                                    {/* Skill Cards */}
+                                                    {textContent.skillCards && textContent.skillCards.length > 0 && (
+                                                        <div className="flex flex-wrap gap-3 mb-6">
+                                                            {textContent.skillCards.map((card, index) => (
+                                                                <div
+                                                                    key={index}
+                                                                    className={`bg-brand-cream/5 backdrop-blur-sm rounded-xl p-5 border border-brand-gold/20 hover:bg-brand-cream/10 transition-all duration-300 ${
+                                                                        card.width === 'full' 
+                                                                            ? 'w-full' 
+                                                                            : 'w-full md:w-[calc(50%-0.375rem)]'
+                                                                    }`}
+                                                                >
+                                                                    {/* Card Header: Icon + Title */}
+                                                                    <div className="flex items-center gap-2 mb-4">
+                                                                        {card.iconType === 'emoji' ? (
+                                                                            <div className="text-3xl">
+                                                                                {card.icon}
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div className="relative w-10 h-10 flex-shrink-0">
+                                                                                <img
+                                                                                    src={card.icon}
+                                                                                    alt={card.title}
+                                                                                    className="w-full h-full object-contain"
+                                                                                />
+                                                                            </div>
+                                                                        )}
+                                                                        <h3 className="font-serif text-lg text-brand-gold">
+                                                                            {card.title}
+                                                                        </h3>
+                                                                    </div>
 
-                                                                <div className="space-y-2">
-                                                                    {category.skills.map((skill, skillIndex) => (
-                                                                        <div key={skillIndex} className="space-y-1">
-                                                                            <div className="flex justify-between items-center">
-                                                                                <span className="text-brand-cream font-medium text-xs">{skill.name}</span>
-                                                                                <span className="text-brand-gold text-xs font-bold">{skill.level}%</span>
+                                                                    {/* Items List - Horizontal */}
+                                                                    <div className="flex flex-wrap gap-2">
+                                                                        {(card.items || []).map((item, itemIndex) => (
+                                                                            <div
+                                                                                key={itemIndex}
+                                                                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-brand-deep/30 rounded-lg border border-brand-gold/20"
+                                                                            >
+                                                                                {(item.iconType || 'emoji') === 'emoji' ? (
+                                                                                    <span className="text-base">{item.icon}</span>
+                                                                                ) : (
+                                                                                    <div className="relative w-4 h-4 flex-shrink-0">
+                                                                                        <img
+                                                                                            src={item.icon}
+                                                                                            alt={item.title}
+                                                                                            className="w-full h-full object-contain"
+                                                                                        />
+                                                                                    </div>
+                                                                                )}
+                                                                                <span className="text-xs text-brand-cream font-medium">{item.title}</span>
                                                                             </div>
-                                                                            <div className="h-1.5 bg-brand-deep/30 rounded-full overflow-hidden">
-                                                                                <div
-                                                                                    className="h-full bg-gradient-to-r from-brand-gold to-brand-cream rounded-full transition-all duration-1000 ease-out"
-                                                                                    style={{ width: `${skill.level}%` }}
-                                                                                ></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    ))}
+                                                                        ))}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
 
                                                     {/* Soft Skills Section */}
                                                     {textContent.softSkills && textContent.softSkills.length > 0 && (
@@ -3128,14 +4019,6 @@ export default function BackOffice() {
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    {/* Bottom quote */}
-                                                    <div className="text-center mt-6">
-                                                        <blockquote className="text-sm italic text-brand-cream/90 max-w-2xl mx-auto">
-                                                            &quot;{textContent.skillsQuote}&quot;
-                                                        </blockquote>
-                                                        <cite className="text-brand-gold font-medium mt-2 block text-xs">{textContent.skillsQuoteAuthor || '— Luz Quintanar'}</cite>
-                                                    </div>
                                                 </div>
                                             </div>
                                         )}
@@ -3187,14 +4070,26 @@ export default function BackOffice() {
                                                                     </div>
 
                                                                     {/* Content section - 40% */}
-                                                                    <div className="flex-1 p-4 sm:p-5 flex flex-col justify-end">
+                                                                    <div className="flex-1 p-4 sm:p-5 flex flex-col justify-start">
                                                                         <h3 className="text-lg sm:text-xl font-semibold text-brand-cream mb-1 leading-tight group-hover:text-brand-gold transition-colors duration-300">
                                                                             {project.title}
                                                                         </h3>
                                                                         {project.subtitle && (
-                                                                            <p className="text-xs sm:text-sm text-brand-cream/70 leading-relaxed">
+                                                                            <p className="text-xs sm:text-sm text-brand-cream/70 leading-relaxed mb-2">
                                                                                 {project.subtitle}
                                                                             </p>
+                                                                        )}
+                                                                        {project.tags && project.tags.length > 0 && (
+                                                                            <div className="flex flex-wrap gap-1.5 mb-2">
+                                                                                {project.tags.map((tag: string, tagIndex: number) => (
+                                                                                    <span
+                                                                                        key={tagIndex}
+                                                                                        className="px-2 py-0.5 bg-brand-gold/20 text-brand-gold text-xs font-medium rounded-full border border-brand-gold/30"
+                                                                                    >
+                                                                                        {tag}
+                                                                                    </span>
+                                                                                ))}
+                                                                            </div>
                                                                         )}
                                                                         {project.link && (
                                                                             <div className="mt-2 flex items-center text-brand-gold text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -3384,6 +4279,212 @@ export default function BackOffice() {
                                             </div>
                                         )}
 
+                                        {/* For theme tab, show a live preview with current theme */}
+                                        {activeTab === "theme" && (
+                                            <div className="space-y-4 h-full flex flex-col">
+                                                {/* Preview banner */}
+                                                <div className="bg-brand-gold/10 border border-brand-gold/30 rounded-lg p-3 text-center flex-shrink-0">
+                                                    <p className="text-sm text-brand-cream">
+                                                        <span className="font-semibold">🎨 Live Theme Preview</span> - Scroll to see your colors and fonts across different sections
+                                                    </p>
+                                                </div>
+                                                
+                                                {/* Scrollable preview container */}
+                                                <div className="flex-1 overflow-y-auto rounded-2xl" style={{ 
+                                                    maxHeight: 'calc(100vh - 12rem)',
+                                                    backgroundColor: textContent.themeColors?.brandDeep || '#0B132B',
+                                                    color: textContent.themeColors?.brandCream || '#F5F1E8',
+                                                    fontFamily: textContent.themeFont?.secondary || 'Inter, sans-serif'
+                                                }}>
+                                                    {/* About Section */}
+                                                    <div className="p-6 relative">
+                                                        <div className="absolute inset-0" style={{ backgroundColor: textContent.themeColors?.brandDeep || '#0B132B' }}>
+                                                            <div className="absolute top-0 left-1/4 w-48 h-48 rounded-full blur-3xl" style={{ backgroundColor: `${textContent.themeColors?.brandGold || '#C7A17A'}20` }}></div>
+                                                        </div>
+
+                                                        <div className="relative z-10">
+                                                            <div className="text-center mb-8">
+                                                                <div className="inline-flex items-center px-3 py-1.5 rounded-full font-medium text-xs mb-4" style={{ 
+                                                                    backgroundColor: `${textContent.themeColors?.brandGold || '#C7A17A'}33`,
+                                                                    color: textContent.themeColors?.brandGold || '#C7A17A'
+                                                                }}>
+                                                                    <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: textContent.themeColors?.brandGold || '#C7A17A' }}></span>
+                                                                    {textContent.aboutBadge || 'About Me'}
+                                                                </div>
+                                                                <h2 className="text-3xl md:text-4xl leading-tight mb-4" style={{ fontFamily: textContent.themeFont?.primary || 'Playfair Display, serif' }}>
+                                                                    {textContent.aboutTitle}
+                                                                    <span className="block italic mt-1" style={{ color: textContent.themeColors?.brandGold || '#C7A17A' }}>
+                                                                        {textContent.aboutTitleSuffix || 'reality'}
+                                                                    </span>
+                                                                </h2>
+                                                                <div className="w-16 h-1 mx-auto" style={{ backgroundColor: textContent.themeColors?.brandGold || '#C7A17A' }}></div>
+                                                            </div>
+
+                                                            <div className="max-w-2xl mx-auto space-y-4">
+                                                                <p className="text-base leading-relaxed" style={{ color: `${textContent.themeColors?.brandCream || '#F5F1E8'}e6` }}>
+                                                                    {textContent.aboutMainText}
+                                                                </p>
+                                                                <p className="text-sm leading-relaxed" style={{ color: `${textContent.themeColors?.brandCream || '#F5F1E8'}cc` }}>
+                                                                    {textContent.aboutSecondaryText}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Experience Section Preview */}
+                                                    <div className="p-6 relative" style={{ backgroundColor: textContent.themeColors?.brandCream || '#F5F1E8', color: textContent.themeColors?.brandDeep || '#0B132B' }}>
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="text-2xl md:text-3xl leading-tight" style={{ fontFamily: textContent.themeFont?.primary || 'Playfair Display, serif' }}>
+                                                                {textContent.experienceTitle}
+                                                                <span className="block italic" style={{ color: textContent.themeColors?.brandGold || '#C7A17A' }}>
+                                                                    {textContent.experienceSubtitle}
+                                                                </span>
+                                                            </h2>
+                                                            <div className="w-16 h-1 mx-auto mt-3" style={{ backgroundColor: textContent.themeColors?.brandGold || '#C7A17A' }}></div>
+                                                        </div>
+                                                        <div className="max-w-xl mx-auto p-4 rounded-lg border" style={{ 
+                                                            backgroundColor: `${textContent.themeColors?.brandDeep || '#0B132B'}0d`,
+                                                            borderColor: `${textContent.themeColors?.brandGold || '#C7A17A'}33`
+                                                        }}>
+                                                            <p className="text-sm" style={{ color: textContent.themeColors?.brandDeep || '#0B132B' }}>
+                                                                Experience cards would appear here with your custom theme...
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Skills Section Preview */}
+                                                    <div className="p-6 relative" style={{ backgroundColor: textContent.themeColors?.brandDeep || '#0B132B' }}>
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="text-2xl md:text-3xl leading-tight" style={{ 
+                                                                fontFamily: textContent.themeFont?.primary || 'Playfair Display, serif',
+                                                                color: textContent.themeColors?.brandCream || '#F5F1E8'
+                                                            }}>
+                                                                {textContent.skillsTitle}
+                                                                <span className="block italic" style={{ color: textContent.themeColors?.brandGold || '#C7A17A' }}>
+                                                                    {textContent.skillsSubtitle}
+                                                                </span>
+                                                            </h2>
+                                                            <div className="w-16 h-1 mx-auto mt-3" style={{ backgroundColor: textContent.themeColors?.brandGold || '#C7A17A' }}></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* For languages tab, show a live preview with language selector */}
+                                        {activeTab === "languages" && (
+                                            <div className="space-y-4 h-full flex flex-col">
+                                                {/* Language preview selector */}
+                                                <div className="bg-brand-gold/10 border border-brand-gold/30 rounded-lg p-4 flex-shrink-0">
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <p className="text-sm text-brand-cream">
+                                                            <span className="font-semibold">🌍 Language Preview</span> - Select to see translations
+                                                        </p>
+                                                        <select
+                                                            value={currentLanguage}
+                                                            onChange={(e) => setCurrentLanguage(e.target.value)}
+                                                            className="px-3 py-2 bg-white/10 text-brand-cream border border-brand-gold/40 rounded-lg text-sm font-medium cursor-pointer hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-gold"
+                                                        >
+                                                            {textContent.enabledLanguages.map((langCode) => {
+                                                                const lang = availableLanguages[langCode];
+                                                                if (!lang) return null;
+                                                                return (
+                                                                    <option key={langCode} value={langCode} className="bg-brand-deep text-brand-cream">
+                                                                        {lang.flag} {lang.name}
+                                                                    </option>
+                                                                );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Scrollable preview container */}
+                                                <div className="flex-1 overflow-y-auto rounded-2xl bg-brand-deep" style={{ maxHeight: 'calc(100vh - 12rem)' }}>
+                                                    {/* About Section */}
+                                                    <div className="bg-brand-deep text-brand-cream p-6 relative">
+                                                        <div className="absolute inset-0">
+                                                            <div className="absolute top-0 left-1/4 w-48 h-48 bg-brand-gold/5 rounded-full blur-3xl"></div>
+                                                        </div>
+
+                                                        <div className="relative z-10">
+                                                            <div className="text-center mb-8">
+                                                                <div className="inline-flex items-center px-3 py-1.5 bg-brand-gold/20 rounded-full text-brand-gold font-medium text-xs mb-4">
+                                                                    <span className="w-2 h-2 bg-brand-gold rounded-full mr-2"></span>
+                                                                    {getCurrentLanguageContent().aboutBadge || textContent.aboutBadge || 'About Me'}
+                                                                </div>
+                                                                <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-4">
+                                                                    {getCurrentLanguageContent().aboutTitle || textContent.aboutTitle}
+                                                                    <span className="block text-brand-gold italic mt-1">
+                                                                        {getCurrentLanguageContent().aboutTitleSuffix || textContent.aboutTitleSuffix || 'reality'}
+                                                                    </span>
+                                                                </h2>
+                                                                <div className="w-16 h-1 bg-brand-gold mx-auto"></div>
+                                                            </div>
+
+                                                            <div className="max-w-2xl mx-auto space-y-4">
+                                                                <p className="text-base leading-relaxed text-brand-cream/90">
+                                                                    {getCurrentLanguageContent().aboutMainText || textContent.aboutMainText}
+                                                                </p>
+                                                                <p className="text-sm leading-relaxed text-brand-cream/80">
+                                                                    {getCurrentLanguageContent().aboutSecondaryText || textContent.aboutSecondaryText}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Experience Section Preview */}
+                                                    <div className="bg-brand-cream text-brand-deep p-6 relative">
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="font-serif text-2xl md:text-3xl leading-tight">
+                                                                {getCurrentLanguageContent().experienceTitle || textContent.experienceTitle}
+                                                                <span className="block text-brand-gold italic">
+                                                                    {getCurrentLanguageContent().experienceSubtitle || textContent.experienceSubtitle}
+                                                                </span>
+                                                            </h2>
+                                                            <div className="w-16 h-1 bg-brand-gold mx-auto mt-3"></div>
+                                                        </div>
+                                                        <div className="max-w-xl mx-auto p-4 bg-brand-deep/5 rounded-lg border border-brand-gold/20">
+                                                            <p className="text-sm text-brand-deep/80">
+                                                                Experience cards would appear here in {availableLanguages[currentLanguage]?.name || 'selected language'}...
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Skills Section Preview */}
+                                                    <div className="bg-brand-deep text-brand-cream p-6 relative">
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="font-serif text-2xl md:text-3xl leading-tight">
+                                                                {getCurrentLanguageContent().skillsTitle || textContent.skillsTitle}
+                                                                <span className="block text-brand-gold italic">
+                                                                    {getCurrentLanguageContent().skillsSubtitle || textContent.skillsSubtitle}
+                                                                </span>
+                                                            </h2>
+                                                            <div className="w-16 h-1 bg-brand-gold mx-auto mt-3"></div>
+                                                            <p className="text-sm text-brand-cream/70 mt-4 max-w-2xl mx-auto">
+                                                                {getCurrentLanguageContent().skillsDescription || textContent.skillsDescription}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Contact Section Preview */}
+                                                    <div className="bg-brand-cream text-brand-deep p-6 relative">
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="font-serif text-2xl md:text-3xl leading-tight">
+                                                                {getCurrentLanguageContent().contactTitle || textContent.contactTitle}
+                                                                <span className="block text-brand-gold italic text-xl">
+                                                                    {getCurrentLanguageContent().contactSubtitle || textContent.contactSubtitle}
+                                                                </span>
+                                                            </h2>
+                                                            <div className="w-16 h-1 bg-brand-gold mx-auto mt-3"></div>
+                                                            <p className="text-sm text-brand-deep/80 mt-4 max-w-xl mx-auto">
+                                                                {getCurrentLanguageContent().contactDescription || textContent.contactDescription}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
                                         {activeTab === "loading" && (
                                             <div className="bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 min-h-screen flex items-center justify-center relative overflow-hidden">
                                                 {/* Background decorative elements */}
@@ -3432,6 +4533,8 @@ export default function BackOffice() {
                         { id: "skills", label: "Skills", icon: "⚡" },
                         { id: "projects", label: "Projects", icon: "📁" },
                         { id: "contact", label: "Contact", icon: "📧" },
+                        { id: "theme", label: "Theme", icon: "🎨" },
+                        { id: "languages", label: "Lang", icon: "🌍" },
                         { id: "loading", label: "Loading", icon: "✨" },
                     ].map((tab) => (
                         <button
@@ -3475,6 +4578,13 @@ export default function BackOffice() {
                         )}
                     </button>
                     <button
+                        onClick={() => setShowQRCode(true)}
+                        className="py-3 px-4 bg-brand-gold/20 text-brand-cream rounded-xl hover:bg-brand-gold/30 transition-all duration-300 font-medium border border-brand-gold/30 text-sm flex items-center justify-center"
+                        title="QR Code"
+                    >
+                        📱
+                    </button>
+                    <button
                         onClick={handleLogout}
                         className="py-3 px-4 bg-red-500/20 text-brand-cream rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500 shadow-[0_4px_14px_0_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.5)] hover:-translate-y-0.5 font-medium border border-red-500/30 hover:border-red-500 text-sm flex items-center justify-center gap-2"
                     >
@@ -3482,6 +4592,77 @@ export default function BackOffice() {
                     </button>
                 </div>
             </div>
+
+            {/* QR Code Modal */}
+            {showQRCode && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-brand-deep to-brand-deep/95 rounded-2xl shadow-2xl border border-brand-gold/30 p-6 md:p-8 max-w-md w-full relative">
+                        {/* Close button */}
+                        <button
+                            onClick={() => setShowQRCode(false)}
+                            className="absolute top-4 right-4 text-brand-cream hover:text-brand-gold transition-colors"
+                            aria-label="Close"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Title */}
+                        <h3 className="text-2xl font-serif text-brand-gold mb-2">Share Your Portfolio</h3>
+                        <p className="text-brand-cream/70 text-sm mb-6">Scan this QR code to visit your site</p>
+
+                        {/* QR Code */}
+                        <div className="bg-white p-6 rounded-xl mb-6 flex items-center justify-center">
+                            <canvas id="qr-code-canvas" className="max-w-full" />
+                        </div>
+
+                        {/* Site URL */}
+                        <div className="mb-6">
+                            <label className="block text-xs text-brand-cream/70 mb-2">Site URL</label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={typeof window !== 'undefined' ? window.location.origin : ''}
+                                    readOnly
+                                    className="flex-1 px-3 py-2 bg-white/10 border border-brand-gold/30 rounded-lg text-brand-cream text-sm"
+                                />
+                                <button
+                                    onClick={() => {
+                                        if (typeof window !== 'undefined') {
+                                            navigator.clipboard.writeText(window.location.origin);
+                                            alert('URL copied to clipboard!');
+                                        }
+                                    }}
+                                    className="px-4 py-2 bg-brand-gold/20 hover:bg-brand-gold/30 text-brand-cream rounded-lg transition-colors text-sm"
+                                    title="Copy URL"
+                                >
+                                    📋
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => {
+                                    const canvas = document.getElementById('qr-code-canvas') as HTMLCanvasElement;
+                                    if (canvas) {
+                                        const url = canvas.toDataURL('image/png');
+                                        const link = document.createElement('a');
+                                        link.download = 'portfolio-qr-code.png';
+                                        link.href = url;
+                                        link.click();
+                                    }
+                                }}
+                                className="flex-1 py-3 px-4 bg-brand-gold text-brand-deep rounded-xl hover:bg-brand-gold/90 transition-all duration-300 font-medium text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                            >
+                                💾 Download QR Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

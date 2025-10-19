@@ -56,7 +56,7 @@ export const content = pgTable('content', {
   skillsTitle: text('skills_title'),
   skillsSubtitle: text('skills_subtitle'),
   skillsDescription: text('skills_description'),
-  skillCategories: jsonb('skill_categories').default([]),
+  skillCards: jsonb('skill_cards').default([]),
   certifications: jsonb('certifications').default([]),
   tools: jsonb('tools').default([]),
   skillsQuote: text('skills_quote'),
@@ -93,6 +93,24 @@ export const content = pgTable('content', {
   contactDownloadText: text('contact_download_text'),
   contactCvPath: text('contact_cv_path').default('/cv.pdf'),
   contactBottomInfo: jsonb('contact_bottom_info').default({}),
+
+  // Theme Settings
+  themeFont: jsonb('theme_font').default({
+    primary: 'Playfair Display',
+    primaryUrl: 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
+    secondary: 'Inter',
+    secondaryUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'
+  }),
+  themeColors: jsonb('theme_colors').default({
+    brandDeep: '#1a1a1a',
+    brandCream: '#f5f1e8',
+    brandGold: '#c7a17a'
+  }),
+
+  // Language Settings
+  enabledLanguages: jsonb('enabled_languages').default(['en']),
+  defaultLanguage: text('default_language').default('en'),
+  translations: jsonb('translations').default({}),
 
   // Meta
   version: integer('version').default(1).notNull(),

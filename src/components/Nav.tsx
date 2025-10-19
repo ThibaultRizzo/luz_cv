@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTextContent } from '@/lib/TextContentContext';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Nav() {
     const { textContent } = useTextContent();
@@ -44,7 +45,6 @@ export default function Nav() {
             const experienceTop = experienceSection.offsetTop;
             const experienceBottom = experienceTop + experienceSection.offsetHeight;
             const contactTop = contactSection.offsetTop;
-            const contactBottom = contactTop + contactSection.offsetHeight;
 
             let newCurrentSection = 'Home';
 
@@ -132,34 +132,37 @@ export default function Nav() {
                 </div>
 
                 {/* Desktop Navigation - Enhanced with labels */}
-                <div className="hidden md:flex items-center gap-1">
-                    {navItems.slice(1).map((item) => (
-                        <button
-                            key={item.id}
-                            onClick={() => handleNavClick(item.id)}
-                            onMouseEnter={() => setHoveredSection(item.label)}
-                            onMouseLeave={() => setHoveredSection(null)}
-                            className="group relative px-3 py-2.5 rounded-lg transition-all duration-300 hover:bg-brand-gold/10"
-                            aria-label={`Navigate to ${item.label}`}
-                        >
-                            <div className="flex items-center gap-2.5">
-                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
-                                    } group-hover:scale-125`}></div>
+                <div className="hidden md:flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                        {navItems.slice(1).map((item) => (
+                            <button
+                                key={item.id}
+                                onClick={() => handleNavClick(item.id)}
+                                onMouseEnter={() => setHoveredSection(item.label)}
+                                onMouseLeave={() => setHoveredSection(null)}
+                                className="group relative px-3 py-2.5 rounded-lg transition-all duration-300 hover:bg-brand-gold/10"
+                                aria-label={`Navigate to ${item.label}`}
+                            >
+                                <div className="flex items-center gap-2.5">
+                                    <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
+                                        } group-hover:scale-125`}></div>
 
-                                {/* Label that appears on hover */}
-                                <span
-                                    className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'
-                                        }`}
-                                    style={{
-                                        maxWidth: hoveredSection === item.label ? '200px' : '0px',
-                                        opacity: hoveredSection === item.label ? 1 : 0
-                                    }}
-                                >
-                                    {item.label}
-                                </span>
-                            </div>
-                        </button>
-                    ))}
+                                    {/* Label that appears on hover */}
+                                    <span
+                                        className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'
+                                            }`}
+                                        style={{
+                                            maxWidth: hoveredSection === item.label ? '200px' : '0px',
+                                            opacity: hoveredSection === item.label ? 1 : 0
+                                        }}
+                                    >
+                                        {item.label}
+                                    </span>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                    <LanguageSwitcher />
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -195,6 +198,9 @@ export default function Nav() {
                                 {item.label}
                             </button>
                         ))}
+                        <div className="mt-4 pt-4 border-t border-white/20">
+                            <LanguageSwitcher />
+                        </div>
                     </div>
                 </div>
             )}

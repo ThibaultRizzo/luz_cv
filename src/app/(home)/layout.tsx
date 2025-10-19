@@ -17,7 +17,7 @@ export default function HomeLayout({
         // Hide loading screen after animation
         const timer = setTimeout(() => {
             setShowLoading(false);
-        }, 4000); // Reduced from 5000 to 4000ms for better UX
+        }, 2000); // Matches the 2x faster animation speed
 
         return () => clearTimeout(timer);
     }, []);

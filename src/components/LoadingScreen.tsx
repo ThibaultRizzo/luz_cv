@@ -11,7 +11,7 @@ export default function LoadingScreen() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-                duration: 1.2,
+                duration: 0.6,
                 ease: [0.4, 0.0, 0.2, 1]
             }}
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/20"
@@ -23,13 +23,13 @@ export default function LoadingScreen() {
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1.5, opacity: 0.1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    transition={{ duration: 0.75, ease: "easeOut" }}
                     className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-gold rounded-full blur-3xl"
                 />
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1.5, opacity: 0.08 }}
-                    transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+                    transition={{ duration: 0.75, delay: 0.1, ease: "easeOut" }}
                     className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-brand-deep rounded-full blur-3xl"
                 />
             </div>
@@ -41,15 +41,15 @@ export default function LoadingScreen() {
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.3, ease: [0.6, 0.05, 0.01, 0.9] }}
+                        transition={{ duration: 0.4, delay: 0.15, ease: [0.6, 0.05, 0.01, 0.9] }}
                     >
                         <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-2">
                             <motion.span
                                 initial={{ backgroundPosition: '-500%' }}
                                 animate={{ backgroundPosition: '500%' }}
                                 transition={{
-                                    duration: 3.0,
-                                    delay: 1.3,
+                                    duration: 1.5,
+                                    delay: 0.65,
                                     ease: 'linear',
                                     repeat: 0
                                 }}
@@ -74,15 +74,15 @@ export default function LoadingScreen() {
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
+                        transition={{ duration: 0.4, delay: 0.25, ease: [0.6, 0.05, 0.01, 0.9] }}
                     >
                         <h2 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold italic tracking-wider">
                             <motion.span
                                 initial={{ backgroundPosition: '-500%' }}
                                 animate={{ backgroundPosition: '500%' }}
                                 transition={{
-                                    duration: 3.0,
-                                    delay: 1.3,
+                                    duration: 1.5,
+                                    delay: 0.65,
                                     ease: 'linear',
                                     repeat: 0
                                 }}
@@ -107,7 +107,7 @@ export default function LoadingScreen() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1.1 }}
+                    transition={{ duration: 0.4, delay: 0.55 }}
                     className="mt-8 md:mt-12"
                 >
                     <p className="text-brand-deep/70 text-sm md:text-base tracking-[0.3em] uppercase font-medium">
@@ -119,7 +119,7 @@ export default function LoadingScreen() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.3 }}
+                    transition={{ duration: 0.25, delay: 0.65 }}
                     className="mt-12 md:mt-16 flex justify-center"
                 >
                     <div className="w-32 md:w-48 h-1 bg-brand-deep/10 rounded-full overflow-hidden">
@@ -127,8 +127,8 @@ export default function LoadingScreen() {
                             initial={{ width: '0%' }}
                             animate={{ width: '100%' }}
                             transition={{
-                                duration: 2.0,
-                                delay: 1.5,
+                                duration: 1.0,
+                                delay: 0.75,
                                 ease: "easeInOut"
                             }}
                             className="h-full bg-gradient-to-r from-brand-gold to-brand-deep rounded-full"
@@ -140,7 +140,7 @@ export default function LoadingScreen() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 1.5 }}
+                    transition={{ duration: 0.25, delay: 0.75 }}
                     className="mt-6 flex justify-center gap-2"
                 >
                     {[0, 1, 2].map((index) => (
@@ -149,10 +149,10 @@ export default function LoadingScreen() {
                             initial={{ scale: 0 }}
                             animate={{ scale: [0, 1, 0] }}
                             transition={{
-                                duration: 1.5,
-                                delay: 1.7 + index * 0.2,
+                                duration: 0.75,
+                                delay: 0.85 + index * 0.1,
                                 repeat: Infinity,
-                                repeatDelay: 0.5
+                                repeatDelay: 0.25
                             }}
                             className="w-2 h-2 rounded-full bg-brand-gold"
                         />
@@ -164,13 +164,13 @@ export default function LoadingScreen() {
             <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 0.2, scale: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
                 className="absolute top-8 left-8 w-24 h-24 border-t-2 border-l-2 border-brand-gold/40"
             />
             <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 0.2, scale: 1 }}
-                transition={{ duration: 1, delay: 0.7 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
                 className="absolute bottom-8 right-8 w-24 h-24 border-b-2 border-r-2 border-brand-gold/40"
             />
         </motion.div>

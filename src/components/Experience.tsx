@@ -1,9 +1,22 @@
 "use client";
 
 import { useTextContent } from '@/lib/TextContentContext';
+import Image from 'next/image';
+
+interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  achievements: string[];
+  highlight: string;
+  icon?: string;
+  iconType?: 'emoji' | 'upload';
+}
 
 export default function Experience() {
   const { textContent } = useTextContent();
+  const experiences = textContent.experiences as ExperienceItem[];
 
   return (
     <section id="experience" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-cream relative overflow-hidden scroll-mt-20">
@@ -32,17 +45,38 @@ export default function Experience() {
         <div className="max-w-6xl mx-auto">
           {/* Mobile: Simple stacked cards */}
           <div className="md:hidden space-y-6">
-            {textContent.experiences.map((exp, index) => (
+            {experiences.map((exp, index) => (
               <div key={index} className="bg-white rounded-2xl shadow-xl p-5 border border-brand-gold/10">
                 {/* Header */}
                 <div className="mb-4 pb-4 border-b border-brand-gold/20">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-serif text-lg text-brand-deep flex-1">{exp.role}</h3>
-                    <span className="inline-block bg-brand-gold/10 px-2 py-1 rounded-lg text-brand-gold font-medium text-xs ml-2 whitespace-nowrap">{exp.period}</span>
-                  </div>
-                  <div className="text-brand-gold font-medium">
-                    <div className="text-sm">{exp.company}</div>
-                    <div className="text-xs mt-0.5 opacity-80">{exp.location}</div>
+                  <div className="flex items-start gap-3 mb-2">
+                    {/* Icon */}
+                    {exp.icon && (
+                      <div className="flex-shrink-0">
+                        {(exp.iconType || 'emoji') === 'emoji' ? (
+                          <div className="text-3xl">{exp.icon}</div>
+                        ) : (
+                          <div className="relative w-10 h-10">
+                            <Image
+                              src={exp.icon}
+                              alt={exp.role}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <h3 className="font-serif text-lg text-brand-deep flex-1">{exp.role}</h3>
+                        <span className="inline-block bg-brand-gold/10 px-2 py-1 rounded-lg text-brand-gold font-medium text-xs ml-2 whitespace-nowrap">{exp.period}</span>
+                      </div>
+                      <div className="text-brand-gold font-medium mt-1">
+                        <div className="text-sm">{exp.company}</div>
+                        <div className="text-xs mt-0.5 opacity-80">{exp.location}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -70,7 +104,7 @@ export default function Experience() {
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-gold via-brand-deep/20 to-brand-gold transform -translate-x-1/2"></div>
 
             <div className="space-y-12 lg:space-y-16">
-              {textContent.experiences.map((exp, index) => (
+              {experiences.map((exp, index) => (
                 <div key={index} className="relative flex items-center">
                   {/* Timeline dot - centered on desktop */}
                   <div className="absolute left-1/2 w-4 h-4 bg-brand-gold rounded-full border-4 border-brand-cream shadow-lg z-10 transform -translate-x-1/2"></div>
@@ -78,7 +112,28 @@ export default function Experience() {
                   {/* Content card - alternating sides on desktop */}
                   <div className={`w-5/12 ${index % 2 === 0 ? 'pr-12' : 'ml-auto pl-12'} bg-white rounded-2xl shadow-xl p-8 border border-brand-gold/10 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1`}>
                     <div className="mb-6">
-                      <h3 className="font-serif text-2xl md:text-3xl text-brand-deep mb-3">{exp.role}</h3>
+                      <div className="flex items-start gap-4 mb-3">
+                        {/* Icon */}
+                        {exp.icon && (
+                          <div className="flex-shrink-0">
+                            {(exp.iconType || 'emoji') === 'emoji' ? (
+                              <div className="text-5xl">{exp.icon}</div>
+                            ) : (
+                              <div className="relative w-14 h-14">
+                                <Image
+                                  src={exp.icon}
+                                  alt={exp.role}
+                                  fill
+                                  className="object-contain"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-serif text-2xl md:text-3xl text-brand-deep">{exp.role}</h3>
+                        </div>
+                      </div>
                       <div className="text-brand-gold font-medium mb-2">
                         <div className="text-lg md:text-xl">{exp.company}</div>
                         <div className="text-sm md:text-base mt-1">{exp.location}</div>

@@ -12,12 +12,6 @@ interface ExperienceItem {
     highlight: string;
 }
 
-interface SkillCategory {
-    category: string;
-    icon: string;
-    skills: { name: string; level: number }[];
-}
-
 interface SoftSkill {
     skill: string;
     icon: string;
@@ -40,14 +34,12 @@ interface TextContent {
     aboutDescription: string;
     aboutMainText: string;
     aboutSecondaryText: string;
-    aboutQuote: string;
     aboutBadge: string;
     aboutTitleSuffix: string;
     aboutApproachTitle: string;
     aboutApproachItems: { title: string; description: string }[];
     aboutImpactTitle: string;
     aboutImpactMetrics: { metric: string; label: string }[];
-    aboutQuoteAuthor: string;
     experienceTitle: string;
     experienceSubtitle: string;
     experiences: ExperienceItem[];
@@ -56,16 +48,29 @@ interface TextContent {
     skillsTitle: string;
     skillsSubtitle: string;
     skillsDescription: string;
-    skillCategories: SkillCategory[];
     certifications: string[];
     tools: string[];
-    skillsQuote: string;
     skillsBadge: string;
     skillsCertificationsTitle: string;
     skillsToolsTitle: string;
-    skillsQuoteAuthor: string;
     softSkills: SoftSkill[];
     skillsSoftSkillsTitle: string;
+    projectsTitle?: string;
+    projects?: unknown[];
+    themeFont?: {
+        primary?: string;
+        primaryUrl?: string;
+        secondary?: string;
+        secondaryUrl?: string;
+    };
+    themeColors?: {
+        brandDeep?: string;
+        brandCream?: string;
+        brandGold?: string;
+    };
+    enabledLanguages?: string[];
+    defaultLanguage?: string;
+    translations?: Record<string, unknown>;
     contactTitle: string;
     contactSubtitle: string;
     contactDescription: string;
@@ -122,7 +127,6 @@ const defaultTextContent: TextContent = {
     aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
     aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
     aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
-    aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
     experienceTitle: "A decade of",
     experienceSubtitle: "transformation",
     experiences: [
@@ -169,48 +173,6 @@ const defaultTextContent: TextContent = {
     skillsTitle: "Mastery through",
     skillsSubtitle: "experience",
     skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
-    skillCategories: [
-        {
-            category: "Product Leadership",
-            icon: "🎯",
-            skills: [
-                { name: "Product Strategy", level: 95 },
-                { name: "Roadmap Planning", level: 90 },
-                { name: "Stakeholder Management", level: 92 },
-                { name: "Cross-functional Leadership", level: 88 },
-            ],
-        },
-        {
-            category: "Retail Excellence",
-            icon: "🏪",
-            skills: [
-                { name: "Luxury Retail Strategy", level: 95 },
-                { name: "Omnichannel Experience", level: 90 },
-                { name: "Customer Journey Mapping", level: 85 },
-                { name: "Brand Positioning", level: 88 },
-            ],
-        },
-        {
-            category: "Digital Innovation",
-            icon: "⚡",
-            skills: [
-                { name: "Digital Transformation", level: 92 },
-                { name: "E-commerce Platforms", level: 88 },
-                { name: "Data Analytics", level: 85 },
-                { name: "AI/ML Applications", level: 80 },
-            ],
-        },
-        {
-            category: "Business Impact",
-            icon: "📈",
-            skills: [
-                { name: "Revenue Growth", level: 95 },
-                { name: "Market Expansion", level: 88 },
-                { name: "Process Optimization", level: 90 },
-                { name: "Team Scaling", level: 85 },
-            ],
-        },
-    ],
     certifications: [
         "Certified Scrum Product Owner (CSPO)",
         "Google Analytics Certified",
@@ -227,7 +189,6 @@ const defaultTextContent: TextContent = {
         "Slack",
         "Notion",
     ],
-    skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
     softSkills: [
         { skill: 'Executive Stakeholder Management', icon: '🤝' },
         { skill: 'Cross-Cultural Communication', icon: '🌍' },
@@ -248,13 +209,13 @@ const defaultTextContent: TextContent = {
     aboutApproachItems: [],
     aboutImpactTitle: "",
     aboutImpactMetrics: [],
-    aboutQuoteAuthor: "",
     experienceBadge: "",
     experienceBottomStats: [],
     skillsBadge: "",
     skillsCertificationsTitle: "",
     skillsToolsTitle: "",
-    skillsQuoteAuthor: "",
+    projectsTitle: "My Projects",
+    projects: [],
     contactBadge: "",
     contactFormTitle: "",
     contactFormLabels: {

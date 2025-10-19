@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Cormorant_Garamond, Bodoni_Moda } from "next/font/google";
+import { Inter, Playfair_Display, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { TextContentProvider } from "@/lib/TextContentContext";
+import { LanguageProvider } from "@/lib/LanguageContext";
 import StructuredData from "@/components/StructuredData";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -20,13 +22,6 @@ const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-cormorant',
-  display: 'swap',
-});
-
-const bodoni = Bodoni_Moda({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-bodoni',
   display: 'swap',
 });
 
@@ -107,8 +102,11 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-brand-cream text-brand-deep antialiased">
         <TextContentProvider>
-          <StructuredData />
-          {children}
+          <LanguageProvider>
+            <ThemeProvider />
+            <StructuredData />
+            {children}
+          </LanguageProvider>
         </TextContentProvider>
       </body>
     </html>

@@ -3,6 +3,14 @@
 import { useTextContent } from '@/lib/TextContentContext';
 import Image from 'next/image';
 
+interface Project {
+  title: string;
+  subtitle?: string;
+  image?: string;
+  link?: string;
+  tags?: string[];
+}
+
 export default function Projects() {
   const { textContent } = useTextContent();
 
@@ -30,7 +38,7 @@ export default function Projects() {
 
         {/* Projects grid - responsive layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
-          {textContent.projects?.map((project: any, index: number) => {
+          {(textContent.projects as Project[] | undefined)?.map((project: Project, index: number) => {
             const CardWrapper = project.link ? 'a' : 'div';
             const cardProps = project.link 
               ? { 
@@ -72,7 +80,7 @@ export default function Projects() {
                   </div>
 
                   {/* Content section - 40% of card */}
-                  <div className="flex-1 p-6 sm:p-8 flex flex-col justify-end relative z-20">
+                  <div className="flex-1 p-6 sm:p-8 flex flex-col relative z-20 justify-start">
                     {/* Title */}
                     <h3 className="text-xl sm:text-2xl font-semibold text-brand-cream mb-2 leading-tight group-hover:text-brand-gold transition-colors duration-300">
                       {project.title || 'Untitled Project'}
@@ -80,10 +88,27 @@ export default function Projects() {
 
                     {/* Subtitle */}
                     {project.subtitle && (
-                      <p className="text-sm sm:text-base text-brand-cream/70 leading-relaxed">
+                      <p className="text-sm sm:text-base text-brand-cream/70 leading-relaxed mb-3">
                         {project.subtitle}
                       </p>
                     )}
+
+                    {/* Tags */}
+                    {project.tags && project.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {project.tags.map((tag: string, tagIndex: number) => (
+                          <span
+                            key={tagIndex}
+                            className="px-3 py-1 bg-brand-gold/20 text-brand-gold text-xs font-medium rounded-full border border-brand-gold/30 hover:bg-brand-gold/30 transition-colors duration-300"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Spacer to push link to bottom */}
+                    <div className="flex-1"></div>
 
                     {/* Link indicator */}
                     {project.link && (
