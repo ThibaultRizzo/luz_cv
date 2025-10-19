@@ -139,6 +139,8 @@ See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for details.
 → Check `POSTGRES_URL` in `.env.local`
 → See [Getting Started](./docs/GETTING_STARTED.md#troubleshooting)
 
+
+
 ### Cannot login
 → Visit `/api/init-db` to initialize database
 → Check credentials in `.env.local`
