@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function LoadingScreen() {
-    const { textContent } = useTextContent();
+    const { getTranslatedContent } = useLanguage();
+    const textContent = getTranslatedContent() as any;
     return (
         <motion.div
             initial={{ opacity: 1 }}

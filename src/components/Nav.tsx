@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Nav() {
-    const { textContent } = useTextContent();
+    const { getTranslatedContent } = useLanguage();
+    const textContent = getTranslatedContent() as any;
     const [isOverDark, setIsOverDark] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);

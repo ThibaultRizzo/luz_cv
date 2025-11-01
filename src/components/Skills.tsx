@@ -1,6 +1,6 @@
 "use client";
 
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import Image from 'next/image';
 
 interface SkillCard {
@@ -16,7 +16,8 @@ interface SkillCard {
 }
 
 export default function Skills() {
-  const { textContent } = useTextContent();
+  const { getTranslatedContent } = useLanguage();
+  const textContent = getTranslatedContent() as any;
 
   // Use new skill cards structure
   const skillCards: SkillCard[] = ((textContent as unknown) as Record<string, unknown>).skillCards as SkillCard[] || [];

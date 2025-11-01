@@ -1,9 +1,10 @@
 "use client";
 
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function About() {
-    const { textContent } = useTextContent();
+    const { getTranslatedContent } = useLanguage();
+    const textContent = getTranslatedContent() as any;
 
     return (
         <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">

@@ -4442,8 +4442,9 @@ export default function BackOffice() {
                                                 {/* Language preview selector */}
                                                 <div className="bg-brand-gold/10 border border-brand-gold/30 rounded-lg p-4 flex-shrink-0">
                                                     <div className="flex items-center justify-between gap-3">
-                                                        <p className="text-sm text-brand-cream">
-                                                            <span className="font-semibold">🌍 Language Preview</span> - Select to see translations
+                                                        <p className="text-sm font-medium">
+                                                            <span className="font-bold text-brand-gold">🌍 Language Preview</span>
+                                                            <span className="text-brand-gold/80"> - Select to see translations</span>
                                                         </p>
                                                         <select
                                                             value={currentLanguage}

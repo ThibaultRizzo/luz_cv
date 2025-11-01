@@ -1,6 +1,6 @@
 "use client";
 
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import Image from 'next/image';
 
 interface Project {
@@ -12,7 +12,8 @@ interface Project {
 }
 
 export default function Projects() {
-  const { textContent } = useTextContent();
+  const { getTranslatedContent } = useLanguage();
+  const textContent = getTranslatedContent() as any;
 
   return (
     <section id="projects" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream scroll-mt-20 relative overflow-hidden">

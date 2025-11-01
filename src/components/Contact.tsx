@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from 'react';
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import { validateEmail, validateStringLength } from '@/lib/validation';
 import { LIMITS } from '@/lib/constants/limits';
 
 export default function Contact() {
-    const { textContent } = useTextContent();
+    const { getTranslatedContent } = useLanguage();
+    const textContent = getTranslatedContent() as any;
     const [formData, setFormData] = useState({
         name: '',
         email: '',

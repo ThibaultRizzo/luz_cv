@@ -1,6 +1,6 @@
 "use client";
 
-import { useTextContent } from '@/lib/TextContentContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import Image from 'next/image';
 
 interface ExperienceItem {
@@ -15,7 +15,8 @@ interface ExperienceItem {
 }
 
 export default function Experience() {
-  const { textContent } = useTextContent();
+  const { getTranslatedContent } = useLanguage();
+  const textContent = getTranslatedContent() as any;
   const experiences = textContent.experiences as ExperienceItem[];
 
   return (

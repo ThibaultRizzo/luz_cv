@@ -17,72 +17,72 @@ const SUPPORTED_LANGUAGES = {
 } as const;
 
 
-// Batch translate multiple texts at once
-async function translateBatch(texts: string[], sourceLang: string, targetLang: string, retries = 5): Promise<string[]> {
+// Batch translate multiple texts at once using MyMemory API
+async function translateBatch(texts: string[], sourceLang: string, targetLang: string, retries = 3): Promise<string[]> {
   if (texts.length === 0) return [];
 
-  for (let attempt = 0; attempt < retries; attempt++) {
-    try {
-      // Add increasing delay between attempts to avoid rate limiting
-      if (attempt > 0) {
-        const delayMs = 3000 * attempt; // 3s, 6s, 9s, 12s
-        console.log(`Rate limited, waiting ${delayMs/1000}s before retry ${attempt + 1}/${retries}...`);
-        await new Promise(resolve => setTimeout(resolve, delayMs));
-      }
+  const translations: string[] = [];
 
-      // Join texts with a unique separator that's unlikely to appear in content
-      const separator = ' ||| ';
-      const combinedText = texts.join(separator);
-
-      const response = await fetch('https://libretranslate.com/translate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          q: combinedText,
-          source: sourceLang,
-          target: targetLang,
-          format: 'text',
-        }),
-      });
-
-      if (response.status === 429) {
-        // Rate limited, retry after delay
-        if (attempt < retries - 1) {
-          console.log(`Rate limited (429), will retry with backoff...`);
-          continue;
+  for (let i = 0; i < texts.length; i++) {
+    const text = texts[i];
+    
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        // Add delay between requests to avoid rate limiting (MyMemory allows 1 req/sec)
+        if (i > 0 || attempt > 0) {
+          const delayMs = attempt > 0 ? 2000 * attempt : 1000; // 1s between texts, 2s/4s/6s on retries
+          await new Promise(resolve => setTimeout(resolve, delayMs));
         }
-        console.warn('Rate limit exceeded after all retries, returning original texts');
-        return texts; // Return original texts instead of throwing
-      }
 
-      if (!response.ok) {
-        throw new Error(`Translation failed: ${response.statusText}`);
-      }
+        // MyMemory API - Free tier: 1000 words/day per IP
+        // https://mymemory.translated.net/doc/spec.php
+        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
 
-      const data = await response.json();
-      const translatedText = data.translatedText || combinedText;
-      
-      // Split the translated text back into individual strings
-      const translatedTexts = translatedText.split(separator);
-      
-      // Ensure we have the same number of translations as inputs
-      if (translatedTexts.length !== texts.length) {
-        console.warn('Translation count mismatch, falling back to original texts');
-        return texts;
-      }
-      
-      return translatedTexts;
-    } catch (error) {
-      if (attempt === retries - 1) {
-        console.error('Translation error after retries:', error);
-        // Return original texts if all retries fail
-        return texts;
+        if (response.status === 429 || response.status === 403) {
+          // Rate limited
+          if (attempt < retries - 1) {
+            console.log(`Rate limited (${response.status}), will retry with backoff...`);
+            continue;
+          }
+          console.warn(`Rate limit exceeded for text ${i + 1}/${texts.length}, using original`);
+          translations.push(text);
+          break;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Translation failed: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        // Check response quality and use translation if available
+        if (data.responseData?.translatedText) {
+          translations.push(data.responseData.translatedText);
+          console.log(`Translated ${i + 1}/${texts.length}`);
+          break;
+        } else {
+          console.warn(`No translation for text ${i + 1}/${texts.length}, using original`);
+          translations.push(text);
+          break;
+        }
+      } catch (error) {
+        if (attempt === retries - 1) {
+          console.error(`Translation error for text ${i + 1}:`, error);
+          translations.push(text); // Use original text if all retries fail
+          break;
+        }
       }
     }
   }
-  return texts;
+  
+  return translations;
 }
 
 // Fields that should never be translated
@@ -226,8 +226,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, translatedContent: content });
     }
 
-    // Step 2: Batch translate in groups of 100 to minimize API calls
-    const batchSize = 100;
+    // Step 2: Translate strings one by one (MyMemory API doesn't support batch)
+    const batchSize = 20; // Process in smaller batches for progress feedback
     const translationMap = new Map<string, string>();
     
     for (let i = 0; i < stringsToTranslate.length; i += batchSize) {
@@ -242,12 +242,6 @@ export async function POST(request: NextRequest) {
       batch.forEach((item, index) => {
         translationMap.set(item.text, translatedTexts[index]);
       });
-      
-      // Longer delay between batches to respect rate limits
-      if (i + batchSize < stringsToTranslate.length) {
-        console.log('Waiting 3 seconds before next batch to respect rate limits...');
-        await new Promise(resolve => setTimeout(resolve, 3000));
-      }
     }
 
     // Step 3: Apply translations to the original content structure
