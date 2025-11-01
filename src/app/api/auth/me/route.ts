@@ -1,31 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import { db } from '@/lib/db/connection';
 import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
+import { verifyAuthToken } from '@/lib/auth/middleware';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { logger } from '@/lib/logger';
+import { ApiResponse } from '@/lib/types/api';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
+interface CurrentUserResponse {
+  id: string;
+  username: string;
+  role: string;
+  lastLogin: string | null;
+}
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<Response> {
   try {
     const authHeader = request.headers.get('authorization');
+    const decoded = verifyAuthToken(authHeader);
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!decoded) {
       return NextResponse.json(
-        { success: false, message: 'Access token required' },
-        { status: 401 }
-      );
-    }
-
-    const token = authHeader.substring(7);
-
-    // Verify token
-    let decoded: { userId: string; username: string; role: string };
-    try {
-      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string; role: string };
-    } catch {
-      return NextResponse.json(
-        { success: false, message: 'Invalid or expired token' },
+        { success: false, message: ERROR_MESSAGES.AUTH.TOKEN_EXPIRED },
         { status: 401 }
       );
     }
@@ -46,19 +42,26 @@ export async function GET(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: 'User not found' },
+        { success: false, message: ERROR_MESSAGES.AUTH.USER_NOT_FOUND },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({
+    const response: ApiResponse<{ user: CurrentUserResponse }> = {
       success: true,
-      data: { user },
-    });
+      data: { 
+        user: {
+          ...user,
+          lastLogin: user.lastLogin?.toISOString() ?? null,
+        }
+      },
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Get current user error:', error);
+    logger.error('Get current user error:', error);
     return NextResponse.json(
-      { success: false, message: 'Internal server error' },
+      { success: false, message: ERROR_MESSAGES.GENERAL.INTERNAL_ERROR },
       { status: 500 }
     );
   }

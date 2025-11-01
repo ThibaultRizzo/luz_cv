@@ -1,29 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
-import jwt from 'jsonwebtoken';
+import { verifyAuthToken } from '@/lib/auth/middleware';
+import { LIMITS } from '@/lib/constants/limits';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { logger } from '@/lib/logger';
+import { UploadResponse } from '@/lib/types/api';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
-
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     // Verify authentication
     const authHeader = request.headers.get('authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
+    const decoded = verifyAuthToken(authHeader);
+    
+    if (!decoded) {
       return NextResponse.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const token = authHeader.substring(7);
-
-    // Verify token
-    try {
-      jwt.verify(token, JWT_SECRET);
-    } catch (error) {
-      console.error('Token verification error:', error);
-      return NextResponse.json(
-        { success: false, message: 'Invalid or expired token' },
+        { success: false, message: ERROR_MESSAGES.AUTH.UNAUTHORIZED },
         { status: 401 }
       );
     }
@@ -34,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     if (!file) {
       return NextResponse.json(
-        { success: false, message: 'No file uploaded' },
+        { success: false, message: ERROR_MESSAGES.UPLOAD.NO_FILE },
         { status: 400 }
       );
     }
@@ -45,29 +36,29 @@ export async function POST(request: NextRequest) {
 
     if (fileType === 'image') {
       // Image upload (for hero section)
-      allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
-      maxSize = 5 * 1024 * 1024; // 5MB
-      // Use a timestamp to make filenames unique
+      allowedTypes = LIMITS.UPLOAD.ALLOWED_IMAGE_TYPES;
+      maxSize = LIMITS.UPLOAD.IMAGE_MAX_BYTES;
       fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
     } else {
       // PDF upload (for CV)
-      allowedTypes = ['application/pdf'];
-      maxSize = 10 * 1024 * 1024; // 10MB
+      allowedTypes = LIMITS.UPLOAD.ALLOWED_PDF_TYPES;
+      maxSize = LIMITS.UPLOAD.PDF_MAX_BYTES;
       fileName = `cv-${Date.now()}.pdf`;
     }
 
     // Validate file type
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { success: false, message: `Only ${fileType === 'image' ? 'image files (JPG, PNG, WebP, SVG)' : 'PDF files'} are allowed` },
+        { success: false, message: ERROR_MESSAGES.UPLOAD.INVALID_TYPE },
         { status: 400 }
       );
     }
 
     // Validate file size
     if (file.size > maxSize) {
+      const maxMB = fileType === 'image' ? LIMITS.UPLOAD.IMAGE_MAX_MB : LIMITS.UPLOAD.PDF_MAX_MB;
       return NextResponse.json(
-        { success: false, message: `File size must be less than ${maxSize / (1024 * 1024)}MB` },
+        { success: false, message: `File size must be less than ${maxMB}MB` },
         { status: 400 }
       );
     }
@@ -78,15 +69,21 @@ export async function POST(request: NextRequest) {
       addRandomSuffix: false,
     });
 
-    return NextResponse.json({
+    const response: UploadResponse = {
       success: true,
       message: 'File uploaded successfully',
-      data: { path: blob.url }
-    });
+      data: { path: blob.url },
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Upload error:', error);
+    logger.error('Upload error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to upload file', error: error instanceof Error ? error.message : 'Unknown error' },
+      { 
+        success: false, 
+        message: ERROR_MESSAGES.UPLOAD.UPLOAD_FAILED, 
+        errors: error instanceof Error ? [{ msg: error.message }] : undefined 
+      },
       { status: 500 }
     );
   }

@@ -1,26 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import { db } from '@/lib/db/connection';
 import { content, contentBackups, users } from '@/lib/db/schema';
 import { eq, desc } from 'drizzle-orm';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
-
-function verifyToken(authHeader: string | null) {
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  const token = authHeader.substring(7);
-  try {
-    return jwt.verify(token, JWT_SECRET) as { userId: string; username: string; role: string };
-  } catch {
-    return null;
-  }
-}
+import { verifyAuthToken, isAdmin } from '@/lib/auth/middleware';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { logger } from '@/lib/logger';
+import { ContentResponse } from '@/lib/types/api';
 
 // GET - Retrieve content (public)
-export async function GET() {
+export async function GET(): Promise<Response> {
   try {
     const contentResult = await db
       .select()
@@ -31,7 +19,7 @@ export async function GET() {
 
     if (contentResult.length === 0) {
       return NextResponse.json(
-        { success: false, message: 'No content found' },
+        { success: false, message: ERROR_MESSAGES.CONTENT.NOT_FOUND },
         { status: 404 }
       );
     }
@@ -50,23 +38,23 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error('Content retrieval error:', error);
+    logger.error('Content retrieval error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to retrieve content' },
+      { success: false, message: ERROR_MESSAGES.CONTENT.RETRIEVAL_FAILED },
       { status: 500 }
     );
   }
 }
 
 // PUT - Update content (admin only)
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest): Promise<Response> {
   try {
     const authHeader = request.headers.get('authorization');
-    const decoded = verifyToken(authHeader);
+    const decoded = verifyAuthToken(authHeader);
 
-    if (!decoded || decoded.role !== 'admin') {
+    if (!decoded || !isAdmin(decoded)) {
       return NextResponse.json(
-        { success: false, message: 'Unauthorized' },
+        { success: false, message: ERROR_MESSAGES.AUTH.ADMIN_REQUIRED },
         { status: 401 }
       );
     }
@@ -75,7 +63,7 @@ export async function PUT(request: NextRequest) {
 
     // Filter out metadata fields that shouldn't be updated
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, version, isActive, lastModifiedBy, createdAt, updatedAt, ...contentUpdates } = updates;
+    const { id: _, version: __, isActive: ___, lastModifiedBy: ____, createdAt: _____, updatedAt: ______, ...contentUpdates } = updates;
 
     // Get current content for backup
     const currentContentResult = await db
@@ -144,16 +132,18 @@ export async function PUT(request: NextRequest) {
       lastModifiedBy: result.user,
     };
 
-    return NextResponse.json({
+    const response: ContentResponse = {
       success: true,
       message: 'Content updated successfully',
       data: responseData,
-    });
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Content update error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to update content';
+    logger.error('Content update error:', error);
+    const errorMessage = error instanceof Error ? error.message : ERROR_MESSAGES.CONTENT.UPDATE_FAILED;
     return NextResponse.json(
-      { success: false, message: errorMessage, error: String(error) },
+      { success: false, message: errorMessage },
       { status: 500 }
     );
   }

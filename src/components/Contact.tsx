@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useTextContent } from '@/lib/TextContentContext';
+import { validateEmail, validateStringLength } from '@/lib/validation';
+import { LIMITS } from '@/lib/constants/limits';
 
 export default function Contact() {
     const { textContent } = useTextContent();
@@ -38,27 +40,22 @@ export default function Contact() {
         // Name validation
         if (!formData.name.trim()) {
             newErrors.name = 'Name is required';
-        } else if (formData.name.trim().length < 2) {
-            newErrors.name = 'Name must be at least 2 characters';
-        } else if (formData.name.trim().length > 100) {
-            newErrors.name = 'Name must be less than 100 characters';
+        } else if (!validateStringLength(formData.name, LIMITS.FORM.NAME_MIN, LIMITS.FORM.NAME_MAX)) {
+            newErrors.name = `Name must be between ${LIMITS.FORM.NAME_MIN} and ${LIMITS.FORM.NAME_MAX} characters`;
         }
 
         // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!formData.email.trim()) {
             newErrors.email = 'Email is required';
-        } else if (!emailRegex.test(formData.email)) {
+        } else if (!validateEmail(formData.email)) {
             newErrors.email = 'Please enter a valid email address';
         }
 
         // Message validation
         if (!formData.message.trim()) {
             newErrors.message = 'Message is required';
-        } else if (formData.message.trim().length < 10) {
-            newErrors.message = 'Message must be at least 10 characters';
-        } else if (formData.message.trim().length > 5000) {
-            newErrors.message = 'Message must be less than 5000 characters';
+        } else if (!validateStringLength(formData.message, LIMITS.FORM.MESSAGE_MIN, LIMITS.FORM.MESSAGE_MAX)) {
+            newErrors.message = `Message must be between ${LIMITS.FORM.MESSAGE_MIN} and ${LIMITS.FORM.MESSAGE_MAX} characters`;
         }
 
         setErrors(newErrors);

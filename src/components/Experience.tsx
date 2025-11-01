@@ -69,12 +69,12 @@ export default function Experience() {
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between">
-                        <h3 className="font-serif text-lg text-brand-deep flex-1">{exp.role}</h3>
-                        <span className="inline-block bg-brand-gold/10 px-2 py-1 rounded-lg text-brand-gold font-medium text-xs ml-2 whitespace-nowrap">{exp.period}</span>
-                      </div>
+                    <h3 className="font-serif text-lg text-brand-deep flex-1">{exp.role}</h3>
+                    <span className="inline-block bg-brand-gold/10 px-2 py-1 rounded-lg text-brand-gold font-medium text-xs ml-2 whitespace-nowrap">{exp.period}</span>
+                  </div>
                       <div className="text-brand-gold font-medium mt-1">
-                        <div className="text-sm">{exp.company}</div>
-                        <div className="text-xs mt-0.5 opacity-80">{exp.location}</div>
+                    <div className="text-sm">{exp.company}</div>
+                    <div className="text-xs mt-0.5 opacity-80">{exp.location}</div>
                       </div>
                     </div>
                   </div>

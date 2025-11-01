@@ -67,7 +67,7 @@ export default function Skills() {
                   {card.iconType === 'emoji' ? (
                     <div className="text-3xl sm:text-4xl md:text-5xl group-hover:scale-110 transition-transform duration-300">
                       {card.icon}
-                    </div>
+              </div>
                   ) : (
                     <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                       <Image
@@ -103,12 +103,12 @@ export default function Skills() {
                         </div>
                       )}
                       <span className="text-sm sm:text-base text-brand-cream font-medium">{item.title}</span>
-                    </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
         )}
 
         {/* Soft Skills - Critical for Luxury Retail */}
@@ -131,7 +131,7 @@ export default function Skills() {
           </div>
         )}
 
-        {/* Certifications */}
+          {/* Certifications */}
         <div className="max-w-2xl mx-auto">
           <div className="bg-brand-cream/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 md:p-8 border border-brand-gold/20">
             <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-brand-gold mb-4 sm:mb-6 flex items-center justify-center">

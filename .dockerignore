@@ -1,52 +1,32 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Build output
-.next/
-out/
-build/
-dist/
-
-# Testing
-coverage/
-test-results/
-playwright-report/
-playwright/.cache/
-e2e/fixtures/*.png
-e2e/fixtures/*.jpg
-e2e/fixtures/*.jpeg
-
-# Environment
-.env*
-!.env.example
-
-# Git
-.git/
+node_modules
+npm-debug.log
+.git
 .gitignore
-
-# Documentation
-docs/
-*.md
-!README.md
-
-# IDE
-.vscode/
-.idea/
+.dockerignore
+.env.local
+.env.*.local
+.next
+.turbo
+dist
+build
+.DS_Store
+*.pem
+.idea
+.vscode
+.swp
+.swo
 *.swp
 *.swo
 *~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Vercel
-.vercel/
-
-# TypeScript
+.nyc_output
+coverage
+.env.test
+.cache
 *.tsbuildinfo
+.playwright
+e2e/artifacts
+playwright-report
+blob-report
+.next
+out
 

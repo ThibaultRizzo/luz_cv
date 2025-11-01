@@ -11,31 +11,26 @@ export default function HomeLayout({
 }: {
     children: React.ReactNode;
 }) {
-    // Check if this is the first load in the session
-    const [showLoading, setShowLoading] = useState(() => {
-        // Only show loading on the very first page load in the session
-        if (typeof window !== 'undefined') {
-            const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
-            return !hasLoadedBefore;
-        }
-        return true;
-    });
+    // Always start with loading hidden to avoid hydration issues
+    const [showLoading, setShowLoading] = useState(false);
 
     useEffect(() => {
-        // Mark that we've loaded the page
-        if (typeof window !== 'undefined') {
+        // Check if this is the first load in the session
+        const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
+        
+        if (!hasLoadedBefore) {
+            // First load - show loading screen
+            setShowLoading(true);
             sessionStorage.setItem('hasLoadedBefore', 'true');
-        }
-
-        // Hide loading screen after animation only if we're showing it
-        if (showLoading) {
+            
+            // Hide loading screen after animation
             const timer = setTimeout(() => {
                 setShowLoading(false);
-            }, 2000); // Matches the 2x faster animation speed
+            }, 2000);
 
             return () => clearTimeout(timer);
         }
-    }, [showLoading]);
+    }, []);
 
     return (
         <>

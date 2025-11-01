@@ -134,33 +134,33 @@ export default function Nav() {
                 {/* Desktop Navigation - Enhanced with labels */}
                 <div className="hidden md:flex items-center gap-3">
                     <div className="flex items-center gap-1">
-                        {navItems.slice(1).map((item) => (
-                            <button
-                                key={item.id}
-                                onClick={() => handleNavClick(item.id)}
-                                onMouseEnter={() => setHoveredSection(item.label)}
-                                onMouseLeave={() => setHoveredSection(null)}
-                                className="group relative px-3 py-2.5 rounded-lg transition-all duration-300 hover:bg-brand-gold/10"
-                                aria-label={`Navigate to ${item.label}`}
-                            >
-                                <div className="flex items-center gap-2.5">
-                                    <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
-                                        } group-hover:scale-125`}></div>
+                    {navItems.slice(1).map((item) => (
+                        <button
+                            key={item.id}
+                            onClick={() => handleNavClick(item.id)}
+                            onMouseEnter={() => setHoveredSection(item.label)}
+                            onMouseLeave={() => setHoveredSection(null)}
+                            className="group relative px-3 py-2.5 rounded-lg transition-all duration-300 hover:bg-brand-gold/10"
+                            aria-label={`Navigate to ${item.label}`}
+                        >
+                            <div className="flex items-center gap-2.5">
+                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isOverDark ? 'bg-brand-cream group-hover:bg-brand-gold' : 'bg-brand-deep group-hover:bg-brand-gold'
+                                    } group-hover:scale-125`}></div>
 
-                                    {/* Label that appears on hover */}
-                                    <span
-                                        className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'
-                                            }`}
-                                        style={{
-                                            maxWidth: hoveredSection === item.label ? '200px' : '0px',
-                                            opacity: hoveredSection === item.label ? 1 : 0
-                                        }}
-                                    >
-                                        {item.label}
-                                    </span>
-                                </div>
-                            </button>
-                        ))}
+                                {/* Label that appears on hover */}
+                                <span
+                                    className={`text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${isOverDark ? 'text-brand-gold' : 'text-brand-deep'
+                                        }`}
+                                    style={{
+                                        maxWidth: hoveredSection === item.label ? '200px' : '0px',
+                                        opacity: hoveredSection === item.label ? 1 : 0
+                                    }}
+                                >
+                                    {item.label}
+                                </span>
+                            </div>
+                        </button>
+                    ))}
                     </div>
                     <LanguageSwitcher />
                 </div>

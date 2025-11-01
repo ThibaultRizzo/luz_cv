@@ -104,8 +104,8 @@ export default function RootLayout({
         <TextContentProvider>
           <LanguageProvider>
             <ThemeProvider />
-            <StructuredData />
-            {children}
+          <StructuredData />
+          {children}
           </LanguageProvider>
         </TextContentProvider>
       </body>

@@ -2238,7 +2238,7 @@ export default function BackOffice() {
                                             <h4 className="font-medium text-brand-deep">Soft Skill {index + 1}</h4>
                                             <button
                                                 onClick={() => {
-                                                    const updated = textContent.softSkills.filter((_, i) => i !== index);
+                                                    const updated = getFieldValue("softSkills").filter((_, i) => i !== index);
                                                     handleTextChange("softSkills", updated);
                                                 }}
                                                 className="text-red-500 hover:text-red-700 text-lg"
@@ -2256,7 +2256,7 @@ export default function BackOffice() {
                                                     type="text"
                                                     value={softSkill.skill}
                                                     onChange={(e) => {
-                                                        const updated = [...textContent.softSkills];
+                                                        const updated = [...getFieldValue("softSkills")];
                                                         updated[index].skill = e.target.value;
                                                         handleTextChange("softSkills", updated);
                                                     }}
@@ -2271,7 +2271,7 @@ export default function BackOffice() {
                                                 <EmojiPicker
                                                     value={softSkill.icon}
                                                     onChange={(emoji) => {
-                                                        const updated = [...textContent.softSkills];
+                                                        const updated = [...getFieldValue("softSkills")];
                                                         updated[index].icon = emoji;
                                                         handleTextChange("softSkills", updated);
                                                     }}
@@ -2321,7 +2321,7 @@ export default function BackOffice() {
                                     Certifications (one per line)
                                 </label>
                                 <textarea
-                                    value={textContent.certifications.join("\n")}
+                                    value={getFieldValue("certifications").join("\n")}
                                     onChange={(e) =>
                                         handleTextChange(
                                             "certifications",
@@ -2337,7 +2337,7 @@ export default function BackOffice() {
                                     Tools (one per line)
                                 </label>
                                 <textarea
-                                    value={textContent.tools.join("\n")}
+                                    value={getFieldValue("tools").join("\n")}
                                     onChange={(e) =>
                                         handleTextChange(
                                             "tools",

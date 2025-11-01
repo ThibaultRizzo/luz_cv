@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { LIMITS } from '@/lib/constants/limits';
+import { validateEmail, sanitizeInput, validateStringLength } from '@/lib/validation';
+import { logger } from '@/lib/logger';
+import { ContactFormData, ContactResponse } from '@/lib/types/api';
 
 // Initialize Resend lazily to avoid build-time errors
 let resend: Resend | null = null;
@@ -11,24 +16,19 @@ function getResendClient(): Resend {
   return resend as Resend;
 }
 
-// In-memory rate limiting (for production, use Redis or a proper rate limiter)
+// In-memory rate limiting (for production, use Redis or Upstash)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-
-// Rate limit: 3 emails per 10 minutes per IP
-const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW = 10 * 60 * 1000; // 10 minutes
 
 function checkRateLimit(identifier: string): boolean {
   const now = Date.now();
   const record = rateLimitMap.get(identifier);
 
   if (!record || now > record.resetTime) {
-    // Reset or create new record
-    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + LIMITS.RATE_LIMIT.WINDOW_MS });
     return true;
   }
 
-  if (record.count >= RATE_LIMIT_MAX) {
+  if (record.count >= LIMITS.RATE_LIMIT.MAX_EMAILS) {
     return false;
   }
 
@@ -46,25 +46,7 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
-// Input validation
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function sanitizeInput(input: string): string {
-  // Remove any potential HTML/script tags
-  return input.replace(/<[^>]*>/g, '').trim();
-}
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  company?: string;
-  message: string;
-}
-
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     // Get client IP for rate limiting
     const forwardedFor = request.headers.get('x-forwarded-for');
@@ -73,10 +55,7 @@ export async function POST(request: NextRequest) {
     // Check rate limit
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Too many requests. Please try again later.'
-        },
+        { success: false, message: ERROR_MESSAGES.CONTACT.RATE_LIMIT },
         { status: 429 }
       );
     }
@@ -87,10 +66,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!body.name || !body.email || !body.message) {
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Name, email, and message are required.'
-        },
+        { success: false, message: ERROR_MESSAGES.CONTACT.REQUIRED_FIELDS },
         { status: 400 }
       );
     }
@@ -102,16 +78,16 @@ export async function POST(request: NextRequest) {
     const message = sanitizeInput(body.message);
 
     // Validate field lengths
-    if (name.length < 2 || name.length > 100) {
+    if (!validateStringLength(name, LIMITS.FORM.NAME_MIN, LIMITS.FORM.NAME_MAX)) {
       return NextResponse.json(
-        { success: false, message: 'Name must be between 2 and 100 characters.' },
+        { success: false, message: `Name must be between ${LIMITS.FORM.NAME_MIN} and ${LIMITS.FORM.NAME_MAX} characters.` },
         { status: 400 }
       );
     }
 
-    if (message.length < 10 || message.length > 5000) {
+    if (!validateStringLength(message, LIMITS.FORM.MESSAGE_MIN, LIMITS.FORM.MESSAGE_MAX)) {
       return NextResponse.json(
-        { success: false, message: 'Message must be between 10 and 5000 characters.' },
+        { success: false, message: `Message must be between ${LIMITS.FORM.MESSAGE_MIN} and ${LIMITS.FORM.MESSAGE_MAX} characters.` },
         { status: 400 }
       );
     }
@@ -126,23 +102,17 @@ export async function POST(request: NextRequest) {
 
     // Check for required environment variables
     if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not configured');
+      logger.error('RESEND_API_KEY is not configured');
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Email service is not configured. Please contact the administrator.'
-        },
+        { success: false, message: ERROR_MESSAGES.CONTACT.SERVICE_UNAVAILABLE },
         { status: 500 }
       );
     }
 
     if (!process.env.CONTACT_EMAIL_TO) {
-      console.error('CONTACT_EMAIL_TO is not configured');
+      logger.error('CONTACT_EMAIL_TO is not configured');
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Email service is not configured. Please contact the administrator.'
-        },
+        { success: false, message: ERROR_MESSAGES.CONTACT.SERVICE_UNAVAILABLE },
         { status: 500 }
       );
     }
@@ -220,30 +190,25 @@ Timestamp: ${new Date().toISOString()}
     });
 
     if (error) {
-      console.error('Resend error:', error);
+      logger.error('Resend error:', error);
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Failed to send email. Please try again later.'
-        },
+        { success: false, message: ERROR_MESSAGES.CONTACT.SEND_FAILED },
         { status: 500 }
       );
     }
 
-    console.log('Email sent successfully:', data?.id);
+    logger.info('Email sent successfully:', data?.id);
 
-    return NextResponse.json({
+    const response: ContactResponse = {
       success: true,
       message: 'Thank you for your message! I will get back to you soon.',
-    });
+    };
 
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Contact form error:', error);
+    logger.error('Contact form error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        message: 'An unexpected error occurred. Please try again later.'
-      },
+      { success: false, message: ERROR_MESSAGES.GENERAL.INTERNAL_ERROR },
       { status: 500 }
     );
   }
@@ -252,7 +217,7 @@ Timestamp: ${new Date().toISOString()}
 // Only allow POST requests
 export async function GET() {
   return NextResponse.json(
-    { success: false, message: 'Method not allowed' },
+    { success: false, message: ERROR_MESSAGES.GENERAL.METHOD_NOT_ALLOWED },
     { status: 405 }
   );
 }

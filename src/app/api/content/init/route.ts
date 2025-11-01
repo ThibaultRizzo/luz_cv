@@ -2,60 +2,12 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/connection';
 import { content, users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
+import { DEFAULT_CONTENT } from '@/lib/constants/defaultContent';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { logger } from '@/lib/logger';
+import { ContentResponse } from '@/lib/types/api';
 
-const defaultContent = {
-  heroTitle: "Ready to create",
-  heroSubtitle: "something extraordinary?",
-  heroDescription: "Transforming luxury retail experiences through innovative product leadership and strategic vision.",
-  aboutTitle: "Turning vision into reality",
-  aboutDescription: "Experienced product leader with a passion for luxury retail and fashion technology.",
-  aboutMainText: "I am a visionary Product Owner with over a decade of experience transforming luxury retail landscapes through strategic innovation and customer-obsessed design.",
-  aboutSecondaryText: "My expertise lies in bridging the gap between ambitious business goals and exceptional user experiences. I've built my career on one fundamental belief: premium products deserve premium experiences.",
-  aboutQuote: "Excellence isn't a destination—it's a mindset that transforms every touchpoint into an opportunity for delight.",
-  experienceTitle: "A decade of",
-  experienceSubtitle: "transformation",
-  experiences: [
-    {
-      role: "Senior Product Owner",
-      company: "Maison Lumière",
-      period: "2018 - Present",
-      location: "Paris, France",
-      achievements: [
-        "Spearheaded digital transformation resulting in €25M+ revenue increase",
-        "Led cross-functional teams of 15+ across 3 countries",
-        "Launched omnichannel platform serving 2M+ customers globally",
-        "Achieved 40% increase in online conversion rates"
-      ],
-      highlight: "Transformed traditional luxury retail into digital-first experiences"
-    }
-  ],
-  skillsTitle: "Mastery through",
-  skillsSubtitle: "experience",
-  skillsDescription: "A decade of hands-on experience has shaped these core competencies that drive exceptional results in luxury retail product management.",
-  skillCategories: [
-    {
-      category: "Product Leadership",
-      icon: "🎯",
-      skills: [
-        { name: "Product Strategy", level: 95 },
-        { name: "Roadmap Planning", level: 90 },
-        { name: "Stakeholder Management", level: 92 },
-        { name: "Cross-functional Leadership", level: 88 }
-      ]
-    }
-  ],
-  certifications: [
-    "Certified Scrum Product Owner (CSPO)",
-    "Google Analytics Certified"
-  ],
-  tools: ["Jira", "Figma", "Shopify Plus", "Salesforce"],
-  skillsQuote: "Skills are built through challenges, refined through experience, and perfected through passion.",
-  contactTitle: "Ready to create",
-  contactSubtitle: "something extraordinary?",
-  contactDescription: "Whether you're looking to transform your luxury retail experience or explore new product opportunities, I'd love to hear from you."
-};
-
-export async function POST() {
+export async function POST(): Promise<Response> {
   try {
     // Check if content already exists
     const existingContent = await db
@@ -65,10 +17,10 @@ export async function POST() {
       .limit(1);
 
     if (existingContent.length > 0) {
-      return NextResponse.json({
-        success: false,
-        message: 'Content already initialized',
-      });
+      return NextResponse.json(
+        { success: false, message: ERROR_MESSAGES.CONTENT.NOT_INITIALIZED },
+        { status: 400 }
+      );
     }
 
     // Get admin user
@@ -80,7 +32,7 @@ export async function POST() {
 
     if (adminUser.length === 0) {
       return NextResponse.json(
-        { success: false, message: 'Admin user not found' },
+        { success: false, message: ERROR_MESSAGES.CONTENT.ADMIN_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -89,23 +41,25 @@ export async function POST() {
     const newContent = await db
       .insert(content)
       .values({
-        ...defaultContent,
+        ...DEFAULT_CONTENT,
         version: 1,
         isActive: true,
         lastModifiedBy: adminUser[0].id,
       })
       .returning();
 
-    return NextResponse.json({
+    const response: ContentResponse = {
       success: true,
       message: 'Content initialized successfully',
       data: newContent[0],
-    });
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Content initialization error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to initialize content';
+    logger.error('Content initialization error:', error);
+    const errorMessage = error instanceof Error ? error.message : ERROR_MESSAGES.GENERAL.INTERNAL_ERROR;
     return NextResponse.json(
-      { success: false, message: errorMessage, error: String(error) },
+      { success: false, message: errorMessage },
       { status: 500 }
     );
   }

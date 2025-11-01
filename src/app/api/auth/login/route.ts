@@ -4,11 +4,10 @@ import jwt, { type SignOptions } from 'jsonwebtoken';
 import { db } from '@/lib/db/connection';
 import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'alequintanarpaint-super-secure-jwt-secret-key-2024-development';
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'alequintanarpaint-super-secure-refresh-token-secret-2024';
-const JWT_EXPIRE = process.env.JWT_EXPIRE || '24h';
-const REFRESH_TOKEN_EXPIRE = process.env.REFRESH_TOKEN_EXPIRE || '7d';
+import { JWT_CONFIG } from '@/lib/auth/constants';
+import { ERROR_MESSAGES } from '@/lib/constants/errors';
+import { logger } from '@/lib/logger';
+import { AuthResponse } from '@/lib/types/api';
 
 function generateTokenPair(user: { id: string; username: string; role: string | null }) {
   const accessToken = jwt.sign(
@@ -17,35 +16,35 @@ function generateTokenPair(user: { id: string; username: string; role: string | 
       username: user.username,
       role: user.role || 'admin',
     },
-    JWT_SECRET,
+    JWT_CONFIG.secret,
     {
-      expiresIn: JWT_EXPIRE,
-      audience: 'alequintanarpaint-frontend',
-      issuer: 'alequintanarpaint-backend',
+      expiresIn: JWT_CONFIG.expiresIn,
+      audience: JWT_CONFIG.audience,
+      issuer: JWT_CONFIG.issuer,
     } as SignOptions
   );
 
   const refreshToken = jwt.sign(
     { userId: user.id },
-    REFRESH_TOKEN_SECRET,
+    JWT_CONFIG.refreshSecret,
     {
-      expiresIn: REFRESH_TOKEN_EXPIRE,
-      audience: 'alequintanarpaint-frontend',
-      issuer: 'alequintanarpaint-backend',
+      expiresIn: JWT_CONFIG.refreshExpiresIn,
+      audience: JWT_CONFIG.audience,
+      issuer: JWT_CONFIG.issuer,
     } as SignOptions
   );
 
   return { accessToken, refreshToken };
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     const body = await request.json() as { username?: string; password?: string };
     const { username, password } = body;
 
     if (!username || !password) {
       return NextResponse.json(
-        { success: false, message: 'Username and password are required' },
+        { success: false, message: ERROR_MESSAGES.CONTACT.REQUIRED_FIELDS },
         { status: 400 }
       );
     }
@@ -56,7 +55,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: 'Invalid credentials' },
+        { success: false, message: ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS },
         { status: 401 }
       );
     }
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest) {
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return NextResponse.json(
-        { success: false, message: 'Invalid credentials' },
+        { success: false, message: ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS },
         { status: 401 }
       );
     }
@@ -86,7 +85,7 @@ export async function POST(request: NextRequest) {
       })
       .where(eq(users.id, user.id));
 
-    return NextResponse.json({
+    const response: AuthResponse = {
       success: true,
       message: 'Login successful',
       data: {
@@ -94,17 +93,19 @@ export async function POST(request: NextRequest) {
           id: user.id,
           username: user.username,
           role: user.role,
-          lastLogin: new Date(),
+          lastLogin: new Date().toISOString(),
         },
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        expiresIn: JWT_EXPIRE,
+        expiresIn: JWT_CONFIG.expiresIn,
       },
-    });
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Login error:', error);
+    logger.error('Login error:', error);
     return NextResponse.json(
-      { success: false, message: 'Internal server error' },
+      { success: false, message: ERROR_MESSAGES.GENERAL.INTERNAL_ERROR },
       { status: 500 }
     );
   }

@@ -15,7 +15,7 @@ A modern, production-ready CV website with a powerful Content Management System 
 3. **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Deploy to production
 4. **[Documentation Index](./docs/README.md)** - All guides and references
 
-**Estimated time to first run**: 10 minutes  
+**Estimated time to first run**: 10 minutes
 **Want local development?** Add 5 minutes for Docker setup
 
 ---
