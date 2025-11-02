@@ -11,24 +11,31 @@ export default function HomeLayout({
 }: {
     children: React.ReactNode;
 }) {
-    // Always start with loading hidden to avoid hydration issues
-    const [showLoading, setShowLoading] = useState(false);
+    const [showLoading, setShowLoading] = useState(true);
+    const [contentReady, setContentReady] = useState(false);
 
     useEffect(() => {
-        // Check if this is the first load in the session
         const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
         
-        if (!hasLoadedBefore) {
-            // First load - show loading screen
-            setShowLoading(true);
+        if (hasLoadedBefore) {
+            // Already loaded before - show content immediately
+            setShowLoading(false);
+            setContentReady(true);
+            document.body.classList.add('loaded');
+        } else {
+            // First time - show loading animation
             sessionStorage.setItem('hasLoadedBefore', 'true');
             
-        // Hide loading screen after animation
-        const timer = setTimeout(() => {
-            setShowLoading(false);
+            // Hide loading screen after animation
+            const timer = setTimeout(() => {
+                setShowLoading(false);
+                setContentReady(true);
+                document.body.classList.add('loaded');
             }, 2000);
 
-        return () => clearTimeout(timer);
+            return () => {
+                clearTimeout(timer);
+            };
         }
     }, []);
 
@@ -37,7 +44,7 @@ export default function HomeLayout({
             <AnimatePresence mode="wait">
                 {showLoading && <LoadingScreen />}
             </AnimatePresence>
-            <div className="home-layout">
+            <div className="home-layout" style={{ opacity: contentReady ? 1 : 0, transition: 'opacity 0.3s' }}>
                 <a href="#main-content" className="skip-nav">
                     Skip to main content
                 </a>
