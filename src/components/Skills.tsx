@@ -17,7 +17,7 @@ interface SkillCard {
 
 export default function Skills() {
   const { getTranslatedContent } = useLanguage();
-  const textContent = getTranslatedContent() as any;
+  const textContent = getTranslatedContent();
 
   // Use new skill cards structure
   const skillCards: SkillCard[] = ((textContent as unknown) as Record<string, unknown>).skillCards as SkillCard[] || [];
@@ -121,7 +121,7 @@ export default function Skills() {
                 <span>{textContent.skillsSoftSkillsTitle || 'Leadership & Soft Skills'}</span>
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                {softSkills.map((item, index) => (
+                {softSkills.map((item: { skill: string; icon: string }, index: number) => (
                   <div key={index} className="text-center group">
                     <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
                     <p className="text-sm md:text-base text-brand-cream font-medium leading-snug">{item.skill}</p>
@@ -139,7 +139,7 @@ export default function Skills() {
               {textContent.skillsCertificationsTitle || '🏆 Certifications'}
             </h3>
             <div className="space-y-2 sm:space-y-3">
-              {textContent.certifications.map((cert, index) => (
+              {textContent.certifications.map((cert: string, index: number) => (
                 <div key={index} className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-brand-gold rounded-full flex-shrink-0"></div>
                   <span className="text-sm md:text-base">{cert}</span>

@@ -33,7 +33,7 @@ End-to-end tests for the Luz Quintanar CV website with CMS.
 
 ### Prerequisites
 
-1. **Environment variables must be set** in `.env.local`:
+1. **Environment variables must be set** in `.env`:
    ```env
    ADMIN_USERNAME=your-admin-username
    ADMIN_PASSWORD=your-secure-password

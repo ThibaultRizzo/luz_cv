@@ -10,14 +10,14 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 if (!JWT_SECRET) {
   throw new Error(
     'JWT_SECRET environment variable is required. ' +
-    'Set it in your .env.local file for development or in Vercel environment variables for production.'
+    'Set it in your .env file for development or in Vercel environment variables for production.'
   );
 }
 
 if (!REFRESH_TOKEN_SECRET) {
   throw new Error(
     'REFRESH_TOKEN_SECRET environment variable is required. ' +
-    'Set it in your .env.local file for development or in Vercel environment variables for production.'
+    'Set it in your .env file for development or in Vercel environment variables for production.'
   );
 }
 

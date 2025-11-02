@@ -1,0 +1,17 @@
+echo "🔍 Running pre-commit checks..."
+
+# Type check
+echo "📝 Checking TypeScript types..."
+bunx tsc --noEmit --pretty || {
+  echo "❌ TypeScript check failed. Please fix type errors before committing."
+  exit 1
+}
+
+# Lint
+echo "🧹 Running ESLint..."
+bun run lint || {
+  echo "❌ Linting failed. Please fix linting errors before committing."
+  exit 1
+}
+
+echo "✅ All pre-commit checks passed!"

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Debug Test</title>
+    <style>
+        body {
+            font-family: system-ui;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>Auth Debug Tool</h1>
+    
+    <div>
+        <h2>1. Login</h2>
+        <input type="text" id="username" placeholder="Username" value="admin">
+        <input type="password" id="password" placeholder="Password" value="admin123">
+        <button onclick="testLogin()">Login</button>
+    </div>
+
+    <div>
+        <h2>2. Check Token</h2>
+        <button onclick="checkToken()">Check localStorage Token</button>
+    </div>
+
+    <div>
+        <h2>3. Verify Token</h2>
+        <button onclick="verifyToken()">Verify with /api/auth/me</button>
+    </div>
+
+    <div>
+        <h2>4. Navigate to Backoffice</h2>
+        <button onclick="goToBackoffice()">Go to /luz/backoffice</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        const API_URL = 'http://localhost:3010/api';
+        const output = document.getElementById('output');
+
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            output.appendChild(div);
+        }
+
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            log('Attempting login...', 'info');
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    log('✓ Login successful!', 'success');
+                    log(`Token: ${data.data.accessToken.substring(0, 50)}...`, 'info');
+                    
+                    // Save to localStorage
+                    localStorage.setItem('accessToken', data.data.accessToken);
+                    localStorage.setItem('refreshToken', data.data.refreshToken);
+                    localStorage.setItem('userInfo', JSON.stringify(data.data.user));
+                    
+                    log('✓ Tokens saved to localStorage', 'success');
+                } else {
+                    log(`✗ Login failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(`✗ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkToken() {
+            const token = localStorage.getItem('accessToken');
+            const userInfo = localStorage.getItem('userInfo');
+            
+            if (token) {
+                log('✓ Token found in localStorage', 'success');
+                log(`Token: ${token.substring(0, 50)}...`, 'info');
+                log(`User: ${userInfo}`, 'info');
+            } else {
+                log('✗ No token found in localStorage', 'error');
+            }
+        }
+
+        async function verifyToken() {
+            const token = localStorage.getItem('accessToken');
+            
+            if (!token) {
+                log('✗ No token in localStorage', 'error');
+                return;
+            }
+
+            log('Verifying token with /api/auth/me...', 'info');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    log('✓ Token is valid!', 'success');
+                    log(`User: ${JSON.stringify(data.data.user)}`, 'success');
+                } else {
+                    log(`✗ Token verification failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(`✗ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function goToBackoffice() {
+            const token = localStorage.getItem('accessToken');
+            if (!token) {
+                log('✗ No token found. Login first!', 'error');
+                return;
+            }
+            
+            log('Navigating to /luz/backoffice...', 'info');
+            window.location.href = 'http://localhost:3010/luz/backoffice';
+        }
+    </script>
+</body>
+</html>
+

@@ -144,12 +144,12 @@ See [Credentials Setup Guide](./CREDENTIALS_SETUP.md) for details.
 → Run `bun run db:start` to start local PostgreSQL
 
 ### Database connection failed
-→ Check `POSTGRES_URL` in `.env.local`
+→ Check `POSTGRES_URL` in `.env`
 → See [Getting Started](./docs/GETTING_STARTED.md#troubleshooting)
 
 ### Cannot login
 → Visit `/api/init-db` to initialize database
-→ Check credentials in `.env.local`
+→ Check credentials in `.env`
 
 ### Build fails
 → Run `bun run build` locally to test

@@ -4,7 +4,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 
 export default function About() {
     const { getTranslatedContent } = useLanguage();
-    const textContent = getTranslatedContent() as any;
+    const textContent = getTranslatedContent();
 
     return (
         <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-brand-deep text-brand-cream relative overflow-hidden scroll-mt-20">
@@ -49,7 +49,7 @@ export default function About() {
                                     { title: 'Customer-First Philosophy', description: 'Every decision starts with understanding the customer\'s deepest needs and desires' },
                                     { title: 'Data-Driven Innovation', description: 'Combining intuition with analytics to create breakthrough solutions' },
                                     { title: 'Cross-Functional Leadership', description: 'Building bridges between teams to deliver cohesive, impactful products' }
-                                ]).map((item, index) => (
+                                ]).map((item: { title: string; description: string }, index: number) => (
                                     <div key={index} className="bg-brand-cream/5 rounded-xl p-4 border-l-4 border-brand-gold">
                                         <h4 className="font-semibold text-brand-cream mb-2 text-sm sm:text-base">{item.title}</h4>
                                         <p className="text-brand-cream/70 text-sm md:text-base leading-relaxed">{item.description}</p>
@@ -70,7 +70,7 @@ export default function About() {
                                     { metric: '40%', label: 'Avg Growth Rate' },
                                     { metric: '25+', label: 'Products Launched' },
                                     { metric: '15+', label: 'Teams Led' }
-                                ]).map((item, index) => (
+                                ]).map((item: { metric: string; label: string }, index: number) => (
                                     <div key={index} className="text-center bg-brand-gold/10 rounded-xl p-4">
                                         <div className="text-3xl sm:text-4xl font-bold text-brand-gold mb-2">{item.metric}</div>
                                         <div className="text-xs sm:text-sm text-brand-cream uppercase tracking-wide">{item.label}</div>

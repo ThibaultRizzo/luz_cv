@@ -6,7 +6,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Nav() {
     const { getTranslatedContent } = useLanguage();
-    const textContent = getTranslatedContent() as any;
+    const textContent = getTranslatedContent();
     const [isOverDark, setIsOverDark] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);

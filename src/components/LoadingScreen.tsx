@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 
 export default function LoadingScreen() {
     const { getTranslatedContent } = useLanguage();
-    const textContent = getTranslatedContent() as any;
+    const textContent = getTranslatedContent();
     return (
         <motion.div
             initial={{ opacity: 1 }}

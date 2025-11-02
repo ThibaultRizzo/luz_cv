@@ -1,14 +1,14 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useTextContent } from './TextContentContext';
+import { useTextContent, type TextContent } from './TextContentContext';
 
 interface LanguageContextType {
     currentLanguage: string;
     setLanguage: (lang: string) => void;
     enabledLanguages: string[];
     defaultLanguage: string;
-    getTranslatedContent: () => Record<string, unknown>;
+    getTranslatedContent: () => TextContent;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -41,8 +41,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('preferredLanguage', lang);
     };
 
-    const getTranslatedContent = () => {
-        if (!textContent) return {};
+    const getTranslatedContent = (): TextContent => {
+        if (!textContent) return {} as TextContent;
 
         const defaultLang = textContent.defaultLanguage || 'en';
         
@@ -53,7 +53,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
         // Otherwise, merge base content with translations
         const translations = textContent.translations?.[currentLanguage] || {};
-        return { ...textContent, ...translations };
+        return { ...textContent, ...translations } as TextContent;
     };
 
     return (

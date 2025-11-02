@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { authApi, contentApi } from "@/lib/api";
 import { useTextContent } from "@/lib/TextContentContext";
@@ -1161,11 +1162,12 @@ export default function BackOffice() {
                                 {/* Image Preview */}
                                 {textContent.heroImage && (
                                     <div className="relative w-full max-w-sm">
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
+                                        <Image
                                             key={textContent.heroImage}
                                             src={textContent.heroImage}
                                             alt="Hero preview"
+                                            width={400}
+                                            height={400}
                                             className="w-full h-auto rounded-xl border-2 border-brand-gold/30 shadow-lg"
                                             onError={(e) => {
                                                 (e.target as HTMLImageElement).src = '/luz.jpg';
@@ -2464,9 +2466,11 @@ export default function BackOffice() {
                                                     </label>
                                                     {project.image && (
                                                         <div className="flex items-center gap-2">
-                                                            <img
+                                                            <Image
                                                                 src={project.image}
                                                                 alt="Project preview"
+                                                                width={48}
+                                                                height={48}
                                                                 className="w-12 h-12 object-cover rounded-lg border border-brand-gold/30"
                                                             />
                                                             <button
@@ -3749,11 +3753,12 @@ export default function BackOffice() {
                                                                 <div className="absolute -bottom-4 -left-4 w-full h-full bg-brand-deep/10 rounded-2xl transform -rotate-2"></div>
 
                                                                 {/* Main image */}
-                                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                                <img
+                                                                <Image
                                                                     key={textContent.heroImage}
                                                                     src={textContent.heroImage || "/luz.jpg"}
                                                                     alt="Hero"
+                                                                    width={400}
+                                                                    height={533}
                                                                     className="relative z-10 w-full rounded-2xl shadow-2xl object-cover aspect-[3/4]"
                                                                     onError={(e) => {
                                                                         (e.target as HTMLImageElement).src = '/luz.jpg';
@@ -3896,9 +3901,11 @@ export default function BackOffice() {
                                                                                                 <div className="text-4xl">{exp.icon}</div>
                                                                                             ) : (
                                                                                                 <div className="relative w-12 h-12">
-                                                                                                    <img
+                                                                                                    <Image
                                                                                                         src={exp.icon}
                                                                                                         alt={exp.role}
+                                                                                                        width={48}
+                                                                                                        height={48}
                                                                                                         className="w-full h-full object-contain"
                                                                                                     />
                                                                                                 </div>
@@ -4009,9 +4016,11 @@ export default function BackOffice() {
                                                                             </div>
                                                                         ) : (
                                                                             <div className="relative w-10 h-10 flex-shrink-0">
-                                                                                <img
+                                                                                <Image
                                                                                     src={card.icon}
                                                                                     alt={card.title}
+                                                                                    width={40}
+                                                                                    height={40}
                                                                                     className="w-full h-full object-contain"
                                                                                 />
                                                                             </div>
@@ -4032,9 +4041,11 @@ export default function BackOffice() {
                                                                                     <span className="text-base">{item.icon}</span>
                                                                                 ) : (
                                                                                     <div className="relative w-4 h-4 flex-shrink-0">
-                                                                                        <img
+                                                                                        <Image
                                                                                             src={item.icon}
                                                                                             alt={item.title}
+                                                                                            width={16}
+                                                                                            height={16}
                                                                                             className="w-full h-full object-contain"
                                                                                         />
                                                                                     </div>
@@ -4122,9 +4133,11 @@ export default function BackOffice() {
                                                                     {/* Image section - 60% */}
                                                                     <div className="relative w-full h-0 pb-[60%] overflow-hidden">
                                                                         {project.image ? (
-                                                                            <img
+                                                                            <Image
                                                                                 src={project.image}
                                                                                 alt={project.title}
+                                                                                width={400}
+                                                                                height={240}
                                                                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                                             />
                                                                         ) : (

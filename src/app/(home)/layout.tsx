@@ -23,12 +23,12 @@ export default function HomeLayout({
             setShowLoading(true);
             sessionStorage.setItem('hasLoadedBefore', 'true');
             
-            // Hide loading screen after animation
-            const timer = setTimeout(() => {
-                setShowLoading(false);
+        // Hide loading screen after animation
+        const timer = setTimeout(() => {
+            setShowLoading(false);
             }, 2000);
 
-            return () => clearTimeout(timer);
+        return () => clearTimeout(timer);
         }
     }, []);
 

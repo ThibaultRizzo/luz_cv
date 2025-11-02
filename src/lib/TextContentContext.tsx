@@ -14,12 +14,12 @@ interface ExperienceItem {
     highlight: string;
 }
 
-interface SoftSkill {
+export interface SoftSkill {
     skill: string;
     icon: string;
 }
 
-interface TextContent {
+export interface TextContent {
     heroTitle: string;
     heroSubtitle: string;
     heroDescription: string;

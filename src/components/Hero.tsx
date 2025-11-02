@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Hero() {
     const { getTranslatedContent } = useLanguage();
-    const textContent = getTranslatedContent() as any;
+    const textContent = getTranslatedContent();
     return (
         <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-brand-cream via-brand-cream to-brand-gold/10 pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-16 sm:pb-20 md:pb-24 lg:pb-32 scroll-mt-20">
             {/* Background decorative elements */}

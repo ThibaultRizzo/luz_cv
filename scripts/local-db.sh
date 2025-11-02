@@ -35,7 +35,7 @@ start_db() {
     if [ $? -eq 0 ]; then
         print_info "✅ Database started successfully!"
         print_info "📊 Connection string: postgresql://luz_cv_user:luz_cv_password@localhost:5432/luz_cv_db"
-        print_warning "\n⚠️  Make sure to update your .env.local file with the local database URL"
+        print_warning "\n⚠️  Make sure to update your .env file with the local database URL"
     else
         print_error "❌ Failed to start database"
         exit 1
@@ -147,7 +147,7 @@ case "$1" in
         echo ""
         echo "Example workflow:"
         echo "  1. ./scripts/local-db.sh start"
-        echo "  2. Update .env.local with local database URL"
+        echo "  2. Update .env with local database URL"
         echo "  3. bun run dev"
         echo "  4. ./scripts/local-db.sh init"
         exit 1

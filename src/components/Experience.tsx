@@ -16,7 +16,7 @@ interface ExperienceItem {
 
 export default function Experience() {
   const { getTranslatedContent } = useLanguage();
-  const textContent = getTranslatedContent() as any;
+  const textContent = getTranslatedContent();
   const experiences = textContent.experiences as ExperienceItem[];
 
   return (
@@ -172,7 +172,7 @@ export default function Experience() {
               { metric: '10+', label: 'Years' },
               { metric: '€50M+', label: 'Impact' },
               { metric: '25+', label: 'Products' }
-            ]).map((stat, index) => (
+            ]).map((stat: { metric: string; label: string }, index: number) => (
               <div key={index} className="flex items-center">
                 {index > 0 && <div className="hidden sm:block w-px h-10 bg-brand-gold/30 mr-6"></div>}
                 <div className="text-brand-deep text-center">

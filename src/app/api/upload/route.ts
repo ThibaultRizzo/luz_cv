@@ -31,7 +31,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     let fileName: string;
-    let allowedTypes: string[];
+    let allowedTypes: readonly string[];
     let maxSize: number;
 
     if (fileType === 'image') {

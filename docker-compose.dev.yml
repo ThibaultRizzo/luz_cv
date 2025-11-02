@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: luz_cv_postgres
+    environment:
+      POSTGRES_USER: luz_cv_user
+      POSTGRES_PASSWORD: luz_cv_password
+      POSTGRES_DB: luz_cv_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U luz_cv_user -d luz_cv_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - luz-network
+
+  app-dev:
+    image: oven/bun:1
+    container_name: luz_cv_app_dev
+    working_dir: /app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      # PostgreSQL connection (matching .env)
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: luz_cv_user
+      POSTGRES_PASSWORD: luz_cv_password
+      POSTGRES_DB: luz_cv_db
+      POSTGRES_URL: postgresql://luz_cv_user:luz_cv_password@postgres:5432/luz_cv_db
+      # Admin credentials for initial user
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      # JWT secrets (must match .env)
+      JWT_SECRET: ${JWT_SECRET:-your-local-dev-secret-key-minimum-32-chars}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET:-your-local-refresh-secret-different-32-chars}
+      JWT_EXPIRE: ${JWT_EXPIRE:-24h}
+      REFRESH_TOKEN_EXPIRE: ${REFRESH_TOKEN_EXPIRE:-7d}
+      # Email (optional)
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CONTACT_EMAIL_TO: ${CONTACT_EMAIL_TO:-}
+      CONTACT_EMAIL_FROM: ${CONTACT_EMAIL_FROM:-onboarding@resend.dev}
+      # URLs
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      # Enable turbopack for faster dev builds
+      TURBOPACK: 1
+    ports:
+      - "3010:3000"
+    volumes:
+      # Mount source code for hot reloading
+      - .:/app
+      # Prevent node_modules from being overwritten
+      - /app/node_modules
+      # Prevent .next from being overwritten
+      - /app/.next
+    entrypoint: ["/bin/sh", "/app/entrypoint.dev.sh"]
+    command: ["bun", "run", "dev"]
+    networks:
+      - luz-network
+    restart: unless-stopped
+    # Add more memory for dev mode
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  luz-network:
+    driver: bridge
+

@@ -7,7 +7,7 @@ import { LIMITS } from '@/lib/constants/limits';
 
 export default function Contact() {
     const { getTranslatedContent } = useLanguage();
-    const textContent = getTranslatedContent() as any;
+    const textContent = getTranslatedContent();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -319,7 +319,7 @@ export default function Contact() {
                                     'Strategic consulting projects',
                                     'Full-time product leadership roles',
                                     'Speaking engagements & workshops'
-                                ]).map((item, index) => (
+                                ]).map((item: string, index: number) => (
                                     <div key={index}>• {item}</div>
                                 ))}
                             </div>
