@@ -26,9 +26,9 @@ export default function HomeLayout({
             // First time - show loading animation
             sessionStorage.setItem('hasLoadedBefore', 'true');
             
-            // Hide loading screen after animation
-            const timer = setTimeout(() => {
-                setShowLoading(false);
+        // Hide loading screen after animation
+        const timer = setTimeout(() => {
+            setShowLoading(false);
                 setContentReady(true);
                 document.body.classList.add('loaded');
             }, 2000);

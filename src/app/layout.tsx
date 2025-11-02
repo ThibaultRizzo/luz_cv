@@ -31,8 +31,19 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Luz Quintanar — Product Owner | Retail & Digital Transformation",
   description: "Product Owner with 10+ years of leadership in luxury retail — I design product & experience that scale revenue and loyalty.",
-  keywords: "Product Owner, Luxury Retail, Digital Transformation, Product Strategy, UX Design, Agile, Product Management",
-  authors: [{ name: "Luz Quintanar" }],
+  keywords: [
+    "Luz Quintanar",
+    "Product Owner",
+    "Luxury Retail",
+    "Digital Transformation",
+    "Product Strategy",
+    "UX Design",
+    "Agile",
+    "Product Management",
+    "E-commerce",
+    "Retail Innovation"
+  ],
+  authors: [{ name: "Luz Quintanar", url: siteUrl }],
   creator: "Luz Quintanar",
   publisher: "Luz Quintanar",
   alternates: {
@@ -47,7 +58,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    type: "website",
+    type: "profile",
     locale: "en_US",
     url: siteUrl,
     siteName: "Luz Quintanar Portfolio",
@@ -61,12 +72,16 @@ export const metadata: Metadata = {
         alt: "Luz Quintanar - Product Owner",
       },
     ],
+    // Profile-specific tags
+    firstName: "Luz",
+    lastName: "Quintanar",
   },
   twitter: {
     card: "summary_large_image",
     title: "Luz Quintanar — Product Owner",
     description: "Product Owner with 10+ years of leadership in luxury retail",
     images: [`${siteUrl}/luz.jpg`],
+    creator: "@luzquintanar", // Update with actual Twitter handle if available
   },
   robots: {
     index: true,
@@ -79,6 +94,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  // Additional metadata for better SEO
+  category: 'Professional Portfolio',
+  classification: 'Product Management',
 };
 
 export const viewport = {
@@ -96,11 +114,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="font-sans bg-brand-cream text-brand-deep antialiased">
+      <body className="font-sans bg-brand-cream text-brand-deep antialiased" suppressHydrationWarning>
         <TextContentProvider>
           <LanguageProvider>
             <ThemeProvider />
